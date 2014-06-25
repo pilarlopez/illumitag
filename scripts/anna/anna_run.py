@@ -13,7 +13,7 @@ import sys
 sys.exit("Copy paste the commands you want in ipython, don't run this script.")
 
 # Modules #
-import illumitag
+import illumitag, pandas
 
 ###############################################################################
 # Get the cluster #
@@ -36,4 +36,14 @@ cluster.otu_uparse.seqenv.run(threshold=1.0)
 # Run seqenv via SLURM #
 cluster.run(steps=[{'otu_uparse.seqenv.run': dict(threads=False)}])
 cluster.run_slurm(steps=[{'otu_uparse.seqenv.run': dict(threads=False)}], time="1-00:00:00")
-"bash -x /home/lucass/share/seqenv/SEQenv_v0.8/SEQenv_samples.sh -f /home/lucass/ILLUMITAG/views/clusters/anna/otus/uparse/taxonomy_silva/centers.fasta -s /home/lucass/ILLUMITAG/views/clusters/anna/otus/uparse/seqenv/abundances.csv -n 1000 -p -c 16"
+
+# Check some matrix multiplications #
+otu_vs_envo = cluster.otu_uparse.seqenv.base_dir + "/centers_N1000_blast_F_ENVO_OTUs_labels.csv"
+otu_vs_envo = pandas.io.parsers.read_csv(otu_vs_envo, sep=',', index_col=0, encoding='utf-8')
+otu_vs_samples = cluster.otu_uparse.seqenv.base_dir + "/abundances.csv"
+otu_vs_samples = pandas.io.parsers.read_csv(otu_vs_samples, sep=',', index_col=0, encoding='utf-8')
+otu_vs_samples = otu_vs_samples.loc[otu_vs_envo.index]
+otu_vs_samples = otu_vs_samples.transpose()
+result_us = otu_vs_samples.dot(otu_vs_envo)
+result_them = cluster.otu_uparse.seqenv.p.working_dir + "centers_N1000_blast_F_ENVO_samples_labels.csv"
+result_them = pandas.io.parsers.read_csv(result_them, sep=',', index_col=0, encoding='utf-8')

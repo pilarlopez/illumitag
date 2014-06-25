@@ -4,6 +4,7 @@ from collections import OrderedDict
 
 # Internal modules #
 from illumitag.fasta.single import FASTQ, FASTA
+from illumitag.fasta.paired import PairedFASTQ
 from illumitag.common.autopaths import AutoPaths
 
 # Third party modules #
@@ -58,6 +59,8 @@ class Sample(FASTQ):
     /trimmed.fastq
     /renamed.fastq
     /reads.fasta
+    /raw/fwd.fastq
+    /raw/rev.fastq
     """
 
     def __repr__(self): return '<%s object "%s">' % (self.__class__.__name__, self.name)
@@ -93,6 +96,7 @@ class Sample(FASTQ):
         self.trimmed = FASTQ(self.p.trimmed)
         self.renamed = FASTQ(self.p.renamed)
         self.fasta = FASTA(self.p.reads_fasta)
+        self.raw = PairedFASTQ(self.p.raw_fwd, self.p.raw_rev, self.pool)
 
     def process(self):
         def no_primers_iterator(reads):

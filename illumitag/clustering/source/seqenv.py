@@ -30,6 +30,7 @@ class Seqenv(object):
     files_to_keep = [
         "centers_N%i_blast_F_ENVO_OTUs.csv" % N,
         "centers_N%i_blast_F_ENVO_OTUs_labels.csv" % N,
+        "centers_N%i_blast_F_ENVO_samples_labels.csv" % N,
     ]
 
     def __init__(self, parent, base_dir=None):
@@ -39,7 +40,7 @@ class Seqenv(object):
         # Inherited #
         self.samples = self.parent.samples
         # Dir #
-        if base_dir is None: self.base_dir = self.parent.p.seqenv
+        if base_dir is None: self.base_dir = self.parent.p.seqenv_dir
         else: self.base_dir = base_dir
         self.p = AutoPaths(self.base_dir, self.all_paths)
         # Files #

@@ -54,5 +54,9 @@ class ReadPairWithBarcode(object):
         return [m for m in (fwd_m,rev_m) if m]
 
     @property
+    def first(self):
+        return self.matches[0]
+
+    @property
     def illumina_mid(self):
         return self.fwd.description[-16:]
