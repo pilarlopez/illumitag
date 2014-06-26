@@ -199,7 +199,7 @@ class DirectoryPath(str):
 
     def zip(self, keep_orig=False):
         """Make a zip archive of the directory"""
-        shutil.make_archive(self.prefix_path , "zip", self.path, self.name)
+        shutil.make_archive(self.prefix_path , "zip", self.directory, self.name)
         if not keep_orig: self.remove()
 
 ################################################################################

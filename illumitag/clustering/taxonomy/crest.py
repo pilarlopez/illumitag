@@ -71,7 +71,6 @@ class CrestTaxonomy(Taxonomy):
         self.comp_tips = CompositionTips(self, self.p.comp_tips)
         self.comp_order = CompositionOrder(self, self.p.comp_order)
         self.comp_class = CompositionClass(self, self.p.comp_class)
-
         # Stats #
         self.stats = StatsOnTaxonomy(self)
 

@@ -34,8 +34,8 @@ cluster.otu_uparse.taxonomy_silva.make_filtered_centers()
 cluster.otu_uparse.seqenv.run(threshold=1.0)
 
 # Run seqenv via SLURM #
-cluster.run(steps=[{'otu_uparse.seqenv.run': dict(threads=False)}])
-cluster.run_slurm(steps=[{'otu_uparse.seqenv.run': dict(threads=False)}], time="1-00:00:00")
+cluster.run(steps=[{'otu_uparse.seqenv.run': dict(threads=False, threshold=1.0)}])
+cluster.run_slurm(steps=[{'otu_uparse.seqenv.run': dict(threads=False, threshold=1.0)}], time="1-00:00:00")
 
 # Check some matrix multiplications #
 otu_vs_envo = cluster.otu_uparse.seqenv.base_dir + "/centers_N1000_blast_F_ENVO_OTUs_labels.csv"
