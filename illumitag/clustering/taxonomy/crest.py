@@ -68,7 +68,7 @@ class CrestTaxonomy(Taxonomy):
         self.centers = FASTA(self.p.centers)
         # Composition tables #
         self.comp_phyla = CompositionPhyla(self, self.p.comp_phyla)
-        self.comp_tips = CompositionTips(self, self.p.comp_tips)
+        self.comp_tips  = CompositionTips(self,  self.p.comp_tips)
         self.comp_order = CompositionOrder(self, self.p.comp_order)
         self.comp_class = CompositionClass(self, self.p.comp_class)
         # Stats #

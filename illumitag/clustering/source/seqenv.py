@@ -18,7 +18,7 @@ seqenv_script = home + "share/seqenv/SEQenv_v0.8/SEQenv_samples.sh"
 ###############################################################################
 class Seqenv(object):
     """Base class for Seqenv results processing."""
-    N = 1000
+    N = 5000
 
     all_paths = """
     /working_dir/
@@ -27,11 +27,13 @@ class Seqenv(object):
     /abundances.csv
     """
 
-    files_to_keep = [
-        "centers_N%i_blast_F_ENVO_OTUs.csv" % N,
-        "centers_N%i_blast_F_ENVO_OTUs_labels.csv" % N,
-        "centers_N%i_blast_F_ENVO_samples_labels.csv" % N,
-    ]
+    @property
+    def files_to_keep(self):
+        return [
+            "centers_N%i_blast_F_ENVO_OTUs.csv" % self.N,
+            "centers_N%i_blast_F_ENVO_OTUs_labels.csv" % self.N,
+            "centers_N%i_blast_F_ENVO_samples_labels.csv" % self.N,
+        ]
 
     def __init__(self, parent, base_dir=None):
         # Parent #
@@ -46,7 +48,9 @@ class Seqenv(object):
         # Files #
         self.abundances = CSVTable(self.p.abundances)
 
-    def run(self, threshold=3.0, cleanup=True):
+    def run(self, threshold=3.0, cleanup=True, N=None):
+        # Change the N #
+        if N != None: self.N = N
         # Clean up #
         if cleanup:
             shutil.rmtree(self.p.working_dir)
