@@ -152,9 +152,16 @@ class Pool(object):
         (if they have one)"""
         if not self.loaded: self.load()
         for sample in self.samples: sample.create()
-        for r in tqdm(self.quality_reads.untrimmed.parse_barcodes()):
-            r.first.sample.add_read(r.read)
+        for r in tqdm(self.quality_reads.untrimmed.parse_barcodes()): r.first.sample.add_read(r.read)
         for sample in self.samples: sample.close()
+
+    def create_raw_samples(self):
+        """Sort the sequences in different files according to their barcode
+        before any other quality filtering such as read joining."""
+        if not self.loaded: self.load()
+        for sample in self.samples: sample.raw.create()
+        for r in tqdm(self.good_barcodes.parse_barcodes()): r.first.sample.raw.add_pair(r)
+        for sample in self.samples: sample.raw.close()
 
     def check_fastq_version(self):
         """Let's make sure we are dealing with the Sanger encoding"""

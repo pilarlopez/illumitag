@@ -2,7 +2,7 @@
 from __future__ import division
 
 # Built-in modules #
-import os, re, glob, random, collections
+import os, re, glob, random, collections, getpass
 
 # Third party modules #
 import sh, numpy
@@ -13,6 +13,19 @@ class GenWithLength(object):
     def __init__(self, gen, length): self.gen, self.length = gen, length
     def __iter__(self): return self.gen
     def __len__(self): return self.length
+
+###############################################################################
+class Password(object):
+    """A password object that will only prompt the user once per session"""
+    def __str__(self): return self.value
+    def __init__(self, prompt=None):
+        self._value = None
+        self.prompt = prompt
+
+    @property
+    def value(self):
+        if self._value == None: self._value = getpass.getpass(self.prompt)
+        return self._value
 
 ################################################################################
 def get_git_tag(directory):

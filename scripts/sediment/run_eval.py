@@ -44,6 +44,7 @@ proj.graphs[-1].plot()
 
 # Get statistics #
 proj.reporter.fraction_discarded
+proj.reporter.size_fraction_chimeras
 
 # Get clustering values #
 r1, r2 = list(set([p.run for p in proj]))
@@ -68,3 +69,9 @@ crest.composition.graph.plot()
 rdp = SimpleRdpTaxonomy(over, folder)
 rdp.assign()
 rdp.composition.graph.plot()
+
+# Upload raw samples for ENA #
+for pool in pools: pool.create_raw_samples()
+for s in samples:
+    print s.short_name
+    s.upload_to_ena()

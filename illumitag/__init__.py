@@ -34,15 +34,15 @@ view_dir = out_dir = home + 'ILLUMITAG/views/'
 self = sys.modules[__name__]
 module_dir = os.path.dirname(self.__file__)
 repos_dir = os.path.abspath(module_dir + '/../') + '/'
-pools_dir = repos_dir + 'json/pools/'
 
 # Load all standard pools #
+pools_dir = repos_dir + 'json/pools/*/'
 json_paths = glob.glob(pools_dir + '*.json')
 pools = [Pool(j, view_dir + 'pools/') for j in json_paths]
 pools.sort(key=lambda x: str(x))
 
 # Load all presamples #
-presamples_dir = repos_dir + 'json/presamples/'
+presamples_dir = repos_dir + 'json/presamples/*/'
 json_paths = glob.glob(presamples_dir + '*.json')
 presamples = [Presample(j, view_dir + 'presamples/') for j in json_paths]
 presamples.sort(key=lambda x: str(x))

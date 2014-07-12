@@ -40,6 +40,9 @@ class PairedFASTQ(object):
         else: return int(sh.grep('-c', "^+$", self.fwd_path, _ok_code=[0,1]))
 
     @property
+    def exists(self): return self.fwd.exists and self.rev.exists
+
+    @property
     def avg_quality(self):
         self.open()
         fwd_reads = (r for r in SeqIO.parse(self.fwd_handle, "fastq"))

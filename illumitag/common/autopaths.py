@@ -1,5 +1,5 @@
 # Built-in modules #
-import os, stat, tempfile, re, subprocess, shutil
+import os, stat, tempfile, re, subprocess, shutil, gzip
 
 ################################################################################
 class AutoPaths(object):
@@ -302,6 +302,14 @@ class FilePath(str):
     def new_name_insert(self, string):
         """Return a new name by appending a string before the extension"""
         return self.prefix_path + "." + string + self.extension
+
+    def gzip_to(self, path=None):
+        """Make a gzpied version of the file at a given path"""
+        if path is None: path = self + ".gz"
+        with open(self, 'rb') as orig_file:
+            with gzip.open(path, 'wb') as new_file:
+                new_file.writelines(orig_file)
+        return FilePath(path)
 
 ################################################################################
 class Filesize(object):

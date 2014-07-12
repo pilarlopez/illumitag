@@ -11,15 +11,6 @@ from illumitag.common.autopaths import DirectoryPath
 from tqdm import tqdm
 
 ###############################################################################
-def generate_raw_samples(pool):
-    """Sort the sequences in different files according to their barcode
-    before any other quality filtering such as read joining."""
-    if not pool.loaded: pool.load()
-    for sample in pool.samples: sample.raw.create()
-    for r in tqdm(pool.good_barcodes.parse_barcodes()): r.first.sample.raw.add_pair(r)
-    for sample in pool.samples: sample.raw.close()
-
-###############################################################################
 def make_raw_zip_bundle(cluster):
     """Zip all the raw samples files in one file"""
     result_dir = DirectoryPath(cluster.base_dir + "raw_reads")
@@ -35,5 +26,5 @@ def make_raw_zip_bundle(cluster):
 ###############################################################################
 pool = illumitag.runs[3][6]
 cluster = illumitag.clustering.favorites.inga
-generate_raw_samples(pool)
+pool.create_raw_samples()
 make_raw_zip_bundle(cluster)
