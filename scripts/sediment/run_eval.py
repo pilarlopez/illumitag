@@ -75,3 +75,7 @@ for pool in pools: pool.create_raw_samples()
 for s in samples:
     print s.short_name
     s.upload_to_ena()
+
+# Submit to ENA #
+from illumitag.helper.ena import MakeAllXML
+make_xml = MakeAllXML(proj, cluster)

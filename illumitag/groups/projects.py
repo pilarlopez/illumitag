@@ -19,9 +19,6 @@ class Project(Aggregate):
     def __repr__(self): return '<%s object "%s" with %i pools>' % \
                                (self.__class__.__name__, self.name, len(self))
 
-    @property
-    def long_name(self): return self.first.project_long_name
-
     def __init__(self, name, pools, projs_dir):
         # Attributes #
         self.name = name
@@ -32,3 +29,16 @@ class Project(Aggregate):
         self.p = AutoPaths(self.base_dir, self.all_paths)
         # Extra #
         self.meta_data_path = illumitag.repos_dir + 'projects/' + self.name + '.csv'
+
+    @property
+    def long_name(self): return self.first.project_long_name
+
+    @property
+    def title(self):
+        pool = [p for p in self.pools if 'project_title' in p.info]
+        if pool: return pool[0].info['project_title']
+
+    @property
+    def abstract(self):
+        pool = [p for p in self.pools if 'project_abstract' in p.info]
+        if pool: return pool[0].info['project_abstract']

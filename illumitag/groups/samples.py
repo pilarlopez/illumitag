@@ -1,20 +1,14 @@
 # Built-in modules #
 import json, re
 from collections import OrderedDict
-from ftputil import FTPHost
 
 # Internal modules #
 from illumitag.fasta.single import FASTQ, FASTA
 from illumitag.fasta.paired import PairedFASTQ
 from illumitag.common.autopaths import AutoPaths
-from illumitag.common import Password
+from illumitag.helper.ena import SampleENA
 
 # Third party modules #
-
-# Constants #
-ftp_server = "webin.ebi.ac.uk"
-ftp_login = "Webin-38108"
-ftp_password = Password("ENA FTP password for user '%s':" % ftp_login)
 
 ###############################################################################
 class Samples(object):
@@ -90,6 +84,8 @@ class Sample(FASTQ):
         # Other #
         self.bar_name = 'barcode%i' % self.num
         self.name = 'run%i_pool%i_sample%i' % (self.pool.run_num, self.pool.num, self.num)
+        # Special ENA attributes #
+        self.ena = SampleENA(self)
 
     def load(self):
         # Special case for dummy samples #
@@ -130,23 +126,3 @@ class Sample(FASTQ):
     def count_raw_reads(self):
         """The number of reads the sample originally had right after barcode processing and before any other quality filtering"""
         return self.pool.good_barcodes.breakdown[self.bar_name]
-
-    def upload_to_ena(self):
-        """Upload the raw reads file (gziped) to the European Nucleotide Archive"""
-        # Connect #
-        ftp = FTPHost(ftp_server, ftp_login, str(ftp_password))
-        # Gzip if not there yet #
-        if not self.raw_gz.exists:
-            self.raw.fwd.gzip_to(self.p.raw_forward_gz)
-            self.raw.rev.gzip_to(self.p.raw_reverse_gz)
-        # Make directory #
-        directory = '/ILLUMITAG/run%03d/pool%02d/sample%02d/'
-        directory = directory % (self.pool.run_num, self.pool.num, self.num)
-        ftp.makedirs(directory)
-        # Upload #
-        base_path = directory + 'run%03d_pool%02d_sample%02d_{}_reads.fastq.gz'
-        base_path = base_path % (self.pool.run_num, self.pool.num, self.num)
-        ftp.upload(self.p.raw_forward_gz, base_path.format("forward"))
-        ftp.upload(self.p.raw_reverse_gz, base_path.format("reverse"))
-        # Return #
-        ftp.quit()
