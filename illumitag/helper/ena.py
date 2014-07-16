@@ -2,6 +2,7 @@
 
 # Internal modules #
 from illumitag.common import Password, md5sum
+from illumitag.common.autopaths import AutoPaths
 
 # Third party modules #
 from ftputil import FTPHost
@@ -90,8 +91,18 @@ class SampleENA(object):
 
 ###############################################################################
 class MakeAllXML(object):
-    """A class to generate the five XML documents necessary for an automatic Submission
-    These are: Submission, Study, Sample, Experiment and Run XML"""
+    """A class to generate the five XML documents necessary for an automatic
+    submission to the ENA (https://www.ebi.ac.uk/ena/submit/drop-box/submit/)
+    They are: Submission XML, Study XML, Sample XML, Experiment XML, Run XML"""
+
+    all_paths = """
+    /submission.xml
+    /study.xml
+    /sample.xml
+    /experiment.xml
+    /run.xml
+    /analysis.xml
+    """
 
     def __init__(self, project, cluster):
         """You give a project and cluster as input"""
@@ -102,6 +113,9 @@ class MakeAllXML(object):
         self.center_name     = "Limnology department at Uppsala University"
         self.study_title     = self.project.title
         self.study_abstract  = self.project.abstract
+        # Auto paths #
+        self.base_dir = self.cluster.base_dir + 'ena/'
+        self.p = AutoPaths(self.base_dir, self.all_paths)
 
     #-------------------------------------------------------------------------#
     template_submission = """<?xml version="1.0" encoding="UTF-8"?>
@@ -264,7 +278,7 @@ xsi:noNamespaceSchemaLocation="ftp://ftp.sra.ebi.ac.uk/meta/xsd/sra_1_5/SRA.subm
         """Returns the Experiment XML document"""
         all_xml = []
         for sample in self.samples:
-            params = sample.experiment_parameters
+            params = sample.ena.experiment_parameters
             params['center_name'] = self.center_name
             params['study_name'] = self.sub_unique_name
             params['library_strategy'] = "AMPLICON"
@@ -298,7 +312,7 @@ xsi:noNamespaceSchemaLocation="ftp://ftp.sra.ebi.ac.uk/meta/xsd/sra_1_5/SRA.subm
         """Returns the Run XML document"""
         all_xml = []
         for sample in self.samples:
-            params = sample.run_parameters
+            params = sample.ena.run_parameters
             params['center_name'] = self.center_name
             params['run_date'] = self.sub_unique_name
             all_xml.append(self.template_one_run % params)
@@ -307,5 +321,8 @@ xsi:noNamespaceSchemaLocation="ftp://ftp.sra.ebi.ac.uk/meta/xsd/sra_1_5/SRA.subm
     #-------------------------------------------------------------------------#
     def write_files(self):
         """Will write the five files in the cluster directory"""
-        directory = self.cluster.base_dir
-        pass
+        self.p.submission.write(self.xml_submission)
+        self.p.study.write(self.xml_study)
+        self.p.sample.write(self.xml_sample)
+        self.p.experiment.write(self.xml_experiment)
+        self.p.run.write(self.xml_run)

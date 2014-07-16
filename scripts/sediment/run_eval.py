@@ -79,3 +79,4 @@ for s in samples:
 # Submit to ENA #
 from illumitag.helper.ena import MakeAllXML
 make_xml = MakeAllXML(proj, cluster)
+make_xml.write_files()

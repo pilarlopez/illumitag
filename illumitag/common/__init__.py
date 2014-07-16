@@ -2,7 +2,7 @@
 from __future__ import division
 
 # Built-in modules #
-import os, re, glob, random, collections, getpass
+import os, re, glob, random, collections, getpass, hashlib
 
 # Third party modules #
 import sh, numpy
@@ -28,6 +28,15 @@ class Password(object):
         return self._value
 
 ################################################################################
+def md5sum(file_path, blocksize=65536):
+    """Compute the md5 of a file. Pretty fast"""
+    md5 = hashlib.md5()
+    with open(file_path, "r+b") as f:
+        for block in iter(lambda: f.read(blocksize), ""):
+            md5.update(block)
+    return md5.hexdigest()
+
+################################################################################
 def get_git_tag(directory):
     if os.path.exists(directory + '/.git'):
         return sh.git("--git-dir=" + directory + '/.git', "describe", "--tags", "--dirty", "--always").strip('\n')
@@ -36,7 +45,7 @@ def get_git_tag(directory):
 
 ################################################################################
 def reverse_compl_with_name(old_seq):
-    """Reverse a sequence, but keep its name intact"""
+    """Reverse a SeqIO sequence, but keep its name intact"""
     new_seq = old_seq.reverse_complement()
     new_seq.id = old_seq.id
     new_seq.description = old_seq.description
@@ -51,7 +60,7 @@ def downsample_freq(freq, k):
 
 ################################################################################
 def isubsample(full_sample, k, full_sample_len=None):
-    """Downsample an enumerable list of things"""
+    """Downsample (i.e. rarefy) an enumerable list of things"""
     # Determine length #
     if not full_sample_len: full_sample_len = len(full_sample)
     # Check size coherence #
