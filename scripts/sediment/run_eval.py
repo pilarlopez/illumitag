@@ -1,7 +1,7 @@
 #!/usr/bin/env python2
 
 """
-A script to run the clustering analyses on the evaluation samlpes.
+A script to run the clustering analyses on the evaluation samples.
 """
 
 # Future #
@@ -74,9 +74,18 @@ rdp.composition.graph.plot()
 for pool in pools: pool.create_raw_samples()
 for s in samples:
     print s.short_name
-    s.upload_to_ena()
+    s.ena.upload_to_ena()
 
 # Submit to ENA #
 from illumitag.helper.ena import MakeAllXML
 make_xml = MakeAllXML(proj, cluster)
 make_xml.write_files()
+
+# Upload raw samples for SRA #
+for s in samples: s.sra.upload_to_sra()
+
+# Submit to SRA #
+from illumitag.helper.sra import MakeSpreadsheet
+make_tsv = MakeSpreadsheet(proj, cluster)
+make_tsv.write_sra_tsv()
+

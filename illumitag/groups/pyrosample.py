@@ -11,6 +11,7 @@ from illumitag.common import natural_sort, moving_average
 from illumitag.common.autopaths import AutoPaths, FilePath
 from illumitag.common.tmpstuff import TmpFile
 from illumitag.fasta.single import FASTA, FASTQ
+from illumitag.helper.sra import PyroSampleSRA
 
 # Third party modules #
 import sh, pandas, commands
@@ -85,6 +86,16 @@ class Pyrosample(object):
         if self.info['predenoised'] and False:
             self.sff_files_info = []
             self.reads.link_from(self.info['predenoised'], safe=True)
+        # Special submission attributes #
+        self.sra = PyroSampleSRA(self)
+
+    @property
+    def mate(self):
+        if not 'mate' in self.info: return False
+        run_num = self.info['mate']['run']
+        pool_num = self.info['mate']['pool']
+        barcode_num = self.info['mate']['num']
+        return illumitag.runs[run_num][pool_num-1][barcode_num-1]
 
     def load(self):
         pass
@@ -139,6 +150,9 @@ class Pyrosample(object):
         self.fastq.write(self.clean_iterator(self.raw_fastq, **kwargs))
         self.fastq.rename_with_num(self.name + '_read')
         print "make_fastq for sample %s completed" % self.id_name
+
+
+
 
 ###############################################################################
 class Demultiplexer454(object):

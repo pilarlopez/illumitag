@@ -1,5 +1,5 @@
 # Built-in modules #
-import os, stat, tempfile, re, subprocess, shutil, gzip
+import os, stat, tempfile, re, subprocess, shutil, gzip, codecs
 
 ################################################################################
 class AutoPaths(object):
@@ -268,11 +268,11 @@ class FilePath(str):
     def create(self):
         with open(self.path, 'w'): pass
 
-    def write(self, content):
-        with open(self.path, 'w') as handle: handle.write(content)
+    def write(self, content, encoding=None):
+        with codecs.open(self.path, 'w', encoding) as handle: handle.write(content)
 
-    def writelines(self, content):
-        with open(self.path, 'w') as handle: handle.writelines(content)
+    def writelines(self, content, encoding=None):
+        with codecs.open(self.path, 'w', encoding) as handle: handle.writelines(content)
 
     def link_from(self, path, safe=False):
         # Standard #

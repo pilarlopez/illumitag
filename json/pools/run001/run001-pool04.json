@@ -15,6 +15,8 @@
     "pool":          "evaluation4",
     "pool_name":     "One step PCR",
 
+    "design_description": "Here the DNA material from the sediment sample was amplified for 25 cycles directly with the barcoded primers, for every of the fifty barcode pairs. This batch is referred to as the 'single-step PCR' further on and included 50 samples in one pool.",
+
     "samples": [
         {"name": "p4bc01", "used": 1, "group": "1step", "num": 1,  "fwd": "TATCACG", "rev": "ACTGAGA"},
         {"name": "p4bc02", "used": 1, "group": "1step", "num": 2,  "fwd": "TACGTCA", "rev": "ACTGACT"},

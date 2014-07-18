@@ -15,6 +15,8 @@
     "pool":          "evaluation2",
     "pool_name":     "Two step PCR 2",
 
+    "design_description": "The starting DNA template material from the sediment sample was amplified using non-barcoded PCR primers for 20 cycles (in duplicate and subsequently pooled) followed by a 100 times dilution of the resulting PCR product. Next, in triplicate reproduction, and for every of the fifty barcode pairs, 1 µl of the diluted PCR product was used for 10 additional cycles of amplification with the respective barcoded primers. This batch is referred to as the 'two-step PCR'. This is the second such pool of 50 replicates.",
+
     "samples": [
         {"name": "p2bc01", "used": 1, "group": "2step", "num": 1,  "fwd": "TATCACG", "rev": "ACTGAGA"},
         {"name": "p2bc02", "used": 1, "group": "2step", "num": 2,  "fwd": "TACGTCA", "rev": "ACTGACT"},

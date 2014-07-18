@@ -6,7 +6,7 @@ from collections import OrderedDict
 from illumitag.fasta.single import FASTQ, FASTA
 from illumitag.fasta.paired import PairedFASTQ
 from illumitag.common.autopaths import AutoPaths
-from illumitag.helper.ena import SampleENA
+from illumitag.helper.sra import SampleSRA
 
 # Third party modules #
 
@@ -84,8 +84,8 @@ class Sample(FASTQ):
         # Other #
         self.bar_name = 'barcode%i' % self.num
         self.name = 'run%i_pool%i_sample%i' % (self.pool.run_num, self.pool.num, self.num)
-        # Special ENA attributes #
-        self.ena = SampleENA(self)
+        # Special submission attributes #
+        self.sra = SampleSRA(self)
 
     def load(self):
         # Special case for dummy samples #

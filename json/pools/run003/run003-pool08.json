@@ -41,7 +41,10 @@
             "carbonate":   [119,   "mg/l", "CO3"],
             "phosphorus":  [3610,  "mg/l", "Ptot"],
             "chla":        [282.5, "mg/l"],
-            "microbes":    null
+            "microbes":    null,
+            "real_name":   ["Unterer Stinker (US)", "de"],
+            "GPS N":       ["47°48'06''", "N"],
+            "GPS E":       ["16°47'02''", "E"]
         },
 
         {"name": "US02", "used": 1, "group": "US", "num": 2, "fwd": "TACGTCA", "rev": "ACTGACT",
@@ -57,7 +60,10 @@
             "carbonate":   [157,   "mg/l", "CO3"],
             "phosphorus":  [5830,  "mg/l", "Ptot"],
             "chla":        [426.6, "mg/l"],
-            "microbes":    null
+            "microbes":    null,
+            "real_name":   ["Unterer Stinker (US)", "de"],
+            "GPS N":       ["47°48'06''", "N"],
+            "GPS E":       ["16°47'02''", "E"]
         },
 
         {"name": "US03", "used": 1, "group": "US", "num": 3, "fwd": "ACATCAG", "rev": "ACTGATC",
@@ -73,7 +79,10 @@
             "carbonate":   null,
             "phosphorus":  null,
             "chla":        null,
-            "microbes":    [69660000, "cells/ml"]
+            "microbes":    [69660000, "cells/ml"],
+            "real_name":   ["Unterer Stinker (US)", "de"],
+            "GPS N":       ["47°48'06''", "N"],
+            "GPS E":       ["16°47'02''", "E"]
         },
 
         {"name": "US04", "used": 1, "group": "US", "num": 4, "fwd": "ACACTGT", "rev": "ACTGTGT",
@@ -89,7 +98,10 @@
             "carbonate":   [266,      "mg/l", "CO3"],
             "phosphorus":  [240,      "mg/l", "Ptot"],
             "chla":        [24,       "mg/l"],
-            "microbes":    [7.02E+07, "cells/ml"]
+            "microbes":    [7.02E+07, "cells/ml"],
+            "real_name":   ["Unterer Stinker (US)", "de"],
+            "GPS N":       ["47°48'06''", "N"],
+            "GPS E":       ["16°47'02''", "E"]
         },
 
         {"name": "US05", "used": 1, "group": "US", "num": 5, "fwd": "ACACACT", "rev": "ACTCGAT",
@@ -105,7 +117,10 @@
             "carbonate":   [245,      "mg/l", "CO3"],
             "phosphorus":  [296,      "mg/l", "Ptot"],
             "chla":        [64,       "mg/l"],
-            "microbes":    [5.40E+07, "cells/ml"]
+            "microbes":    [5.40E+07, "cells/ml"],
+            "real_name":   ["Unterer Stinker (US)", "de"],
+            "GPS N":       ["47°48'06''", "N"],
+            "GPS E":       ["16°47'02''", "E"]
         },
 
         {"name": "US06", "used": 1, "group": "US", "num": 6, "fwd": "ACACAGA", "rev": "ACTCAGT",
@@ -121,7 +136,10 @@
             "carbonate":   [345,      "mg/l", "CO3"],
             "phosphorus":  [184,      "mg/l", "Ptot"],
             "chla":        [7,        "mg/l"],
-            "microbes":    [9.13E+07, "cells/ml"]
+            "microbes":    [9.13E+07, "cells/ml"],
+            "real_name":   ["Unterer Stinker (US)", "de"],
+            "GPS N":       ["47°48'06''", "N"],
+            "GPS E":       ["16°47'02''", "E"]
         },
 
         {"name": "US07", "used": 1, "group": "US", "num": 7, "fwd": "ACGATGT", "rev": "ACTCTGA",
@@ -137,7 +155,10 @@
             "carbonate":   [424,      "mg/l", "CO3"],
             "phosphorus":  [298,      "mg/l", "Ptot"],
             "chla":        [83,       "mg/l"],
-            "microbes":    [1.81E+08, "cells/ml"]
+            "microbes":    [1.81E+08, "cells/ml"],
+            "real_name":   ["Unterer Stinker (US)", "de"],
+            "GPS N":       ["47°48'06''", "N"],
+            "GPS E":       ["16°47'02''", "E"]
         },
 
         {"name": "US08", "used": 1, "group": "US", "num": 8, "fwd": "ACGAGTA", "rev": "ACTCTCT",
@@ -153,7 +174,10 @@
             "carbonate":   [380,      "mg/l", "CO3"],
             "phosphorus":  [268,      "mg/l", "Ptot"],
             "chla":        [64,       "mg/l"],
-            "microbes":    [1.02E+08, "cells/ml"]
+            "microbes":    [1.02E+08, "cells/ml"],
+            "real_name":   ["Unterer Stinker (US)", "de"],
+            "GPS N":       ["47°48'06''", "N"],
+            "GPS E":       ["16°47'02''", "E"]
         },
 
         {"name": "US09", "used": 1, "group": "US", "num": 9, "fwd": "ACGAGAT", "rev": "ACTCTAC",
@@ -169,7 +193,10 @@
             "carbonate":   [285,      "mg/l", "CO3"],
             "phosphorus":  [346,      "mg/l", "Ptot"],
             "chla":        [82,       "mg/l"],
-            "microbes":    [1.45E+08, "cells/ml"]
+            "microbes":    [1.45E+08, "cells/ml"],
+            "real_name":   ["Unterer Stinker (US)", "de"],
+            "GPS N":       ["47°48'06''", "N"],
+            "GPS E":       ["16°47'02''", "E"]
         },
 
         {"name": "US10", "used": 1, "group": "US", "num": 10, "fwd": "TACGAGT", "rev": "TACTGCA",
@@ -185,7 +212,10 @@
             "carbonate":   null,
             "phosphorus":  [610,      "mg/l", "Ptot"],
             "chla":        [111,      "mg/l"],
-            "microbes":    [8.96E+07, "cells/ml"]
+            "microbes":    [8.96E+07, "cells/ml"],
+            "real_name":   ["Unterer Stinker (US)", "de"],
+            "GPS N":       ["47°48'06''", "N"],
+            "GPS E":       ["16°47'02''", "E"]
         },
 
         {"name": "US12", "used": 1, "group": "US", "num": 11, "fwd": "ACGCTAT", "rev": "ACTACGT",
@@ -201,7 +231,10 @@
             "carbonate":   [530,      "mg/l", "CO3"],
             "phosphorus":  [1070,     "mg/l", "Ptot"],
             "chla":        [161,      "mg/l"],
-            "microbes":    [6.86E+07, "cells/ml"]
+            "microbes":    [6.86E+07, "cells/ml"],
+            "real_name":   ["Unterer Stinker (US)", "de"],
+            "GPS N":       ["47°48'06''", "N"],
+            "GPS E":       ["16°47'02''", "E"]
         },
 
         {"name": "US13", "used": 1, "group": "US", "num": 12, "fwd": "AGTCTCA", "rev": "ACTACAC",
@@ -217,7 +250,10 @@
             "carbonate":   [525,      "mg/l", "CO3"],
             "phosphorus":  [830,      "mg/l", "Ptot"],
             "chla":        [172,      "mg/l"],
-            "microbes":    [6.53E+07, "cells/ml"]
+            "microbes":    [6.53E+07, "cells/ml"],
+            "real_name":   ["Unterer Stinker (US)", "de"],
+            "GPS N":       ["47°48'06''", "N"],
+            "GPS E":       ["16°47'02''", "E"]
         },
 
         {"name": "US14", "used": 1, "group": "US", "num": 13, "fwd": "AGTCACT", "rev": "ACTATGC",
@@ -233,7 +269,10 @@
             "carbonate":   [280,      "mg/l", "CO3"],
             "phosphorus":  [700,      "mg/l", "Ptot"],
             "chla":        [102,      "mg/l"],
-            "microbes":    [1.11E+08, "cells/ml"]
+            "microbes":    [1.11E+08, "cells/ml"],
+            "real_name":   ["Unterer Stinker (US)", "de"],
+            "GPS N":       ["47°48'06''", "N"],
+            "GPS E":       ["16°47'02''", "E"]
         },
 
         {"name": "US15", "used": 1, "group": "US", "num": 14, "fwd": "AGTCAGA", "rev": "ATGCGAT",
@@ -249,7 +288,10 @@
             "carbonate":   null,
             "phosphorus":  null,
             "chla":        null,
-            "microbes":    null
+            "microbes":    null,
+            "real_name":  ["Unterer Stinker (US)", "de"],
+            "GPS N":      ["47°48'06''", "N"],
+            "GPS E":      ["16°47'02''", "E"]
         },
 
         {"name": "US16", "used": 1, "group": "US", "num": 15, "fwd": "AGTGAGT", "rev": "ATGCACT",
@@ -265,7 +307,10 @@
             "carbonate":   null,
             "phosphorus":  null,
             "chla":        null,
-            "microbes":    null
+            "microbes":    null,
+            "real_name":  ["Unterer Stinker (US)", "de"],
+            "GPS N":      ["47°48'06''", "N"],
+            "GPS E":      ["16°47'02''", "E"]
         },
 
         {"name": "US17", "used": 1, "group": "US", "num": 16, "fwd": "AGATGCT", "rev": "ATGCTGT",
@@ -281,7 +326,10 @@
             "carbonate":   null,
             "phosphorus":  null,
             "chla":        null,
-            "microbes":    null
+            "microbes":    null,
+            "real_name":  ["Unterer Stinker (US)", "de"],
+            "GPS N":      ["47°48'06''", "N"],
+            "GPS E":      ["16°47'02''", "E"]
         },
 
         {"name": "SS01", "used": 1, "group": "SS", "num": 17, "fwd": "TACGCTA", "rev": "ATGAGCA",
@@ -297,7 +345,10 @@
             "carbonate":   null,
             "phosphorus":  null,
             "chla":        null,
-            "microbes":    null
+            "microbes":    null,
+            "real_name":  ["Silber Lacke (SS)", "de"],
+            "GPS N":      ["47°47'29''", "N"],
+            "GPS E":      ["16°46'50''", "E"]
         },
 
         {"name": "SS02", "used": 1, "group": "SS", "num": 18, "fwd": "AGACTCT", "rev": "ATGAGTC",
@@ -313,7 +364,10 @@
             "carbonate":   null,
             "phosphorus":  null,
             "chla":        null,
-            "microbes":    null
+            "microbes":    null,
+            "real_name":  ["Silber Lacke (SS)", "de"],
+            "GPS N":      ["47°47'29''", "N"],
+            "GPS E":      ["16°46'50''", "E"]
         },
 
         {"name": "SS03", "used": 1, "group": "SS", "num": 19, "fwd": "AGACTGA", "rev": "ATGTGCT",
@@ -329,7 +383,10 @@
             "carbonate":   null,
             "phosphorus":  null,
             "chla":        null,
-            "microbes":    null
+            "microbes":    null,
+            "real_name":  ["Silber Lacke (SS)", "de"],
+            "GPS N":      ["47°47'29''", "N"],
+            "GPS E":      ["16°46'50''", "E"]
         },
 
         {"name": "SS04", "used": 1, "group": "SS", "num": 20, "fwd": "AGACACA", "rev": "TACTGAC",
@@ -345,7 +402,10 @@
             "carbonate":   null,
             "phosphorus":  null,
             "chla":        null,
-            "microbes":    null
+            "microbes":    null,
+            "real_name":  ["Silber Lacke (SS)", "de"],
+            "GPS N":      ["47°47'29''", "N"],
+            "GPS E":      ["16°46'50''", "E"]
         },
 
         {"name": "SS05", "used": 1, "group": "SS", "num": 21, "fwd": "AGACGAT", "rev": "ATGTCGT",
@@ -361,7 +421,10 @@
             "carbonate":   null,
             "phosphorus":  null,
             "chla":        null,
-            "microbes":    null
+            "microbes":    null,
+            "real_name":  ["Silber Lacke (SS)", "de"],
+            "GPS N":      ["47°47'29''", "N"],
+            "GPS E":      ["16°46'50''", "E"]
         },
 
         {"name": "SS06", "used": 1, "group": "SS", "num": 22, "fwd": "AGAGTCA", "rev": "ATCGCAT",
@@ -377,7 +440,10 @@
             "carbonate":   null,
             "phosphorus":  null,
             "chla":        null,
-            "microbes":    null
+            "microbes":    null,
+            "real_name":  ["Silber Lacke (SS)", "de"],
+            "GPS N":      ["47°47'29''", "N"],
+            "GPS E":      ["16°46'50''", "E"]
         },
 
         {"name": "SS07", "used": 1, "group": "SS", "num": 23, "fwd": "AGAGATG", "rev": "ATCGACT",
@@ -393,7 +459,10 @@
             "carbonate":   null,
             "phosphorus":  null,
             "chla":        null,
-            "microbes":    null
+            "microbes":    null,
+            "real_name":  ["Silber Lacke (SS)", "de"],
+            "GPS N":      ["47°47'29''", "N"],
+            "GPS E":      ["16°46'50''", "E"]
         },
 
         {"name": "SS08", "used": 1, "group": "SS", "num": 24, "fwd": "AGAGACT", "rev": "ATCGTGT",
@@ -409,7 +478,10 @@
             "carbonate":   null,
             "phosphorus":  null,
             "chla":        null,
-            "microbes":    null
+            "microbes":    null,
+            "real_name":  ["Silber Lacke (SS)", "de"],
+            "GPS N":      ["47°47'29''", "N"],
+            "GPS E":      ["16°46'50''", "E"]
         },
 
         {"name": "SS09", "used": 1, "group": "SS", "num": 25, "fwd": "AGCATGT", "rev": "ATCAGAC",
@@ -425,7 +497,10 @@
             "carbonate":   null,
             "phosphorus":  null,
             "chla":        null,
-            "microbes":    null
+            "microbes":    null,
+            "real_name":  ["Silber Lacke (SS)", "de"],
+            "GPS N":      ["47°47'29''", "N"],
+            "GPS E":      ["16°46'50''", "E"]
         },
 
         {"name": "SS10", "used": 1, "group": "SS", "num": 26, "fwd": "TAGTCAG", "rev": "ATCACTC",
@@ -441,7 +516,10 @@
             "carbonate":   null,
             "phosphorus":  null,
             "chla":        null,
-            "microbes":    null
+            "microbes":    null,
+            "real_name":  ["Silber Lacke (SS)", "de"],
+            "GPS N":      ["47°47'29''", "N"],
+            "GPS E":      ["16°46'50''", "E"]
         },
 
         {"name": "SS11", "used": 1, "group": "SS", "num": 27, "fwd": "AGCAGAT", "rev": "ATCATGC",
@@ -457,7 +535,10 @@
             "carbonate":   null,
             "phosphorus":  null,
             "chla":        null,
-            "microbes":    null
+            "microbes":    null,
+            "real_name":  ["Silber Lacke (SS)", "de"],
+            "GPS N":      ["47°47'29''", "N"],
+            "GPS E":      ["16°46'50''", "E"]
         },
 
         {"name": "SS12", "used": 1, "group": "SS", "num": 28, "fwd": "GTATCAC", "rev": "ATCTCAC",
@@ -473,7 +554,10 @@
             "carbonate":   [1075,  "mg/l", "CO3"],
             "phosphorus":  [962,   "mg/l", "Ptot"],
             "chla":        [161,   "mg/l"],
-            "microbes":    null
+            "microbes":    null,
+            "real_name":  ["Silber Lacke (SS)", "de"],
+            "GPS N":      ["47°47'29''", "N"],
+            "GPS E":      ["16°46'50''", "E"]
         },
 
         {"name": "SS13", "used": 1, "group": "SS", "num": 29, "fwd": "GTCTACT", "rev": "TACTCGA",
@@ -489,7 +573,10 @@
             "carbonate":   null,
             "phosphorus":  null,
             "chla":        null,
-            "microbes":    null
+            "microbes":    null,
+            "real_name":  ["Silber Lacke (SS)", "de"],
+            "GPS N":      ["47°47'29''", "N"],
+            "GPS E":      ["16°46'50''", "E"]
         },
 
         {"name": "SS14", "used": 1, "group": "SS", "num": 30, "fwd": "GTCTCAT", "rev": "ATAGCGT",
@@ -505,7 +592,10 @@
             "carbonate":   null,
             "phosphorus":  null,
             "chla":        null,
-            "microbes":    null
+            "microbes":    null,
+            "real_name":  ["Silber Lacke (SS)", "de"],
+            "GPS N":      ["47°47'29''", "N"],
+            "GPS E":      ["16°46'50''", "E"]
         },
 
         {"name": "SS15", "used": 1, "group": "SS", "num": 31, "fwd": "TAGACTG", "rev": "ATACGCT",
@@ -521,7 +611,10 @@
             "carbonate":   null,
             "phosphorus":  null,
             "chla":        null,
-            "microbes":    null
+            "microbes":    null,
+            "real_name":  ["Silber Lacke (SS)", "de"],
+            "GPS N":      ["47°47'29''", "N"],
+            "GPS E":      ["16°46'50''", "E"]
         },
 
         {"name": "SS16", "used": 1, "group": "SS", "num": 32, "fwd": "GTCATAG", "rev": "ATACTGC",
@@ -537,7 +630,10 @@
             "carbonate":   null,
             "phosphorus":  null,
             "chla":        null,
-            "microbes":    null
+            "microbes":    null,
+            "real_name":  ["Silber Lacke (SS)", "de"],
+            "GPS N":      ["47°47'29''", "N"],
+            "GPS E":      ["16°46'50''", "E"]
         },
 
         {"name": "SS17", "used": 1, "group": "SS", "num": 33, "fwd": "GTCATCT", "rev": "TGCGATA",
@@ -553,7 +649,10 @@
             "carbonate":   null,
             "phosphorus":  null,
             "chla":        null,
-            "microbes":    null
+            "microbes":    null,
+            "real_name":  ["Silber Lacke (SS)", "de"],
+            "GPS N":      ["47°47'29''", "N"],
+            "GPS E":      ["16°46'50''", "E"]
         },
 
         {"name": "ZL01", "used": 1, "group": "ZL", "num": 34, "fwd": "GTCACTA", "rev": "TGCTGTA",
@@ -569,7 +668,10 @@
             "carbonate":   [558,      "mg/l", "CO3"],
             "phosphorus":  [1430,     "mg/l", "Ptot"],
             "chla":        [182.8,    "mg/l"],
-            "microbes":    [3.29E+08, "cells/ml"]
+            "microbes":    [3.29E+08, "cells/ml"],
+            "real_name":   ["Zicklacke (ZL)", "de"],
+            "GPS N":       ["47°46'05''", "N"],
+            "GPS E":       ["16°46'51''", "E"]
         },
 
         {"name": "ZL02", "used": 1, "group": "ZL", "num": 35, "fwd": "GATACTG", "rev": "TGCTAGA",
@@ -585,7 +687,10 @@
             "carbonate":   [675,      "mg/l", "CO3"],
             "phosphorus":  [850,      "mg/l", "Ptot"],
             "chla":        [45.4,     "mg/l"],
-            "microbes":    [2.82E+08, "cells/ml"]
+            "microbes":    [2.82E+08, "cells/ml"],
+            "real_name":   ["Zicklacke (ZL)", "de"],
+            "GPS N":       ["47°46'05''", "N"],
+            "GPS E":       ["16°46'51''", "E"]
         },
 
         {"name": "ZL03", "used": 1, "group": "ZL", "num": 36, "fwd": "TAGACGA", "rev": "TGAGCAT",
@@ -601,7 +706,10 @@
             "carbonate":   null,
             "phosphorus":  null,
             "chla":        null,
-            "microbes":    [8.91E+07, "cells/ml"]
+            "microbes":    [8.91E+07, "cells/ml"],
+            "real_name":   ["Zicklacke (ZL)", "de"],
+            "GPS N":       ["47°46'05''", "N"],
+            "GPS E":       ["16°46'51''", "E"]
         },
 
         {"name": "ZL04", "used": 1, "group": "ZL", "num": 37, "fwd": "GATGAGT", "rev": "TGAGTGA",
@@ -617,7 +725,10 @@
             "carbonate":   [1751,     "mg/l", "CO3"],
             "phosphorus":  [370,      "mg/l", "Ptot"],
             "chla":        [4.9,      "mg/l"],
-            "microbes":    [1.24E+08, "cells/ml"]
+            "microbes":    [1.24E+08, "cells/ml"],
+            "real_name":   ["Zicklacke (ZL)", "de"],
+            "GPS N":       ["47°46'05''", "N"],
+            "GPS E":       ["16°46'51''", "E"]
         },
 
         {"name": "ZL08", "used": 1, "group": "ZL", "num": 38, "fwd": "GACTATG", "rev": "TACTCTC",
@@ -633,7 +744,10 @@
             "carbonate":   [100,      "mg/l", "CO3"],
             "phosphorus":  [750,      "mg/l", "Ptot"],
             "chla":        [53.6,     "mg/l"],
-            "microbes":    [3.59E+07, "cells/ml"]
+            "microbes":    [3.59E+07, "cells/ml"],
+            "real_name":   ["Zicklacke (ZL)", "de"],
+            "GPS N":       ["47°46'05''", "N"],
+            "GPS E":       ["16°46'51''", "E"]
         },
 
         {"name": "ZL09", "used": 1, "group": "ZL", "num": 39, "fwd": "GACTCTA", "rev": "TGAGTAC",
@@ -649,7 +763,10 @@
             "carbonate":   [55,       "mg/l", "CO3"],
             "phosphorus":  [470,      "mg/l", "Ptot"],
             "chla":        [4.4,      "mg/l"],
-            "microbes":    [1.92E+07, "cells/ml"]
+            "microbes":    [1.92E+07, "cells/ml"],
+            "real_name":   ["Zicklacke (ZL)", "de"],
+            "GPS N":       ["47°46'05''", "N"],
+            "GPS E":       ["16°46'51''", "E"]
         },
 
         {"name": "ZL10", "used": 1, "group": "ZL", "num": 40, "fwd": "GACTGAT", "rev": "TGACACT",
@@ -665,7 +782,10 @@
             "carbonate":   null,
             "phosphorus":  [410,      "mg/l", "Ptot"],
             "chla":        [5.1,      "mg/l"],
-            "microbes":    [3.00E+07, "cells/ml"]
+            "microbes":    [3.00E+07, "cells/ml"],
+            "real_name":   ["Zicklacke (ZL)", "de"],
+            "GPS N":       ["47°46'05''", "N"],
+            "GPS E":       ["16°46'51''", "E"]
         },
 
         {"name": "ZL11", "used": 1, "group": "ZL", "num": 41, "fwd": "GACATCA", "rev": "TGACTCA",
@@ -681,7 +801,10 @@
             "carbonate":   null,
             "phosphorus":  null,
             "chla":        [434.9,    "mg/l"],
-            "microbes":    [6.05E+07, "cells/ml"]
+            "microbes":    [6.05E+07, "cells/ml"],
+            "real_name":   ["Zicklacke (ZL)", "de"],
+            "GPS N":       ["47°46'05''", "N"],
+            "GPS E":       ["16°46'51''", "E"]
         },
 
         {"name": "ZL12", "used": 1, "group": "ZL", "num": 42, "fwd": "TAGAGAG", "rev": "TGTGCTA",
@@ -697,7 +820,10 @@
             "carbonate":   [1480,     "mg/l", "CO3"],
             "phosphorus":  [2400,     "mg/l", "Ptot"],
             "chla":        [723,      "mg/l"],
-            "microbes":    [8.10E+07, "cells/ml"]
+            "microbes":    [8.10E+07, "cells/ml"],
+            "real_name":   ["Zicklacke (ZL)", "de"],
+            "GPS N":       ["47°46'05''", "N"],
+            "GPS E":       ["16°46'51''", "E"]
         },
 
         {"name": "ZL14", "used": 1, "group": "ZL", "num": 43, "fwd": "GAGTCAT", "rev": "TGTGTCA",
@@ -713,7 +839,10 @@
             "carbonate":   [23,       "mg/l", "CO3"],
             "phosphorus":  [540,      "mg/l", "Ptot"],
             "chla":        [47,       "mg/l"],
-            "microbes":    [3.81E+07, "cells/ml"]
+            "microbes":    [3.81E+07, "cells/ml"],
+            "real_name":   ["Zicklacke (ZL)", "de"],
+            "GPS N":       ["47°46'05''", "N"],
+            "GPS E":       ["16°46'51''", "E"]
         },
 
         {"name": "ZL15", "used": 1, "group": "ZL", "num": 44, "fwd": "GAGAGAT", "rev": "TGTCGTA",
@@ -729,7 +858,10 @@
             "carbonate":   [443,      "mg/l", "CO3"],
             "phosphorus":  [1750,     "mg/l", "Ptot"],
             "chla":        [193.9,    "mg/l"],
-            "microbes":    [1.88E+08, "cells/ml"]
+            "microbes":    [1.88E+08, "cells/ml"],
+            "real_name":   ["Zicklacke (ZL)", "de"],
+            "GPS N":       ["47°46'05''", "N"],
+            "GPS E":       ["16°46'51''", "E"]
         },
 
         {"name": "ZL16", "used": 1, "group": "ZL", "num": 45, "fwd": "GCTATCA", "rev": "TGTCACA",
@@ -745,7 +877,10 @@
             "carbonate":   null,
             "phosphorus":  null,
             "chla":        null,
-            "microbes":    null
+            "microbes":    null,
+            "real_name":   ["Zicklacke (ZL)", "de"],
+            "GPS N":       ["47°46'05''", "N"],
+            "GPS E":       ["16°46'51''", "E"]
         },
 
         {"name": "ZL17", "used": 1, "group": "ZL", "num": 46, "fwd": "GCTACTA", "rev": "TACTAGC",
@@ -761,7 +896,10 @@
             "carbonate":   [343,      "mg/l", "CO3"],
             "phosphorus":  [3530,     "mg/l", "Ptot"],
             "chla":        [299.2,    "mg/l"],
-            "microbes":    [1.46E+08, "cells/ml"]
+            "microbes":    [1.46E+08, "cells/ml"],
+            "real_name":   ["Zicklacke (ZL)", "de"],
+            "GPS N":       ["47°46'05''", "N"],
+            "GPS E":       ["16°46'51''", "E"]
         },
 
         {"name": "empty", "used": 0, "group": "empty", "num": 47, "fwd": "GCTCATA", "rev": "TCGCATA"},

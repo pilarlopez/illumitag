@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # Futures #
 from __future__ import division
 
@@ -215,3 +217,10 @@ def is_integer(string):
     try: int(string)
     except ValueError: return False
     return True
+
+################################################################################
+def gps_deg_to_float(data):
+    m = re.search(u"(\d+?)°(\d+?)\'(\d+?)\'\'", data.strip())
+    degs, mins, secs = [0.0 if m.group(i) is None else int(m.group(i)) for i in range(1, 4)]
+    comp_dir = -1 if data[-1] in ('N', 'E') else 1
+    return (degs + (mins / 60) + (secs / 3600)) * comp_dir
