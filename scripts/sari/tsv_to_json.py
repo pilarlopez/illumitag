@@ -7,10 +7,10 @@ to our JSON files.
 """
 
 # Modules #
-import pandas
+import pandas, codecs
 
 ###############################################################################
-template = """{
+template = u"""{
     "contacts": {
         "pi": {
             "name": "Alexander Eiler",
@@ -29,22 +29,22 @@ template = """{
     "uppmax_id":    "b2014083",
     "run_num":       10,
     "run_id":        "140610_M00629_0001_000000000-A8H0L",
-    "sample_num":    {sample_num},
-    "sample_id":     {sample_id},
-    "forward_reads": "{fwd_filename}",
-    "reverse_reads": "{rev_filename}",
+    "sample_num":    %(sample_num)s,
+    "sample_id":     "%(sample_id)s",
+    "forward_reads": "%(fwd_filename)s",
+    "reverse_reads": "%(rev_filename)s",
 
-    "project":       "{project}",
-    "project_name":  "{project_name}",
-    "sample":        "{sample}",
-    "sample_name":   "{sample_name}",
-    "group":         "{group}",
+    "project":       "%(project)s",
+    "project_name":  "%(project_name)s",
+    "sample":        "%(sample)s",
+    "sample_name":   "%(sample_name)s",
+    "group":         "%(group)s",
 
-    "forward_mid":   "{forward_mid}",
-    "forward_num":   {forward_num},
-    "reverse_mid":   "{reverse_mid}",
-    "reverse_num":   {reverse_num},
-    "barcode_num":   {barcode_num},
+    "forward_mid":   "%(forward_mid)s",
+    "forward_num":   %(forward_num)s,
+    "reverse_mid":   "%(reverse_mid)s",
+    "reverse_num":   %(reverse_num)s,
+    "barcode_num":   %(barcode_num)s,
 
     "primers": {
             "name":    "General bacteria primers",
@@ -71,7 +71,7 @@ template = """{
     "bioproject":   "PRJNAXXXXXX",
     "biosample":    "SAMNXXXXXXXX",
 
-    "dna_after_purification": [{dna}, "ng/µl"],
+    "dna_after_purification": [%(dna)s, "ng/µl"],
 }"""
 
 ###############################################################################
@@ -96,17 +96,22 @@ corr = {
 for i, row in df.iterrows():
     # Transform #
     data = dict((corr[i], row[i]) for i in row.index if i in corr)
-    data['reverse_mid'] = [{'A':'T','C':'G','G':'C','T':'A'}[B] for B in data['reverse_mid']][::-1]
+    revcompl = lambda x: ''.join([{'A':'T','C':'G','G':'C','T':'A'}[B] for B in x][::-1])
+    data['reverse_mid']  = revcompl(data['reverse_mid'])
     data['forward_num']  = data['forward_num'][1:]
     data['reverse_num']  = data['reverse_num'][1:]
+    data['project']      = data['project'].lower()
+    data['sample']       = data['sample'].lower()
+    data['group']        = data['group'].lower()
     data['project_name'] = data['project']
     data['sample_name']  = data['sample']
     filename = "AE_POOL1_2014_%s_%s-%s_L001_R{}_001.fastq.gz" % (data['barcode_num'], data['reverse_mid'], data['forward_mid'])
     data['fwd_filename'] = filename.format("1")
     data['rev_filename'] = filename.format("2")
     data['sample_id']    = "Sample_AE_POOL1_2014_%s" % data['barcode_num']
+    data['dna']          = '%s' % float('%.4g' % float(data['dna']))
     # Write #
     text = template % data
-    path = "/home/lucass/repos/illumitag/json/presamples/run010/run10-sample%03d.json" % data['sample_num']
-    with open(path, 'w') as handle: handle.write(text)
+    path = "/home/lucass/repos/illumitag/json/presamples/run010/run010-sample%03d.json" % int(data['sample_num'])
+    with codecs.open(path, 'w', encoding='utf-8') as handle: handle.write(text)
     break
