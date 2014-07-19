@@ -15,7 +15,7 @@ template = u"""{
         "pi": {
             "name": "Alexander Eiler",
             "email": "alexander.eiler@ebc.uu.se"
-        }
+        },
         "researcher_1": {
             "name": "Sari Peura",
             "email": "sari.peura@ebc.uu.se"
@@ -23,7 +23,7 @@ template = u"""{
         "researcher_2": {
             "name": "Lucas Sinclair",
             "email": "lucas.sinclair@ebc.uu.se"
-        },
+        }
     },
 
     "uppmax_id":    "b2014083",
@@ -51,7 +51,7 @@ template = u"""{
             "sense":   "5' to 3'",
             "forward": {"name": "341F", "sequence": "NNNNCCTACGGGNGGCWGCAG"},
             "reverse": {"name": "805R", "sequence": "GACTACHVGGGTATCTAATCC"}
-    }
+    },
 
     "library_strategy":     "AMPLICON",
     "library_source":       "METAGENOMIC",
@@ -71,7 +71,7 @@ template = u"""{
     "bioproject":   "PRJNAXXXXXX",
     "biosample":    "SAMNXXXXXXXX",
 
-    "dna_after_purification": [%(dna)s, "ng/µl"],
+    "dna_after_purification": [%(dna)s, "ng/µl"]
 }"""
 
 ###############################################################################
@@ -114,4 +114,3 @@ for i, row in df.iterrows():
     text = template % data
     path = "/home/lucass/repos/illumitag/json/presamples/run010/run010-sample%03d.json" % int(data['sample_num'])
     with codecs.open(path, 'w', encoding='utf-8') as handle: handle.write(text)
-    break
