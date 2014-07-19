@@ -1,8 +1,9 @@
 #!/usr/bin/env python2
+# -*- coding: utf-8 -*-
 
 """
-A script to convert some tsv files
-to our json files.
+A script to convert some TSV files
+to our JSON files.
 """
 
 # Modules #
@@ -55,8 +56,29 @@ template = """{
 
 ###############################################################################
 # Load data #
-df = pandas.io.parsers.read_csv('new_data.tsv', sep='\t', index_col=0, encoding='utf-8', dtype=str)
+df = pandas.io.parsers.read_csv('new_data.tsv', sep='\t', encoding='windows-1252', dtype=str)
+
+# Correspondence #
+corr = {'Added vol':            'lorem',
+        'Barcode no.':          'lorem',
+        'Extraction sample ID': 'lorem',
+        'Group':                'lorem',
+        'Project':              'lorem',
+        'Serial no.':           'lorem',
+        'concentration after AMPure (ng DNA/\xb5l)': 'lorem',
+        'i5':                   'lorem',
+        'i5 (Fwd.)':             'lorem',
+        'i7':                   'lorem',
+        'i7 (Rev.)':            'lorem',
+        'total (in 35 µl)':     'lorem',
+        'µl for 25 ng':         'lorem'}
 
 # Iterate #
-for row in df:
-    print row
+for sample_num, row in df.iterrows():
+    data = dict((corr[i], row[i]) for i in row.index)
+    data['i5'] = data['i5'][1:]
+    data['i7'] = data['i7'][1:]
+    text = template % data
+    path = "/home/lucass/repos/illumitag/json/presamples/run10/run10-sample%03d.json" % sample_num
+    with open(path, 'w') as handle: handle.write(text)
+    break
