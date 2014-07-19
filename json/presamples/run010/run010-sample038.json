@@ -1,0 +1,63 @@
+{
+    "contacts": {
+        "pi": {
+            "name": "Alexander Eiler",
+            "email": "alexander.eiler@ebc.uu.se"
+        },
+        "researcher_1": {
+            "name": "Sari Peura",
+            "email": "sari.peura@ebc.uu.se"
+        },
+        "researcher_2": {
+            "name": "Lucas Sinclair",
+            "email": "lucas.sinclair@ebc.uu.se"
+        }
+    },
+
+    "uppmax_id":    "b2014083",
+    "run_num":       10,
+    "run_id":        "140610_M00629_0001_000000000-A8H0L",
+    "sample_num":    38,
+    "sample_id":     "Sample_AE_POOL1_2014_2",
+    "forward_reads": "AE_POOL1_2014_2_CTAGTACG-TAGATCGC_L001_R1_001.fastq.gz",
+    "reverse_reads": "AE_POOL1_2014_2_CTAGTACG-TAGATCGC_L001_R2_001.fastq.gz",
+
+    "project":       "ice",
+    "project_name":  "ice",
+    "sample":        "bt5am",
+    "sample_name":   "bt5am",
+    "group":         "ice-bt",
+
+    "forward_mid":   "TAGATCGC",
+    "forward_num":   501,
+    "reverse_mid":   "CTAGTACG",
+    "reverse_num":   702,
+    "barcode_num":   2,
+
+    "primers": {
+            "name":    "General bacteria primers",
+            "sense":   "5' to 3'",
+            "forward": {"name": "341F", "sequence": "NNNNCCTACGGGNGGCWGCAG"},
+            "reverse": {"name": "805R", "sequence": "GACTACHVGGGTATCTAATCC"}
+    },
+
+    "library_strategy":     "AMPLICON",
+    "library_source":       "METAGENOMIC",
+    "library_selection":    "PCR",
+    "library_layout":       "Paired-end",
+    "platform":             "ILLUMINA",
+    "instrument_model":     "Illumina MiSeq",
+    "forward_read_length":  300,
+    "reverse_read_length":  300,
+
+    "date":         "0000-00-00",
+    "latitude":     ["XX°XX'XX''", "N"],
+    "longitude":    ["XX°XX'XX''", "E"],
+    "location":     "Country: XXX lake",
+    "organism":     "aquatic metagenome",
+
+    "bioproject":   "PRJNAXXXXXX",
+    "biosample":    "SAMNXXXXXXXX",
+
+    "dna_after_purification": [11.21, "ng/µl"]
+}
