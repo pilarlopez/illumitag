@@ -31,18 +31,18 @@ template = """{
     "run_id":        "140610_M00629_0001_000000000-A8H0L",
     "sample_num":    {sample_num},
     "sample_id":     {sample_id},
-    "forward_reads": {fwd_filename},
-    "reverse_reads": {rev_filename},
+    "forward_reads": "{fwd_filename}",
+    "reverse_reads": "{rev_filename}",
 
-    "project":       {project},
-    "project_name":  {project_name},
-    "sample":        {sample},
-    "sample_name":   {sample_name},
-    "group":         {group},
+    "project":       "{project}",
+    "project_name":  "{project_name}",
+    "sample":        "{sample}",
+    "sample_name":   "{sample_name}",
+    "group":         "{group}",
 
-    "forward_mid":   {forward_mid},
+    "forward_mid":   "{forward_mid}",
     "forward_num":   {forward_num},
-    "reverse_mid":   {reverse_mid},
+    "reverse_mid":   "{reverse_mid}",
     "reverse_num":   {reverse_num},
     "barcode_num":   {barcode_num},
 
@@ -52,6 +52,26 @@ template = """{
             "forward": {"name": "341F", "sequence": "NNNNCCTACGGGNGGCWGCAG"},
             "reverse": {"name": "805R", "sequence": "GACTACHVGGGTATCTAATCC"}
     }
+
+    "library_strategy":     "AMPLICON",
+    "library_source":       "METAGENOMIC",
+    "library_selection":    "PCR",
+    "library_layout":       "Paired-end",
+    "platform":             "ILLUMINA",
+    "instrument_model":     "Illumina MiSeq",
+    "forward_read_length":  300,
+    "reverse_read_length":  300,
+
+    "date":         "0000-00-00",
+    "latitude":     ["XX°XX'XX''", "N"],
+    "longitude":    ["XX°XX'XX''", "E"],
+    "location":     "Country: XXX lake",
+    "organism":     "aquatic metagenome",
+
+    "bioproject":   "PRJNAXXXXXX",
+    "biosample":    "SAMNXXXXXXXX",
+
+    "dna_after_purification": [{dna}, "ng/µl"],
 }"""
 
 ###############################################################################
@@ -59,26 +79,34 @@ template = """{
 df = pandas.io.parsers.read_csv('new_data.tsv', sep='\t', encoding='windows-1252', dtype=str)
 
 # Correspondence #
-corr = {'Added vol':            'lorem',
-        'Barcode no.':          'lorem',
-        'Extraction sample ID': 'lorem',
-        'Group':                'lorem',
-        'Project':              'lorem',
-        'Serial no.':           'lorem',
-        'concentration after AMPure (ng DNA/\xb5l)': 'lorem',
-        'i5':                   'lorem',
-        'i5 (Fwd.)':             'lorem',
-        'i7':                   'lorem',
-        'i7 (Rev.)':            'lorem',
-        'total (in 35 µl)':     'lorem',
-        'µl for 25 ng':         'lorem'}
+corr = {
+    u'Barcode no.':          'barcode_num',
+    u'Extraction sample ID': 'sample',
+    u'Group':                'group',
+    u'Project':              'project',
+    u'Serial no.':           'sample_num',
+    u'concentration after AMPure (ng DNA/\xb5l)': 'dna',
+    u'i5':                   'forward_num',
+    u'i5 (Fwd.)':            'forward_mid',
+    u'i7':                   'reverse_num',
+    u'i7 (Rev.)':            'reverse_mid',
+    }
 
 # Iterate #
-for sample_num, row in df.iterrows():
-    data = dict((corr[i], row[i]) for i in row.index)
-    data['i5'] = data['i5'][1:]
-    data['i7'] = data['i7'][1:]
+for i, row in df.iterrows():
+    # Transform #
+    data = dict((corr[i], row[i]) for i in row.index if i in corr)
+    data['reverse_mid'] = [{'A':'T','C':'G','G':'C','T':'A'}[B] for B in data['reverse_mid']][::-1]
+    data['forward_num']  = data['forward_num'][1:]
+    data['reverse_num']  = data['reverse_num'][1:]
+    data['project_name'] = data['project']
+    data['sample_name']  = data['sample']
+    filename = "AE_POOL1_2014_%s_%s-%s_L001_R{}_001.fastq.gz" % (data['barcode_num'], data['reverse_mid'], data['forward_mid'])
+    data['fwd_filename'] = filename.format("1")
+    data['rev_filename'] = filename.format("2")
+    data['sample_id']    = "Sample_AE_POOL1_2014_%s" % data['barcode_num']
+    # Write #
     text = template % data
-    path = "/home/lucass/repos/illumitag/json/presamples/run10/run10-sample%03d.json" % sample_num
+    path = "/home/lucass/repos/illumitag/json/presamples/run010/run10-sample%03d.json" % data['sample_num']
     with open(path, 'w') as handle: handle.write(text)
     break
