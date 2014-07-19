@@ -18,6 +18,12 @@
     "sample_name":   "454 sequencing of the soda lakes code US16",
     "group":         "pyro",
 
+    "bioproject":   "PRJNA255501",
+    "biosample":    "SAMN02924498",
+    "real_name":   ["Unterer Stinker (US)", "de"],
+
+    "design_description": "Water was sampled and cells were captured on 0.2 µm filters. Samples were kept frozen under -80°C. Nucleic acids were extracted using a power soil DNA isolation Kit (MO BIO Laboratories Inc, CA, USA). Primers targeting the V3 and V4 regions of the ribosomal RNA gene designed for pyrosequencing (Herlemann et al. 2011.) were used.",
+
     "files": [
         {"path": "/proj/b2011032/INBOX/D_2012_10_24_23_40_42_tank_signalProcessingAmplicons/sff/HWSCU2302.sff",
             "mid": "ACTCTGA", "midnum": 116}

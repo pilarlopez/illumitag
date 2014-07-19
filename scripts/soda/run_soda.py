@@ -26,12 +26,25 @@ pool.create_raw_samples()
 for s in samples: s.sra.upload_to_sra()
 for s in samples_pyro: s.sra.upload_to_sra()
 
-# Submit to SRA #
+# Create BioSamples #
 from illumitag.helper.sra import MakeSpreadsheet
 make_tsv = MakeSpreadsheet(cluster)
 make_tsv.write_bio_tsv()
-make_tsv.bioproject_accession = "PRJNA255371"
+
+# Submit to SRA #
 make_tsv.write_sra_tsv()
 
+# The pyro samples #
+cluster_pyro = illumitag.clustering.Cluster(samples_pyro, 'soda_model_lakes_pyro')
+make_tsv_pyro = MakeSpreadsheet(cluster_pyro)
+make_tsv_pyro.platform                = "LS454"
+make_tsv_pyro.instrument_model        = "454 GS FLX Titanium"
+make_tsv_pyro.forward_read_length     = "500"
+make_tsv_pyro.reverse_read_length     = "500"
+make_tsv_pyro.forward_filetype        = "sff"
+make_tsv_pyro.reverse_filetype        = "sff"
+make_tsv_pyro.write_sra_tsv()
 
-cluster = illumitag.clustering.favorites.soda; from illumitag.helper.sra import MakeSpreadsheet; make_tsv = MakeSpreadsheet(cluster); make_tsv.write_bio_tsv()
+# Copy files
+#cp /My\ Folders/PHD/Server/Uppmax_home/ILLUMITAG/views/clusters/soda_model_lakes_pyro/sra/sra_submission.tsv /My\ Folders/PHD/-ILLUMITAQ-/Other/SRA\ spreadsheet/soda/2.tsv
+#cp /My\ Folders/PHD/Server/Uppmax_home/ILLUMITAG/views/clusters/soda_model_lakes/sra/sra_submission.tsv /My\ Folders/PHD/-ILLUMITAQ-/Other/SRA\ spreadsheet/soda/1.tsv

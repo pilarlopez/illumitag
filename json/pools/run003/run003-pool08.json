@@ -27,6 +27,8 @@
     "pool":          "model_lakes",
     "pool_name":     "All samples from the three model lakes",
 
+    "design_description": "Water was sampled and cells were captured on 0.2 µm filters. Samples were kept frozen under -80°C. Nucleic acids were extracted using a power soil DNA isolation Kit (MO BIO Laboratories Inc, CA, USA). Primers targeting the V3 and V4 regions of the ribosomal RNA gene originally designed for pyrosequencing (Herlemann et al. 2011.) were adapted to Illumina sequencing. The DNA material was amplified for 25 cycles directly with the barcoded primers. All PCRs were conducted in 20 µl volume using 1.0 U Phusion high fidelity DNA polymerase (NEB, UK), 0.25 µM primers, 200 µM dNTP mix, and 0.4 µg bovine serum albumin. Following this, the solution was purified by Qiagen gel purification kit (Qiagen, Germany) and quantified using a fluorescent stain-based kit (PicoGreen, Invitrogen).",
+
     "samples": [
         {"name": "US01", "used": 1, "group": "US", "num": 1, "fwd": "TATCACG", "rev": "ACTGAGA",
             "date":        "2012-04-02",
@@ -291,7 +293,9 @@
             "microbes":    null,
             "real_name":  ["Unterer Stinker (US)", "de"],
             "GPS N":      ["47°48'06''", "N"],
-            "GPS E":      ["16°47'02''", "E"]
+            "GPS E":      ["16°47'02''", "E"],
+            "bioproject":  "PRJNA255501",
+            "biosample":   "SAMN02924497"
         },
 
         {"name": "US16", "used": 1, "group": "US", "num": 15, "fwd": "AGTGAGT", "rev": "ATGCACT",
@@ -310,7 +314,9 @@
             "microbes":    null,
             "real_name":  ["Unterer Stinker (US)", "de"],
             "GPS N":      ["47°48'06''", "N"],
-            "GPS E":      ["16°47'02''", "E"]
+            "GPS E":      ["16°47'02''", "E"],
+            "bioproject":  "PRJNA255501",
+            "biosample":   "SAMN02924498"
         },
 
         {"name": "US17", "used": 1, "group": "US", "num": 16, "fwd": "AGATGCT", "rev": "ATGCTGT",
@@ -329,7 +335,9 @@
             "microbes":    null,
             "real_name":  ["Unterer Stinker (US)", "de"],
             "GPS N":      ["47°48'06''", "N"],
-            "GPS E":      ["16°47'02''", "E"]
+            "GPS E":      ["16°47'02''", "E"],
+            "bioproject":  "PRJNA255501",
+            "biosample":   "SAMN02924499"
         },
 
         {"name": "SS01", "used": 1, "group": "SS", "num": 17, "fwd": "TACGCTA", "rev": "ATGAGCA",
@@ -614,7 +622,9 @@
             "microbes":    null,
             "real_name":  ["Silber Lacke (SS)", "de"],
             "GPS N":      ["47°47'29''", "N"],
-            "GPS E":      ["16°46'50''", "E"]
+            "GPS E":      ["16°46'50''", "E"],
+            "bioproject":  "PRJNA255501",
+            "biosample":   "SAMN02924494"
         },
 
         {"name": "SS16", "used": 1, "group": "SS", "num": 32, "fwd": "GTCATAG", "rev": "ATACTGC",
@@ -633,7 +643,9 @@
             "microbes":    null,
             "real_name":  ["Silber Lacke (SS)", "de"],
             "GPS N":      ["47°47'29''", "N"],
-            "GPS E":      ["16°46'50''", "E"]
+            "GPS E":      ["16°46'50''", "E"],
+            "bioproject":  "PRJNA255501",
+            "biosample":   "SAMN02924495"
         },
 
         {"name": "SS17", "used": 1, "group": "SS", "num": 33, "fwd": "GTCATCT", "rev": "TGCGATA",
@@ -652,7 +664,9 @@
             "microbes":    null,
             "real_name":  ["Silber Lacke (SS)", "de"],
             "GPS N":      ["47°47'29''", "N"],
-            "GPS E":      ["16°46'50''", "E"]
+            "GPS E":      ["16°46'50''", "E"],
+            "bioproject":  "PRJNA255501",
+            "biosample":   "SAMN02924496"
         },
 
         {"name": "ZL01", "used": 1, "group": "ZL", "num": 34, "fwd": "GTCACTA", "rev": "TGCTGTA",
@@ -861,7 +875,9 @@
             "microbes":    [1.88E+08, "cells/ml"],
             "real_name":   ["Zicklacke (ZL)", "de"],
             "GPS N":       ["47°46'05''", "N"],
-            "GPS E":       ["16°46'51''", "E"]
+            "GPS E":       ["16°46'51''", "E"],
+            "bioproject":   "PRJNA255501",
+            "biosample":    "SAMN02924500"
         },
 
         {"name": "ZL16", "used": 1, "group": "ZL", "num": 45, "fwd": "GCTATCA", "rev": "TGTCACA",
@@ -880,7 +896,9 @@
             "microbes":    null,
             "real_name":   ["Zicklacke (ZL)", "de"],
             "GPS N":       ["47°46'05''", "N"],
-            "GPS E":       ["16°46'51''", "E"]
+            "GPS E":       ["16°46'51''", "E"],
+            "bioproject":   "PRJNA255501",
+            "biosample":    "SAMN02924501"
         },
 
         {"name": "ZL17", "used": 1, "group": "ZL", "num": 46, "fwd": "GCTACTA", "rev": "TACTAGC",
@@ -899,7 +917,9 @@
             "microbes":    [1.46E+08, "cells/ml"],
             "real_name":   ["Zicklacke (ZL)", "de"],
             "GPS N":       ["47°46'05''", "N"],
-            "GPS E":       ["16°46'51''", "E"]
+            "GPS E":       ["16°46'51''", "E"],
+            "bioproject":   "PRJNA255501",
+            "biosample":    "SAMN02924502"
         },
 
         {"name": "empty", "used": 0, "group": "empty", "num": 47, "fwd": "GCTCATA", "rev": "TCGCATA"},

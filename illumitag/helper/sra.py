@@ -77,12 +77,18 @@ class SampleSRA(object):
         # Return #
         return line
 
+    @property
+    def fwd_md5(self): return md5sum(self.s.p.raw_forward_gz)
+    @property
+    def rev_md5(self): return md5sum(self.s.p.raw_reverse_gz)
+
 ###############################################################################
 class PyroSampleSRA(object):
 
     def __init__(self, sample):
         self.s = sample
         self.directory = '/ILLUMITAG/pyrosamples/'
+        self.name = self.s.short_name + '.sff'
 
     def upload_to_sra(self):
         # Print #
@@ -94,20 +100,33 @@ class PyroSampleSRA(object):
         print "Making directories..."
         ftp.makedirs(self.directory)
         # Upload #
-        print "Uploading..."
-        base_path = self.directory + self.s.short_name + '.sff'
-        ftp.upload(self.s.p.raw_sff, base_path)
+        dest_path = self.directory + self.name
+        print "Uploading to '%s' (%s)..." % (dest_path, self.s.p.raw_sff.size)
+        ftp.upload(self.s.p.raw_sff, dest_path)
         # Return #
         ftp.close()
+
+    @property
+    def base_name(self):
+        class NoFormat(object):
+            @classmethod
+            def format(cls, _):
+                return self.name
+        return NoFormat()
+
+    @property
+    def fwd_md5(self): return md5sum(self.s.p.raw_sff)
+    @property
+    def rev_md5(self): return md5sum(self.s.p.raw_sff)
 
 ###############################################################################
 class MakeSpreadsheet(object):
     """A class to generate the spreadsheets required by the NCBI/SRA
     raw data submission"""
 
-    bioproject_accession    = "PRJNA255371"
-    biosample_accession     = "SAMN02918191"
-    sample_name             = u"vallentunasjön_sediment"
+    bioproject_accession    = None
+    biosample_accession     = None
+    sample_name             = None
     library_strategy        = "AMPLICON"
     library_source          = "METAGENOMIC"
     library_selection       = "PCR"
@@ -120,15 +139,15 @@ class MakeSpreadsheet(object):
     reverse_filetype        = "fastq"
 
     all_paths = """
-    /result.tsv
+    /biosample_creation.tsv
+    /sra_submission.tsv
     """
 
-    headers_sra = ['bioproject_accession',
+    header_sra =  ['bioproject_accession',
                    'biosample_accession',
                    'sample_name',
                    'library_ID',
-                   'title/short',
-                   'description',
+                   'title/short description',
                    'library_strategy',
                    'library_source',
                    'library_selection',
@@ -173,12 +192,17 @@ class MakeSpreadsheet(object):
     def lines(self):
         for s in self.samples:
             # accession
-            line = [self.bioproject_accession, self.biosample_accession, self.sample_name]
+            line =  [s.info['bioproject']]
+            line += [s.info['biosample']]
+            # name
+            line += [s.short_name]
             line += [s.short_name]
             # description
-            desc = "Test sediment sample: run number %i, pool number %i (%s), barcode number %i."
-            desc = desc % (s.pool.run_num, s.pool.num, s.pool.long_name, s.num)
-            line += [desc]
+            machine = 'Illumina MiSeq' if 'machine' not in s.__dict__ else s.machine
+            desc = "Soda lake '%s' (code %s) sampled on %s and run on a %s"
+            desc += " -- run number %i, pool number %i, barcode number %i."
+            line += [desc % (s.info['real_name'][0], s.short_name, s.info['date'],
+                             machine, s.pool.run_num, s.pool.num, s.num)]
             # library_strategy
             line += [self.library_strategy, self.library_source, self.library_selection]
             line += [self.library_layout, self.platform, self.instrument_model]
@@ -189,21 +213,22 @@ class MakeSpreadsheet(object):
             # forward_read_length
             line += [self.forward_read_length, self.reverse_read_length]
             # forward
-            line += [self.forward_filetype, s.ena.base_name.format("forward")]
-            line += [md5sum(s.p.raw_forward_gz)]
+            line += [self.forward_filetype, s.sra.base_name.format("forward")]
+            line += [s.sra.fwd_md5]
             # reverse
-            line += [self.reverse_filetype, s.ena.base_name.format("reverse")]
-            line += [md5sum(s.p.raw_reverse_gz)]
+            line += [self.reverse_filetype, s.sra.base_name.format("reverse")]
+            line += [s.sra.rev_md5]
             # write
             yield line
 
     def write_sra_tsv(self):
-        """Will write the appropriate TSV in the cluster directory"""
-        self.p.result.write('\n'.join('\t'.join(l) for l in self.lines), 'windows-1252')
+        """Will write the appropriate TSV for the SRA submission in the cluster directory"""
+        header = '\t'.join(self.header_sra) + '\n'
+        content = '\n'.join('\t'.join(l) for l in self.lines)
+        self.p.submission.write(header+content, 'windows-1252')
 
     def write_bio_tsv(self):
-        """A class to generate the TSV required by the NCBI
-        for creation of 'BioSample' objects"""
+        """Will write the TSV required by the NCBI for the creation of 'BioSample' objects"""
         header = '\t'.join(self.header_bio) + '\n'
         content = '\n'.join('\t'.join(s.sra.biosample_line) for s in self.samples)
-        self.p.result.write(header+content, 'utf-8')
+        self.p.biosample.write(header+content, 'utf-8')

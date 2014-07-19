@@ -55,6 +55,8 @@ class Pyrosample(object):
         self.name = 'run%i_sample%i' % (self.run_num, self.num)
         self.group = self.info['group']
         self.id_name = "run%03d-sample%02d" % (self.run_num, self.num)
+        # Hard coded attributes #
+        self.machine = "454 GS FLX Titanium"
         # SFF files #
         self.sff_files_info = self.info['files']
         for f in self.sff_files_info:
@@ -150,9 +152,6 @@ class Pyrosample(object):
         self.fastq.write(self.clean_iterator(self.raw_fastq, **kwargs))
         self.fastq.rename_with_num(self.name + '_read')
         print "make_fastq for sample %s completed" % self.id_name
-
-
-
 
 ###############################################################################
 class Demultiplexer454(object):
