@@ -17,7 +17,7 @@ from illumitag.groups.aggregate import Aggregate
 from illumitag.groups.projects import Projects, Project
 from illumitag.groups.presamples import Presample
 from illumitag.groups.pyrosample import Pyrosample, Demultiplexer454
-from illumitag.common import dependencies
+from illumitag.common import dependencies, get_git_tag
 
 # Constants #
 home = os.environ['HOME'] + '/'
@@ -30,10 +30,11 @@ dependencies.check_executables()
 # Output directory #
 view_dir = out_dir = home + 'ILLUMITAG/views/'
 
-# Get pool files #
+# Get the location #
 self = sys.modules[__name__]
-module_dir = os.path.dirname(self.__file__)
+module_dir = os.path.dirname(self.__file__) + '/'
 repos_dir = os.path.abspath(module_dir + '/../') + '/'
+git_tag = get_git_tag(repos_dir)
 
 # Load all standard pools #
 pools_dir = repos_dir + 'json/pools/*/'
@@ -64,7 +65,7 @@ for p in pools: p.run = runs[p.run_num]
 proj_names = sorted(list(set([p.project_short_name for p in pools+presamples])))
 projects = [Project(name, [p for p in pools+presamples if p.project_short_name==name], view_dir + 'projects/') for name in proj_names]
 projects = Projects(projects)
-for p in pools: p.project = projects[p.project_short_name]
+for p in pools+presamples: p.project = projects[p.project_short_name]
 
 # Make an aggregate with all pools #
 aggregate = Aggregate('all', pools, view_dir + 'aggregates/')

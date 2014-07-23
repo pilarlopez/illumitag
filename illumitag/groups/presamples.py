@@ -11,9 +11,9 @@ from illumitag.common.autopaths import AutoPaths, FilePath
 from illumitag.helper.primers import TwoPrimers
 from illumitag.graphs import outcome_plots
 from illumitag.running.presample_runner import PresampleRunner
+from illumitag.reporting.samples import SampleReport
 
 # Third party modules #
-from shell_command import shell_output
 
 # Constants #
 home = os.environ['HOME'] + '/'
@@ -25,20 +25,23 @@ class Presample(BarcodeGroup):
     our traditional 50 barcodes anymore, but with Illumina specific MIDs.
     The demultiplexing thus happens in their pipeline and we are left with one
     sample per file.
-    This object is a bit like a *Pool*, a *BarcodeGroup* and a *Sample*."""
+    This object is a bit like a *Pool*, a *BarcodeGroup* and a *Sample*
+    all at the same time. In the end it inherits from BarcodeGroup and
+    just emulates the behavior of the other objects."""
 
     all_paths = """
-    /logs/
-    /graphs/
     /info.json
     /fwd.fastq
     /rev.fastq
-    /quality/trimmed.fastq
-    /quality/renamed.fastq
-    /quality/reads.fasta
+    /logs/
     /assembled/
     /unassembled/
     /fastqc/
+    /graphs/
+    /report/
+    /quality/trimmed.fastq
+    /quality/renamed.fastq
+    /quality/reads.fasta
     """
 
     def __repr__(self): return '<%s object "%s">' % (self.__class__.__name__, self.id_name)
@@ -55,7 +58,7 @@ class Presample(BarcodeGroup):
         self.out_dir = out_dir
         self.json_path = FilePath(json_path)
         # Parse #
-        with open(json_path) as handle: self.info = json.load(handle)
+        with open(self.json_path) as handle: self.info = json.load(handle)
         # Basic #
         self.account = self.info['uppmax_id']
         self.run_num = self.info['run_num']
@@ -87,11 +90,12 @@ class Presample(BarcodeGroup):
         # Pool dummy #
         self.pool, self.parent = self, self
         # Files #
-        self.fwd_path = home + "ILLUMITAG/INBOX/%s/%s/%s" % (self.run_label, self.label, self.fwd_name)
-        self.rev_path = home + "ILLUMITAG/INBOX/%s/%s/%s" % (self.run_label, self.label, self.rev_name)
+        if not os.access('/proj/%s' % self.account, os.R_OK): return
+        self.fwd_path = home + "/proj/%s/INBOX/%s/%s/%s" % (self.account, self.run_label, self.label, self.fwd_name)
+        self.rev_path = home + "/proj/%s/INBOX/%s/%s/%s" % (self.account, self.run_label, self.label, self.rev_name)
         self.gziped = True if self.fwd_path.endswith('gz') else False
-        self.fwd = FASTQ(self.p.fwd)
-        self.rev = FASTQ(self.p.rev)
+        self.fwd = FASTQ(self.fwd_path)
+        self.rev = FASTQ(self.rev_path)
         self.fastq = PairedFASTQ(self.fwd.path, self.rev.path, self)
         # Barcode length #
         self.bar_len = 0
@@ -110,13 +114,21 @@ class Presample(BarcodeGroup):
         self.trimmed = FASTQ(self.p.trimmed)
         self.renamed = FASTQ(self.p.renamed)
         self.fasta = FASTA(self.p.reads_fasta)
+        # Report #
+        self.report = SampleReport(self)
 
     def load(self):
         pass
 
-    def uncompress(self):
-        shell_output('gunzip -c %s > %s' % (self.fwd_path, self.fwd))
-        shell_output('gunzip -c %s > %s' % (self.rev_path, self.rev))
+    #def uncompress(self):
+        #shell_output('gunzip -c %s > %s' % (self.fwd_path, self.fwd))
+        #shell_output('gunzip -c %s > %s' % (self.rev_path, self.rev))
+
+    def join(self):
+        """Uses pandaseq 2.7"""
+        command = 'pandaseq27 -f %s -r %s -u %s -F 1> %s 2> %s'
+        command = command % (self.p.fwd_fastq, self.p.rev_fastq, self.unassembled.path, self.assembled.path, self.assembled.p.out)
+        print command
 
     def presample_fastqc(self):
         self.fastq.fastqc(self.p.fastqc_dir)

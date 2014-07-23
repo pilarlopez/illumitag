@@ -1,0 +1,56 @@
+% ##################### PACKAGES  ##################### %
+% Standard
+\documentclass[a4paper]{article}
+\usepackage[english]{babel}
+% For accented characters
+\usepackage{fontspec}
+\setmonofont[Scale=0.7]{Menlo}
+% For better lists
+\usepackage{enumerate}
+% For figures and geometry
+\usepackage{graphicx}
+\setkeys{Gin}{width=1.0\textwidth}
+% For better urls
+\usepackage{url}
+% For the fancy header
+\usepackage{fancyhdr}
+\usepackage{lipsum}
+\usepackage{lastpage}
+% For source code inclusion
+\usepackage{listings}
+\usepackage{verbatim}
+% For special margins
+\usepackage[hmargin=3cm,vmargin=4cm]{geometry}
+
+% Remove section numbers %
+\makeatletter
+\renewcommand\@seccntformat[1]{}
+\makeatother
+
+% ##################### FANCY HEADER ##################### %
+\pagestyle{fancy}
+\setlength\headheight{4\baselineskip}
+\fancyheadoffset{0cm}
+% Removes the footer page numbering
+\fancyfoot[C]{}
+\let\headrule\relax
+% Body of the header
+\chead{
+  \begin{tabular}{|p{6.5cm}|p{4cm}@{}p{3.5cm}|}
+    \hline \small
+    \textbf{@@[name]@@}, @@[status]@@\newline
+    @@[company]@@\newline
+    @@[subcompany]@@ &
+    \small \textbf{@@[title]@@} \newline
+    \today \newline
+    Page \thepage\ of \pageref{LastPage} &
+    \raisebox{-8.5mm}{\hspace{14mm}
+    \includegraphics[width=8.15mm, height=11mm]{@@[image_left]@@}
+    \includegraphics[width=11mm, height=11mm]{@@[image_right]@@}} \\
+    \hline
+  \end{tabular}
+\\[0.3cm]
+}
+
+% ##################### DOCUMENT ##################### %
+\begin{document}

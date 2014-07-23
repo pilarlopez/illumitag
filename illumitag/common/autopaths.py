@@ -1,6 +1,9 @@
 # Built-in modules #
 import os, stat, tempfile, re, subprocess, shutil, gzip, codecs
 
+# Internal modules #
+from illumitag.common import append_to_file, prepend_to_file
+
 ################################################################################
 class AutoPaths(object):
     """
@@ -265,6 +268,10 @@ class FilePath(str):
         os.remove(self.path)
         return True
 
+    def read(self, encoding=None):
+        with codecs.open(self.path, 'r', encoding) as handle: content = handle.read()
+        return content
+
     def create(self):
         with open(self.path, 'w'): pass
 
@@ -310,6 +317,16 @@ class FilePath(str):
             with gzip.open(path, 'wb') as new_file:
                 new_file.writelines(orig_file)
         return FilePath(path)
+
+    def append(self, what):
+        """Append some text or an other file to the current file"""
+        if isinstance(what, FilePath): what = what.contents
+        append_to_file(self.path, what)
+
+    def prepend(self, what):
+        """Append some text or an other file to the current file"""
+        if isinstance(what, FilePath): what = what.contents
+        prepend_to_file(self.path, what)
 
 ################################################################################
 class Filesize(object):

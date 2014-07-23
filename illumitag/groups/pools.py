@@ -60,6 +60,8 @@ class Pool(object):
         self.run_label = self.info['run_id']
         self.project_short_name = self.info['project']
         self.project_long_name = self.info['project_name']
+        self.fwd_name = self.info['forward_reads']
+        self.rev_name = self.info['reverse_reads']
         # Own attributes #
         self.num = self.info['pool_num']
         self.label = self.info['pool_id']
@@ -82,8 +84,9 @@ class Pool(object):
         # Children #
         self.samples.load()
         # Raw file pairs #
-        self.fwd_path = home + "ILLUMITAG/INBOX/%s/%s/%s" % (self.run.label, self.label, self.info['forward_reads'])
-        self.rev_path = home + "ILLUMITAG/INBOX/%s/%s/%s" % (self.run.label, self.label, self.info['reverse_reads'])
+        if not os.access('/proj/%s' % self.account, os.R_OK): return
+        self.fwd_path = home + "/proj/%s/INBOX/%s/%s/%s" % (self.account, self.run_label, self.label, self.fwd_name)
+        self.rev_path = home + "/proj/%s/INBOX/%s/%s/%s" % (self.account, self.run_label, self.label, self.rev_name)
         self.fwd = FASTQ(self.fwd_path)
         self.rev = FASTQ(self.rev_path)
         self.fastq = PairedFASTQ(self.fwd.path, self.rev.path, self)
