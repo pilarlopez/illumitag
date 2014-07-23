@@ -5,7 +5,7 @@ from collections import OrderedDict
 
 # Internal modules #
 import illumitag
-from illumitag.common import get_git_tag, tail, is_integer, flatten
+from illumitag.common import tail, is_integer, flatten
 from illumitag.common.color import Color
 from illumitag.common.tmpstuff import TmpFile, new_temp_path
 from illumitag.common.cache import expiry_every
@@ -270,7 +270,7 @@ class SLURMJob(object):
         shutil.copytree(repos_dir, self.log_dir + project_name)
         static_module_dir = self.log_dir + project_name + '/'
         # Archive version #
-        self.module_version = module.__version__ + ' ' + get_git_tag(repos_dir)
+        self.module_version = module.__version__ + ' ' + illumitag.git_repo.tag
         # Make script #
         script =  ["import os, sys"]
         script += ["sys.path.insert(0, '%s')" % static_module_dir]

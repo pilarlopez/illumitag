@@ -17,7 +17,7 @@ from illumitag.groups.aggregate import Aggregate
 from illumitag.groups.projects import Projects, Project
 from illumitag.groups.presamples import Presample
 from illumitag.groups.pyrosample import Pyrosample, Demultiplexer454
-from illumitag.common import dependencies, get_git_tag
+from illumitag.common import dependencies, GitReop
 
 # Constants #
 home = os.environ['HOME'] + '/'
@@ -34,7 +34,7 @@ view_dir = out_dir = home + 'ILLUMITAG/views/'
 self = sys.modules[__name__]
 module_dir = os.path.dirname(self.__file__) + '/'
 repos_dir = os.path.abspath(module_dir + '/../') + '/'
-git_tag = get_git_tag(repos_dir)
+git_repo = GitReop(repos_dir)
 
 # Load all standard pools #
 pools_dir = repos_dir + 'json/pools/*/'
@@ -59,7 +59,7 @@ demultiplexer = Demultiplexer454(pyrosamples)
 run_nums = sorted(list(set([p.run_num for p in pools+presamples]))) # [1,2,3,4,5]
 runs = [Run(num, [p for p in pools+presamples if p.run_num==num], view_dir + 'runs/') for num in run_nums]
 runs = Runs(runs)
-for p in pools: p.run = runs[p.run_num]
+for p in pools+presamples: p.run = runs[p.run_num]
 
 # Compose into projects #
 proj_names = sorted(list(set([p.project_short_name for p in pools+presamples])))

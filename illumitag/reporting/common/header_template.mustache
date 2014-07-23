@@ -2,23 +2,31 @@
 % Standard
 \documentclass[a4paper]{article}
 \usepackage[english]{babel}
-% For accented characters
+
+% For native UTF-8 characters in XeTeX
 \usepackage{fontspec}
 \setmonofont[Scale=0.7]{Menlo}
+
 % For better lists
 \usepackage{enumerate}
+
 % For figures and geometry
 \usepackage{graphicx}
-\setkeys{Gin}{width=1.0\textwidth}
-% For better urls
-\usepackage{url}
+\usepackage{float}
+
+% Bold the 'Figure #' in the caption and separate it with a period %
+\usepackage[labelfont=bf,labelsep=period,justification=raggedright]{caption}
+\usepackage{subcaption}
+
 % For the fancy header
 \usepackage{fancyhdr}
 \usepackage{lipsum}
 \usepackage{lastpage}
+
 % For source code inclusion
 \usepackage{listings}
 \usepackage{verbatim}
+
 % For special margins
 \usepackage[hmargin=3cm,vmargin=4cm]{geometry}
 
@@ -26,6 +34,39 @@
 \makeatletter
 \renewcommand\@seccntformat[1]{}
 \makeatother
+
+% Get URLs in blue and underlined %
+\usepackage{color}
+\usepackage[normalem]{ulem}
+\usepackage{url}
+\DeclareUrlCommand\url{%
+  \renewcommand\UrlFont{\ttfamily\color{blue}}%
+  \renewcommand\UrlLeft{\uline\bgroup}%
+  \renewcommand\UrlRight{\egroup}}
+
+% So that figures don't overflow the page %
+% Redefine \includegraphics so that, unless explicit options are
+% given, the image width will not exceed the width or the height of the page.
+% Images get their normal width if they fit onto the page, but
+% are scaled down if they would overflow the margins.
+\makeatletter
+\def\ScaleWidthIfNeeded{%
+ \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\def\ScaleHeightIfNeeded{%
+  \ifdim\Gin@nat@height>0.9\textheight
+    0.9\textheight
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+\setkeys{Gin}{width=\ScaleWidthIfNeeded,height=\ScaleHeightIfNeeded,keepaspectratio}
+%\setkeys{Gin}{width=1.0\textwidth}
 
 % ##################### FANCY HEADER ##################### %
 \pagestyle{fancy}

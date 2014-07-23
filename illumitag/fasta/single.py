@@ -6,14 +6,14 @@ import os, gzip, re
 from collections import Counter, OrderedDict
 
 # Internal modules #
-from illumitag.common import isubsample, GenWithLength
+from illumitag.common import isubsample, GenWithLength, imean
 from illumitag.common.autopaths import FilePath
 from illumitag.common.tmpstuff import new_temp_path
 from illumitag.helper.barcodes import ReadWithBarcodes
 from illumitag.helper.primers import ReadWithPrimers
 from illumitag.common.cache import property_cached
 from illumitag.common.color import Color
-from illumitag.fasta import single_plots
+from illumitag.fasta import single_plots, ReadWithIndices
 
 # Third party modules #
 import sh, shutil
@@ -107,6 +107,10 @@ class FASTA(FilePath):
         generator = (ReadWithPrimers(r, self.primers) for r in self.parse())
         return GenWithLength(generator, len(self))
 
+    def parse_indices(self):
+        generator = (ReadWithIndices(r) for r in self.parse())
+        return GenWithLength(generator, len(self))
+
     @property_cached
     def barcode_counter(self):
         return Counter((str(m) for read in self.parse_barcodes() for m in read.matches))
@@ -124,6 +128,10 @@ class FASTA(FilePath):
 
     def shorter_than(self, value):
         return 100 * sum((v for k,v in self.lengths.items() if k < value)) / self.count
+
+    @property_cached
+    def indices_counter(self):
+        return Counter((r.fwd_index,r.rev_index) for r in self.parse_indices())
 
     def subsample(self, down_to, new_path=None):
         # Auto path #
@@ -197,6 +205,12 @@ class FASTQ(FASTA):
     def to_qual(self, path):
         with open(path, 'w') as handle:
             for r in self: SeqIO.write(r, handle, 'qual')
+
+    @property_cached
+    def avg_quality(self):
+        mean = imean(s for r in self for s in r.letter_annotations["phred_quality"])
+        self.close()
+        return mean
 
     def fastqc(self):
         # Call #

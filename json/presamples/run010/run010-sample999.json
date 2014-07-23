@@ -1,0 +1,44 @@
+{
+    "contacts": {
+        "main": {
+            "name": "Lucas Sinclair",
+            "email": "lucas.sinclair@ebc.uu.se"
+        }
+    },
+
+    "uppmax_id":    "b2014083",
+    "run_num":       10,
+    "run_id":        "140610_M00629_0001_000000000-A8H0L",
+    "sample_num":    999,
+    "sample_id":     "Undetermined_indices/Sample_lane1",
+    "forward_reads": "lane1_Undetermined_L001_R1_001.fastq.gz",
+    "reverse_reads": "lane1_Undetermined_L001_R2_001.fastq.gz",
+
+    "project":       "undetermined_indices",
+    "project_name":  "Undetermined indices",
+    "sample":        "july2014_indices",
+    "sample_name":   "July's 2014 undetermined indices",
+    "group":         "undetermined",
+
+    "forward_mid":   null,
+    "forward_num":   null,
+    "reverse_mid":   null,
+    "reverse_num":   null,
+    "barcode_num":   null,
+
+    "primers": {
+            "name":    "General bacteria primers",
+            "sense":   "5' to 3'",
+            "forward": {"name": "341F", "sequence": "NNNNCCTACGGGNGGCWGCAG"},
+            "reverse": {"name": "805R", "sequence": "GACTACHVGGGTATCTAATCC"}
+    },
+
+    "library_strategy":     "AMPLICON",
+    "library_source":       "METAGENOMIC",
+    "library_selection":    "PCR",
+    "library_layout":       "Paired-end",
+    "platform":             "ILLUMINA",
+    "instrument_model":     "Illumina MiSeq",
+    "forward_read_length":  300,
+    "reverse_read_length":  300
+}

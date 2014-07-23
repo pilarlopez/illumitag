@@ -7,6 +7,7 @@ from illumitag.groups.assemble import Assembled, Unassembled
 from illumitag.groups.samples import Samples
 from illumitag.fasta.single import FASTA, FASTQ
 from illumitag.fasta.paired import PairedFASTQ
+from illumitag.fasta import FastQCResults
 from illumitag.common.autopaths import AutoPaths, FilePath
 from illumitag.helper.primers import TwoPrimers
 from illumitag.graphs import outcome_plots
@@ -76,7 +77,7 @@ class Presample(BarcodeGroup):
         self.group = self.info['group']
         self.id_name = "run%03d-sample%02d" % (self.run_num, self.num)
         self.fwd_mid = self.info['forward_mid']
-        self.rev_mid = self.info['forward_mid']
+        self.rev_mid = self.info['reverse_mid']
         # Automatic paths #
         self.base_dir = self.out_dir + self.id_name + '/'
         self.p = AutoPaths(self.base_dir, self.all_paths)
@@ -97,6 +98,8 @@ class Presample(BarcodeGroup):
         self.fwd = FASTQ(self.fwd_path)
         self.rev = FASTQ(self.rev_path)
         self.fastq = PairedFASTQ(self.fwd.path, self.rev.path, self)
+        self.fwd_fastqc = FastQCResults(self.p.fastqc_dir + 'fwd_fastqc/')
+        self.rev_fastqc = FastQCResults(self.p.fastqc_dir + 'rev_fastqc/')
         # Barcode length #
         self.bar_len = 0
         # Make an alias to the json #
@@ -120,9 +123,7 @@ class Presample(BarcodeGroup):
     def load(self):
         pass
 
-    #def uncompress(self):
-        #shell_output('gunzip -c %s > %s' % (self.fwd_path, self.fwd))
-        #shell_output('gunzip -c %s > %s' % (self.rev_path, self.rev))
+    def run_fastqc(self): self.fastq.fastqc(self.p.fastqc_dir)
 
     def join(self):
         """Uses pandaseq 2.7"""

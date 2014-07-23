@@ -29,6 +29,27 @@ class Password(object):
         if self._value == None: self._value = getpass.getpass(self.prompt)
         return self._value
 
+###############################################################################
+class GitReop(object):
+    """A git repository with some convenience methods"""
+
+    def __init__(self, directory):
+        if not directory.endswith('/'): directory += '/'
+        self.directory = directory
+        self.git_dir = directory + '.git'
+        if not os.path.exists(self.git_dir):
+            raise Exception("No git repository at '%s'" % (self.git_dir))
+
+    @property
+    def tag(self):
+        tag = sh.git("--git-dir=" + self.git_dir, "describe", "--tags", "--dirty", "--always")
+        return tag.strip('\n')
+
+    @property
+    def hash(self):
+        sha1 = sh.git("--git-dir=" + self.git_dir, "rev-parse", "HEAD")
+        return sha1.strip('\n')
+
 ################################################################################
 def md5sum(file_path, blocksize=65536):
     """Compute the md5 of a file. Pretty fast"""
@@ -37,13 +58,6 @@ def md5sum(file_path, blocksize=65536):
         for block in iter(lambda: f.read(blocksize), ""):
             md5.update(block)
     return md5.hexdigest()
-
-################################################################################
-def get_git_tag(directory):
-    if os.path.exists(directory + '/.git'):
-        return sh.git("--git-dir=" + directory + '/.git', "describe", "--tags", "--dirty", "--always").strip('\n')
-    else:
-        return None
 
 ################################################################################
 def reverse_compl_with_name(old_seq):

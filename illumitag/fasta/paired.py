@@ -3,7 +3,7 @@ import os, sys, gzip, tempfile, shutil
 from itertools import izip
 
 # Internal modules #
-from illumitag.common import imean, GenWithLength
+from illumitag.common import GenWithLength
 from illumitag.helper.barcodes import ReadPairWithBarcode
 from illumitag.common.cache import property_cached
 from illumitag.fasta.single import FASTQ
@@ -43,16 +43,7 @@ class PairedFASTQ(object):
     def exists(self): return self.fwd.exists and self.rev.exists
 
     @property
-    def avg_quality(self):
-        self.open()
-        fwd_reads = (r for r in SeqIO.parse(self.fwd_handle, "fastq"))
-        fwd_scores = (s for r in fwd_reads for s in r.letter_annotations["phred_quality"])
-        fwd_mean = imean(fwd_scores)
-        rev_reads = (r for r in SeqIO.parse(self.rev_handle, "fastq"))
-        rev_scores = (s for r in rev_reads for s in r.letter_annotations["phred_quality"])
-        rev_mean = imean(rev_scores)
-        self.close()
-        return (fwd_mean, rev_mean)
+    def avg_quality(self): return (self.fwd.avg_quality, self.rev.avg_quality)
 
     def open(self):
         # Fwd #
@@ -94,6 +85,7 @@ class PairedFASTQ(object):
         self.buffer = []
 
     def fastqc(self, directory):
+        """Run FASTQC on both files and put results in a directory"""
         # Symbolic link #
         tmp_dir = tempfile.mkdtemp() + '/'
         if self.gziped: sym_fwd_path = tmp_dir + 'fwd.fastq.gz'

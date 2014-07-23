@@ -23,4 +23,11 @@ import illumitag
 #cluster = illumitag.clustering.favorites.evaluation
 
 # Check bad samples #
-s = illumitag.runs[10][0][0]
+s = illumitag.runs[10][-1]
+s.fwd.indices_counter
+
+# Check good samples #
+s = illumitag.runs[10][0]
+
+# Raw data #
+s.fastqc

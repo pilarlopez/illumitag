@@ -34,6 +34,7 @@ class Run(Aggregate):
         self.p = AutoPaths(self.base_dir, self.all_paths)
         # Illumina report #
         self.xml_report_path = self.directory + "report.xml"
+        self.html_report_path = self.directory + "report.html"
 
     @property
     def label(self): return self.first.run_label
