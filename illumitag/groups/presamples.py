@@ -15,6 +15,7 @@ from illumitag.running.presample_runner import PresampleRunner
 from illumitag.reporting.samples import SampleReport
 
 # Third party modules #
+from shell_command import shell_call
 
 # Constants #
 home = os.environ['HOME'] + '/'
@@ -92,8 +93,8 @@ class Presample(BarcodeGroup):
         self.pool, self.parent = self, self
         # Files #
         if not os.access('/proj/%s' % self.account, os.R_OK): return
-        self.fwd_path = home + "/proj/%s/INBOX/%s/%s/%s" % (self.account, self.run_label, self.label, self.fwd_name)
-        self.rev_path = home + "/proj/%s/INBOX/%s/%s/%s" % (self.account, self.run_label, self.label, self.rev_name)
+        self.fwd_path = home + "proj/%s/INBOX/%s/%s/%s" % (self.account, self.run_label, self.label, self.fwd_name)
+        self.rev_path = home + "proj/%s/INBOX/%s/%s/%s" % (self.account, self.run_label, self.label, self.rev_name)
         self.gziped = True if self.fwd_path.endswith('gz') else False
         self.fwd = FASTQ(self.fwd_path)
         self.rev = FASTQ(self.rev_path)
@@ -127,12 +128,10 @@ class Presample(BarcodeGroup):
 
     def join(self):
         """Uses pandaseq 2.7"""
-        command = 'pandaseq27 -f %s -r %s -u %s -F 1> %s 2> %s'
-        command = command % (self.p.fwd_fastq, self.p.rev_fastq, self.unassembled.path, self.assembled.path, self.assembled.p.out)
-        print command
-
-    def presample_fastqc(self):
-        self.fastq.fastqc(self.p.fastqc_dir)
+        self.assembled.remove()
+        command = 'pandaseq27 -T 1 -f %s -r %s -u %s -F 1> %s 2> %s'
+        command = command % (self.fwd, self.rev, self.unassembled.path, self.assembled.path, self.assembled.p.out)
+        shell_call(command) # Because it exits with status 1 https://github.com/neufeld/pandaseq/issues/40
 
     def process(self):
         def no_primers_iterator(reads):

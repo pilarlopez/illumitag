@@ -35,11 +35,14 @@ class TwoPrimers(object):
         self.fwd_seq = Seq(self.fwd_str, IUPAC.ambiguous_dna)
         self.rev_seq = Seq(self.rev_str, IUPAC.ambiguous_dna)
         # Search patterns #
-        self.fwd_regex = re.compile(''.join(['[' + iupac[char] + ']' for char in self.fwd_seq]))
-        self.rev_regex = re.compile(''.join(['[' + iupac[char] + ']' for char in self.rev_seq.reverse_complement()]))
+        self.fwd_pattern = ''.join(['[' + iupac[char] + ']' for char in self.fwd_seq])
+        self.rev_pattern = ''.join(['[' + iupac[char] + ']' for char in self.rev_seq.reverse_complement()])
+        # Search expression #
+        self.fwd_regex = re.compile(self.fwd_pattern)
+        self.rev_regex = re.compile(self.rev_pattern)
         # Uracil instead of thymine #
-        self.fwd_regex_uracil = re.compile(self.fwd_regex.pattern.replace('T', 'U'))
-        self.rev_regex_uracil = re.compile(self.rev_regex.pattern.replace('T', 'U'))
+        self.fwd_regex_uracil = re.compile(self.fwd_pattern.replace('T', 'U'))
+        self.rev_regex_uracil = re.compile(self.rev_pattern.replace('T', 'U'))
 
 ###############################################################################
 class ReadWithPrimers(object):
@@ -47,5 +50,14 @@ class ReadWithPrimers(object):
         self.read = read
         self.fwd_match = primers.fwd_regex.search(str(read.seq))
         self.rev_match = primers.rev_regex.search(str(read.seq))
+        self.fwd_pos = self.fwd_match.start() if self.fwd_match else None
+        self.rev_pos = self.rev_match.end() - len(read) if self.rev_match else None
+
+###############################################################################
+class ReadWithPrimersMissmatch(object):
+    def __init__(self, read, primers, fwd_regex, rev_regex):
+        self.read = read
+        self.fwd_match = fwd_regex.search(str(read.seq))
+        self.rev_match = rev_regex.search(str(read.seq))
         self.fwd_pos = self.fwd_match.start() if self.fwd_match else None
         self.rev_pos = self.rev_match.end() - len(read) if self.rev_match else None

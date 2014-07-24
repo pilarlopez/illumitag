@@ -8,7 +8,7 @@ import re, datetime
 import illumitag
 from illumitag.common.autopaths import AutoPaths
 from illumitag.reporting.common import HeaderTemplate, FooterTemplate
-from illumitag.reporting.common import DualFigure
+from illumitag.reporting.common import DualFigure, ScaledFigure
 
 # Third party modules #
 import pystache, sh, dateutil
@@ -122,9 +122,60 @@ class SampleTemplate(object):
     def per_seq_qual(self):
         params = [self.presample.fwd_fastqc.per_seq_qual, self.presample.rev_fastqc.per_seq_qual]
         params += ["Forward", "Reverse"]
-        params += ["fwd_per_seq_qual", "rev_fwd_per_seq_qual"]
+        params += ["fwd_per_seq_qual", "rev_per_seq_qual"]
         params += ["Per sequence quality", "per_seq_qual"]
         return str(DualFigure(*params))
+
+    # Joining #
+    def values_with_percent(self, val):
+        percentage = lambda x,y: (len(x)/len(y))*100 if len(y) != 0 else 0
+        percent = percentage(val, self.presample)
+        return "%i (%.1f%%)" % (len(val), percent)
+    def assembled_count(self): return self.values_with_percent(self.presample.assembled)
+    def unassembled_count(self): return self.values_with_percent(self.presample.unassembled)
+    def low_qual_count(self):
+        count = self.presample.assembled.stats['lowqual']
+        return "%i (%.1f%%)" % (count, (count/len(self.presample))*100)
+    def assemlby_len_dist(self):
+        caption = "Distribution of sequence lengths after joining"
+        path = self.presample.assembled.length_dist_graph.path
+        label = "assemlby_len_dist"
+        return str(ScaledFigure(path, caption, label))
+    def joined_quality(self):
+        params = [self.presample.assembled.fastqc_results.per_base_qual,
+                  self.presample.assembled.fastqc_results.per_seq_qual]
+        params += ["Per base", "Per sequence"]
+        params += ["joined_per_base_qual", "joined_per_seq_qual"]
+        params += ["Joined sequence quality", "joined_quality"]
+        return str(DualFigure(*params))
+
+    # Filtering #
+    def mismatches_allowed(self): return self.presample.assembled.primer_mismatches
+    def primer_discard(self):
+        return len(self.presample.assembled) - len(self.presample.assembled.good_primers.orig_reads)
+    def primer_left(self):              return len(self.presample.assembled.good_primers.orig_reads)
+
+    def n_base_discard(self):
+        good = self.presample.assembled.good_primers
+        return len(good.orig_reads) - len(good.n_filtered)
+    def n_base_left(self): return len(self.presample.assembled.good_primers.n_filtered)
+
+    def window_size(self): return self.presample.assembled.good_primers.qual_windowsize
+    def window_threshold(self): return self.presample.assembled.good_primers.qual_threshold
+    def window_discard(self):
+        good = self.presample.assembled.good_primers
+        return len(good.n_filtered) - len(good.qual_filtered)
+    def window_left(self): return len(self.presample.assembled.good_primers.qual_filtered)
+
+    def length_threshold(self): return self.presample.assembled.good_primers.min_length
+    def length_discard(self):
+        good = self.presample.assembled.good_primers
+        return len(good.qual_filtered) - len(good.len_filtered)
+    def length_left(self): return len(self.presample.assembled.good_primers.len_filtered)
+
+    def percent_remaining(self):
+        good = self.presample.assembled.good_primers
+        return "%.1f%%" % ((len(good.len_filtered)/len(self.presample))*100)
 
     # Lorem #
     def image_path(self): return self.presample.p.graphs_dir + 'graph.pdf'

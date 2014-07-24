@@ -57,8 +57,8 @@ class BarcodeGroup(PairedFASTQ):
 
     def check_noalign_counts(self):
         """Check the sanity of pandaseq"""
-        assert self.assembled.stats['noalign'] == self.unassembled.count
         assert len(self.assembled) + len(self.unassembled) + self.assembled.stats['lowqual'] == len(self)
+        assert self.assembled.stats['noalign'] == self.unassembled.count
 
     def barcode_fastqc(self):
         sh.fastqc(self.fwd_path, '-q')

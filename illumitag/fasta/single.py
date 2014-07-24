@@ -7,16 +7,16 @@ from collections import Counter, OrderedDict
 
 # Internal modules #
 from illumitag.common import isubsample, GenWithLength, imean
-from illumitag.common.autopaths import FilePath
-from illumitag.common.tmpstuff import new_temp_path
+from illumitag.common.autopaths import FilePath, DirectoryPath
+from illumitag.common.tmpstuff import new_temp_path, new_temp_dir
 from illumitag.helper.barcodes import ReadWithBarcodes
-from illumitag.helper.primers import ReadWithPrimers
+from illumitag.helper.primers import ReadWithPrimers, ReadWithPrimersMissmatch
 from illumitag.common.cache import property_cached
 from illumitag.common.color import Color
-from illumitag.fasta import single_plots, ReadWithIndices
+from illumitag.fasta import single_plots, ReadWithIndices, FastQCResults
 
 # Third party modules #
-import sh, shutil
+import sh, shutil, regex
 from Bio import SeqIO
 
 ################################################################################
@@ -103,9 +103,15 @@ class FASTA(FilePath):
         generator = (ReadWithBarcodes(r, self.samples) for r in self.parse())
         return GenWithLength(generator, len(self))
 
-    def parse_primers(self):
-        generator = (ReadWithPrimers(r, self.primers) for r in self.parse())
-        return GenWithLength(generator, len(self))
+    def parse_primers(self, mismatches=0):
+        if mismatches == 0:
+            generator = (ReadWithPrimers(r, self.primers) for r in self.parse())
+            return GenWithLength(generator, len(self))
+        else:
+            fwd_regex = regex.compile("(%s){s<=%i}" % (self.primers.fwd_pattern, mismatches))
+            rev_regex = regex.compile("(%s){s<=%i}" % (self.primers.rev_pattern, mismatches))
+            generator = (ReadWithPrimersMissmatch(r, self.primers, fwd_regex, rev_regex) for r in self.parse())
+            return GenWithLength(generator, len(self))
 
     def parse_indices(self):
         generator = (ReadWithIndices(r) for r in self.parse())
@@ -212,17 +218,22 @@ class FASTQ(FASTA):
         self.close()
         return mean
 
-    def fastqc(self):
-        # Call #
-        sh.fastqc(self.path, '-q')
-        # Paths #
-        zip_file = self.prefix_path + '_fastqc.zip'
-        report_dir = self.prefix_path + '_fastqc/'
-        #images_dir = self.prefix_path + '_fastqc/Images/'
-        # Clean up #
-        os.remove(zip_file)
-        # Return #
-        return report_dir
+    def fastqc(self, directory=None):
+        # Case directory #
+        if directory is not None:
+            if not isinstance(directory, DirectoryPath): directory = DirectoryPath(directory)
+            tmp_dir = new_temp_dir()
+            sh.fastqc(self.path, '-q', '-o', tmp_dir)
+            created_dir = tmp_dir + self.prefix.split('.')[0] + '_fastqc/'
+            shutil.move(created_dir, directory)
+            tmp_dir.remove()
+        # Default case #
+        else:
+            sh.fastqc(self.path, '-q')
+            os.remove(self.prefix_path + '_fastqc.zip')
+
+    @property
+    def fastqc_results(self): return FastQCResults(self.prefix_path + '_fastqc/')
 
 #-----------------------------------------------------------------------------#
 class SizesFASTA(FASTA):

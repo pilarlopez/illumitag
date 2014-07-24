@@ -27,6 +27,10 @@ class PrimerGroup(object):
     /trimmed_barcodes.fasta
     """
 
+    qual_threshold = 5
+    qual_windowsize = 10
+    min_length = 400
+
     def __repr__(self): return '<%s object of %s>' % (self.__class__.__name__, self.parent)
     def __len__(self): return len(self.orig_reads)
 
@@ -65,18 +69,18 @@ class PrimerGroup(object):
 
     def qual_filter(self):
         """Called from Assemble.quality_filter"""
-        def good_qual_iterator(reads, threshold=5, windowsize=10):
+        def good_qual_iterator(reads):
             for read in reads:
-                averaged = moving_average(read.letter_annotations["phred_quality"], windowsize)
-                if any([value < threshold for value in averaged]): continue
+                averaged = moving_average(read.letter_annotations["phred_quality"], self.qual_windowsize)
+                if any([value < self.qual_threshold for value in averaged]): continue
                 yield read
         self.qual_filtered.write(good_qual_iterator(self.n_filtered))
 
     def len_filter(self):
         """Called from Assemble.length_filter"""
-        def good_len_iterator(reads, min_length=400):
+        def good_len_iterator(reads):
             for read in reads:
-                if len(read) < min_length: continue
+                if len(read) < self.min_length: continue
                 yield read
         self.len_filtered.write(good_len_iterator(self.qual_filtered))
 

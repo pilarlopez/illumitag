@@ -24,10 +24,22 @@ import illumitag
 
 # Check bad samples #
 s = illumitag.runs[10][-1]
-s.fwd.indices_counter
+s.fwd.indices_counter.most_common(100)
 
 # Check good samples #
-s = illumitag.runs[10][0]
+s = illumitag.runs[10][26]
+s.run_fastqc()
+s.join()
+s.check_noalign_counts()
+s.assembled.length_dist_graph.plot()
+s.assembled.fastqc()
+s.assembled.dont_flip_reads()
+s.assembled.make_primer_groups()
+s.assembled.discard_reads_with_n()
+s.assembled.quality_filter()
+s.assembled.length_filter()
+
+s.report.generate()
 
 # Raw data #
 s.fastqc

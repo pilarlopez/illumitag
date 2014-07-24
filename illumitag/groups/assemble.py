@@ -11,6 +11,7 @@ from illumitag.common import tail, flatten, reverse_compl_with_name
 from illumitag.fasta.single import FASTQ, FASTA
 from illumitag.common.cache import property_cached
 from illumitag.common.autopaths import AutoPaths
+from illumitag.fasta.single_plots import LengthDistribution
 
 # Third party modules #
 
@@ -18,6 +19,8 @@ from illumitag.common.autopaths import AutoPaths
 class AssembleGroup(object):
     """A bunch of sequences all having the same type of assembly outcome
     (and barcode outcome)"""
+
+    primer_mismatches = 1
 
     def __iter__(self): return iter(self.children)
     def __repr__(self): return '<%s object of %s>' % (self.__class__.__name__, self.parent)
@@ -61,7 +64,7 @@ class AssembleGroup(object):
     def make_primer_groups(self):
         bar_len = self.parent.parent.bar_len
         for g in self.children: g.create()
-        for r in self.flipped_reads.parse_primers():
+        for r in self.flipped_reads.parse_primers(mismatches=self.primer_mismatches):
             if r.fwd_pos is not None and r.rev_pos is not None:
                 if r.fwd_pos == bar_len and r.rev_pos == -bar_len: self.good_primers.add_read(r.read)
                 else:                                              self.wrong_primers.add_read(r.read)
@@ -90,6 +93,7 @@ class Assembled(AssembleGroup, FASTQ):
     /flipped.fastq
     /pandaseq.out
     /groups/
+    /graphs/
     """
 
     def __eq__(self, other): return other == 'assembled'
@@ -100,6 +104,8 @@ class Assembled(AssembleGroup, FASTQ):
         self.p = AutoPaths(self.base_dir, self.all_paths)
         self.path = self.p.orig_fastq
         self.flipped_reads = FASTQ(self.p.flipped, self.samples, self.primers)
+        # Graphs #
+        self.length_dist_graph = LengthDistribution(self)
 
     @property_cached
     def stats(self):

@@ -230,7 +230,7 @@ class FilePath(str):
 
     @property
     def prefix(self):
-        """Just the filename without the extension"""
+        """Just the filename without the (last) extension"""
         return str(os.path.basename(self.prefix_path))
 
     @property

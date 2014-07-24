@@ -1,5 +1,5 @@
 # Built-in modules #
-import os, sys, gzip, tempfile, shutil
+import os, sys, gzip
 from itertools import izip
 
 # Internal modules #
@@ -7,6 +7,7 @@ from illumitag.common import GenWithLength
 from illumitag.helper.barcodes import ReadPairWithBarcode
 from illumitag.common.cache import property_cached
 from illumitag.fasta.single import FASTQ
+from illumitag.common.autopaths import DirectoryPath
 
 # Third party modules #
 import sh
@@ -86,24 +87,10 @@ class PairedFASTQ(object):
 
     def fastqc(self, directory):
         """Run FASTQC on both files and put results in a directory"""
-        # Symbolic link #
-        tmp_dir = tempfile.mkdtemp() + '/'
-        if self.gziped: sym_fwd_path = tmp_dir + 'fwd.fastq.gz'
-        else:           sym_fwd_path = tmp_dir + 'fwd.fastq'
-        if self.gziped: sym_rev_path = tmp_dir + 'rev.fastq.gz'
-        else:           sym_rev_path = tmp_dir + 'rev.fastq'
-        os.symlink(self.fwd_path, sym_fwd_path)
-        os.symlink(self.rev_path, sym_rev_path)
-        # Call #
-        sh.fastqc(sym_fwd_path, '-q')
-        sh.fastqc(sym_rev_path, '-q')
-        # Move #
-        shutil.rmtree(directory + "fwd_fastqc/", ignore_errors=True)
-        shutil.rmtree(directory + "rev_fastqc/", ignore_errors=True)
-        shutil.move(tmp_dir + 'fwd_fastqc/', directory + "fwd_fastqc/")
-        shutil.move(tmp_dir + 'rev_fastqc/', directory + "rev_fastqc/")
-        # Clean up #
-        shutil.rmtree(tmp_dir)
+        if not isinstance(directory, DirectoryPath): directory = DirectoryPath(directory)
+        if not directory.exists: directory.create()
+        self.fwd.fastqc(directory + 'fwd_fastqc/')
+        self.rev.fastqc(directory + 'rev_fastqc/')
 
     def parse(self):
         self.open()
