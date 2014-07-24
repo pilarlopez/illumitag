@@ -40,6 +40,7 @@ class UniqueStarts(Graph):
 class LengthDistribution(Graph):
     """Simple length distribution"""
     short_name = 'length_distribution'
+    left = 0.1
 
     def plot(self, loglog=False):
         # Data #
@@ -47,7 +48,7 @@ class LengthDistribution(Graph):
         # Plot #
         fig = pyplot.figure()
         pyplot.bar(counts.keys(), counts.values(), 1.0, color='gray', align='center')
-        title = 'Distribution of sequence lengths.'
+        title = 'Distribution of sequence lengths'
         axes = pyplot.gca()
         axes.set_title(title)
         axes.set_xlabel('Length of sequence in nucleotides')

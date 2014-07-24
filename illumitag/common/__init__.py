@@ -4,10 +4,10 @@
 from __future__ import division
 
 # Built-in modules #
-import os, re, glob, random, collections, getpass, hashlib
+import os, re, glob, random, collections, getpass, hashlib, datetime
 
 # Third party modules #
-import sh, numpy
+import sh, numpy, dateutil
 
 ################################################################################
 class GenWithLength(object):
@@ -238,3 +238,9 @@ def gps_deg_to_float(data):
     degs, mins, secs = [0.0 if m.group(i) is None else int(m.group(i)) for i in range(1, 4)]
     comp_dir = -1 if data[-1] in ('N', 'E') else 1
     return (degs + (mins / 60) + (secs / 3600)) * comp_dir
+
+################################################################################
+def pretty_now():
+    """Prints some thing like '2014-07-24 11:12:45 CEST+0200'"""
+    now = datetime.datetime.now(dateutil.tz.tzlocal())
+    return now.strftime("%Y-%m-%d %H:%M:%S %Z%z")

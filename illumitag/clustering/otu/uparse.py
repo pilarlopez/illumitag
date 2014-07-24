@@ -26,6 +26,8 @@ class UparseOTUs(OTUs):
 
     short_name = 'uparse'
     title = 'UPARSE denovo picking'
+    article = "http://www.nature.com/doifinder/10.1038/nmeth.2604"
+
 
     all_paths = """
     /derep.fasta

@@ -2,16 +2,17 @@
 from __future__ import division
 
 # Built-in modules #
-import re, datetime
+import re
 
 # Internal modules #
 import illumitag
+from illumitag.common import split_thousands, pretty_now
 from illumitag.common.autopaths import AutoPaths
 from illumitag.reporting.common import HeaderTemplate, FooterTemplate
 from illumitag.reporting.common import DualFigure, ScaledFigure
 
 # Third party modules #
-import pystache, sh, dateutil
+import pystache, sh
 
 ###############################################################################
 class SampleReport(object):
@@ -100,17 +101,15 @@ class SampleTemplate(object):
     def illumitag_version(self): return illumitag.__version__
     def git_hash(self): return illumitag.git_repo.hash
     def git_tag(self): return illumitag.git_repo.tag
-    def now(self):
-        now = datetime.datetime.now(dateutil.tz.tzlocal())
-        return now.strftime("%Y-%m-%d %H:%M:%S %Z%z")
+    def now(self): return pretty_now()
     def results_directory(self): return self.presample.base_dir
 
     # Raw data #
     def fwd_size(self): return str(self.presample.fwd.size)
-    def fwd_count(self): return self.presample.fwd.count
+    def fwd_count(self): return split_thousands(self.presample.fwd.count)
     def fwd_qual(self): return "%.2f" % self.presample.fwd.avg_quality
     def rev_size(self): return str(self.presample.rev.size)
-    def rev_count(self): return self.presample.rev.count
+    def rev_count(self): return split_thousands(self.presample.rev.count)
     def rev_qual(self): return "%.2f" % self.presample.rev.avg_quality
     def illumina_report(self): return self.presample.run.html_report_path
     def per_base_qual(self):
@@ -130,16 +129,16 @@ class SampleTemplate(object):
     def values_with_percent(self, val):
         percentage = lambda x,y: (len(x)/len(y))*100 if len(y) != 0 else 0
         percent = percentage(val, self.presample)
-        return "%i (%.1f%%)" % (len(val), percent)
+        return "%s (%.1f%%)" % (split_thousands(len(val)), percent)
     def assembled_count(self): return self.values_with_percent(self.presample.assembled)
     def unassembled_count(self): return self.values_with_percent(self.presample.unassembled)
     def low_qual_count(self):
         count = self.presample.assembled.stats['lowqual']
-        return "%i (%.1f%%)" % (count, (count/len(self.presample))*100)
-    def assemlby_len_dist(self):
+        return "%s (%.1f%%)" % (split_thousands(count), (count/len(self.presample))*100)
+    def assembly_len_dist(self):
         caption = "Distribution of sequence lengths after joining"
         path = self.presample.assembled.length_dist_graph.path
-        label = "assemlby_len_dist"
+        label = "assembly_len_dist"
         return str(ScaledFigure(path, caption, label))
     def joined_quality(self):
         params = [self.presample.assembled.fastqc_results.per_base_qual,
@@ -152,26 +151,32 @@ class SampleTemplate(object):
     # Filtering #
     def mismatches_allowed(self): return self.presample.assembled.primer_mismatches
     def primer_discard(self):
-        return len(self.presample.assembled) - len(self.presample.assembled.good_primers.orig_reads)
-    def primer_left(self):              return len(self.presample.assembled.good_primers.orig_reads)
+        before = self.presample.assembled
+        after  = self.presample.assembled.good_primers.orig_reads
+        return split_thousands(len(before) - len(after))
+    def primer_left(self):
+        return split_thousands(len(self.presample.assembled.good_primers.orig_reads))
 
     def n_base_discard(self):
         good = self.presample.assembled.good_primers
-        return len(good.orig_reads) - len(good.n_filtered)
-    def n_base_left(self): return len(self.presample.assembled.good_primers.n_filtered)
+        return split_thousands(len(good.orig_reads) - len(good.n_filtered))
+    def n_base_left(self):
+        return split_thousands(len(self.presample.assembled.good_primers.n_filtered))
 
     def window_size(self): return self.presample.assembled.good_primers.qual_windowsize
     def window_threshold(self): return self.presample.assembled.good_primers.qual_threshold
     def window_discard(self):
         good = self.presample.assembled.good_primers
-        return len(good.n_filtered) - len(good.qual_filtered)
-    def window_left(self): return len(self.presample.assembled.good_primers.qual_filtered)
+        return split_thousands(len(good.n_filtered) - len(good.qual_filtered))
+    def window_left(self):
+        return split_thousands(len(self.presample.assembled.good_primers.qual_filtered))
 
     def length_threshold(self): return self.presample.assembled.good_primers.min_length
     def length_discard(self):
         good = self.presample.assembled.good_primers
-        return len(good.qual_filtered) - len(good.len_filtered)
-    def length_left(self): return len(self.presample.assembled.good_primers.len_filtered)
+        return split_thousands(len(good.qual_filtered) - len(good.len_filtered))
+    def length_left(self):
+        return split_thousands(len(self.presample.assembled.good_primers.len_filtered))
 
     def percent_remaining(self):
         good = self.presample.assembled.good_primers

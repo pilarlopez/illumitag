@@ -38,8 +38,27 @@ s.assembled.make_primer_groups()
 s.assembled.discard_reads_with_n()
 s.assembled.quality_filter()
 s.assembled.length_filter()
-
 s.report.generate()
+s.process()
 
-# Raw data #
-s.fastqc
+# Project #
+p = illumitag.projects['kivu']
+p.cluster.combine_reads()
+p.cluster.reads.graphs[1].plot()
+p.cluster.otus.run()
+p.cluster.otus.taxonomy.assign()
+p.cluster.otus.taxonomy.make_otu_table()
+p.cluster.otus.taxonomy.make_otu_table_norm()
+p.cluster.otus.taxonomy.make_plots()
+p.cluster.otus.taxonomy.stats.nmds.run()
+p.cluster.otus.taxonomy.make_filtered_centers()
+p.cluster.otus.taxonomy.comp_phyla.make_taxa_table()
+p.cluster.otus.taxonomy.comp_phyla.make_plots()
+p.cluster.otus.taxonomy.comp_phyla.stats.nmds.run()
+p.cluster.otus.taxonomy.comp_tips.make_taxa_table()
+p.cluster.otus.taxonomy.comp_tips.make_plots()
+
+
+# Run all #
+for s in samples:
+    print s

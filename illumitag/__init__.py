@@ -55,17 +55,20 @@ pyrosamples = [Pyrosample(j, view_dir + 'pyrosamples/') for j in json_paths]
 pyrosamples.sort(key=lambda x: str(x))
 demultiplexer = Demultiplexer454(pyrosamples)
 
+# All of them together #
+all_objects = pools+presamples+pyrosamples
+
 # Compose into runs #
-run_nums = sorted(list(set([p.run_num for p in pools+presamples]))) # [1,2,3,4,5]
-runs = [Run(num, [p for p in pools+presamples if p.run_num==num], view_dir + 'runs/') for num in run_nums]
+run_nums = sorted(list(set([p.run_num for p in all_objects]))) # [1,2,3,4,5]
+runs = [Run(num, [p for p in all_objects if p.run_num==num], view_dir + 'runs/') for num in run_nums]
 runs = Runs(runs)
-for p in pools+presamples: p.run = runs[p.run_num]
+for p in all_objects: p.run = runs[p.run_num]
 
 # Compose into projects #
-proj_names = sorted(list(set([p.project_short_name for p in pools+presamples])))
-projects = [Project(name, [p for p in pools+presamples if p.project_short_name==name], view_dir + 'projects/') for name in proj_names]
+proj_names = sorted(list(set([p.project_short_name for p in all_objects])))
+projects = [Project(name, [p for p in all_objects if p.project_short_name==name], view_dir + 'projects/') for name in proj_names]
 projects = Projects(projects)
-for p in pools+presamples: p.project = projects[p.project_short_name]
+for p in all_objects: p.project = projects[p.project_short_name]
 
 # Make an aggregate with all pools #
 aggregate = Aggregate('all', pools, view_dir + 'aggregates/')

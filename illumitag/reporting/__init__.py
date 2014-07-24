@@ -10,7 +10,7 @@ import numpy
 
 ###############################################################################
 class Reporter(object):
-    """Reporting statistics on an aggregate."""
+    """Simple reporting statistics on an aggregate."""
 
     def __repr__(self): return '<%s object on %s>' % (self.__class__.__name__, self.parent)
     def __iter__(self): return iter(self.pools)

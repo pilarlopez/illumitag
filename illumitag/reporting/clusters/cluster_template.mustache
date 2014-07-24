@@ -1,0 +1,65 @@
+Cluster "{{cluster_name}}"
+==========================
+
+General Information
+-------------------
+This is the cluster named "{{cluster_name}}". It contains {{count_samples}} samples. {{project_sentance}}
+
+Samples
+-------
+There are in {{count_samples}} samples in this cluster. Some summary information about them is given in table 1.
+
+{{sample_table}}
+
+Processing
+----------
+This report (and all the analysis) was generated using the ILLUMITAG project at:
+
+> <http://github.com/limno/illumitag>
+
+Version `{{illumitag_version}}` of the pipeline was used. The exact git hash of the latest commit was:
+
+    {{git_hash}}
+
+also refereed to by its tag `{{git_tag}}`. This document was generated at `{{now}}`.
+
+A brief overview of what happens to the data can be viewed online here:
+
+> <https://github.com/limno/illumitag/blob/master/documentation/pipeline_outline.pdf?raw=true>
+
+The results and all the files generated for this cluster can be found on UPPMAX at:
+
+    {{results_directory}}
+
+Input data
+----------
+Summing the reads from all the samples, we have {{count_sequences}} sequences to work on. Quality information is disregarded from this point on. Before starting we can look at the length distribution pattern that they form in figure \ref{input_length_dist}.
+
+{{input_length_dist}}
+
+Clustering
+----------
+Two sequences that diverge by no more than a few nucleotides are probably not produced by ecological diversity. They are most likely produced by errors along the laboratory method. So we put them together in one unit, called an OTU. A sequence that does not have any such similar-looking brothers is most likely the product of a recombination (chimera) and is discarded. This is done using {{clustering_citation}}. You can see the number of clusters produced in figure \ref{clustering_graph}
+
+{{clustering_graph}}.
+
+OTU table
+---------
+Now we check which sample each sequence was coming from and make a count table with OTUs as rows and samples as columns. This table is too big to be viewed directly here. However we can plot some of its properties:
+
+Classification
+--------------
+Relying on the databases of ribosomal genes such as Silva, we can classify each cluster and give it an approximative affiliation. This provides a taxonomic name to each OTU. We can make more pretty graphs
+
+Diversity
+---------
+We can compute estimators of diversity within the sample:
+
+
+Comparison
+----------
+Using the other samples included in the same project (45 samples) we can start comparing this sample to the others. A first simple means of doing that is plotting them on an ordination plot.
+
+Environmental tag
+-----------------
+Relying on the same kind of databases and their meta-data, we can try to infer a typical environmental tag to each sequence. This, in turn, enables us to assign a linear combination of environmental tags to each sample and to the cluster as a whole.

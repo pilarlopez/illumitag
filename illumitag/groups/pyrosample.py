@@ -36,6 +36,8 @@ class Pyrosample(object):
     /fastq/reads.fastq
     """
 
+    kind = "pyrosample"
+
     def __repr__(self): return '<%s object "%s">' % (self.__class__.__name__, self.id_name)
 
     def __init__(self, json_path, out_dir):
@@ -45,7 +47,9 @@ class Pyrosample(object):
         # Parse #
         with open(json_path) as handle: self.info = json.load(handle)
         # Basic #
+        self.account = "/dev/null"
         self.run_num = self.info['run_num']
+        self.run_label = "pyrosample_run_%i" % self.run_num
         self.project_short_name = self.info['project']
         self.project_long_name = self.info['project_name']
         # Own attributes #

@@ -39,6 +39,8 @@ class Pool(object):
     /info.json
     """
 
+    kind = 'pool'
+
     def __repr__(self): return '<%s object "%s">' % (self.__class__.__name__, self.id_name)
     def __str__(self): return self.id_name
     def __iter__(self): return iter(self.children)

@@ -66,6 +66,8 @@ class Sample(FASTQ):
     /raw/reverse.fastq.gz
     """
 
+    kind = 'sample'
+
     def __repr__(self): return '<%s object "%s">' % (self.__class__.__name__, self.name)
     def __str__(self): return self.bar_name
 
@@ -103,6 +105,8 @@ class Sample(FASTQ):
         self.fasta = FASTA(self.p.reads_fasta)
         self.raw = PairedFASTQ(self.p.raw_fwd, self.p.raw_rev, self.pool)
         self.raw_gz = PairedFASTQ(self.p.raw_forward_gz, self.p.raw_reverse_gz, self.pool)
+        # Inherit #
+        self.project = self.pool.project
 
     def process(self):
         def no_primers_iterator(reads):

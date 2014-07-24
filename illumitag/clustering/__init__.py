@@ -11,6 +11,7 @@ from illumitag.clustering.otu.uparse import UparseOTUs
 from illumitag.clustering.otu.uclust import UclustOTUs
 from illumitag.clustering.otu.cdhit import CdhitOTUs
 from illumitag.clustering.reporting import ClusterReporter
+from illumitag.reporting.clusters import ClusterReport
 
 # Third party modules #
 import pandas
@@ -25,6 +26,7 @@ class Cluster(object):
     /reads/all_reads.fasta
     /otus/
     /logs/
+    /report/
     /metadata.csv
     """
 
@@ -56,6 +58,9 @@ class Cluster(object):
         if base_dir: self.base_dir = base_dir
         else: self.base_dir = illumitag.view_dir + "clusters/" + self.name + '/'
         self.p = AutoPaths(self.base_dir, self.all_paths)
+        # Figure out if it's a project #
+        if set(self.samples) == set(self.first.pool.project.samples): self.project = self.first.pool.project
+        else: self.project = None
         # Runner #
         self.runner = ClusterRunner(self)
         # FASTA #
@@ -64,8 +69,12 @@ class Cluster(object):
         self.otu_uparse = UparseOTUs(self)
         self.otu_uclust = UclustOTUs(self)
         self.otu_cdhit = CdhitOTUs(self)
-        # Reporting #
+        # Preferred #
+        self.otus = self.otu_uparse
+        # Simple reporting #
         self.reporter = ClusterReporter(self)
+        # Full report #
+        self.report = ClusterReport(self)
 
     def run(self, *args, **kwargs):
         self.runner.run(*args, **kwargs)

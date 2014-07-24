@@ -1,5 +1,5 @@
 # Built-in modules #
-import os, shutil
+import os
 
 # Internal modules #
 from illumitag.fasta.single import FASTA
@@ -33,16 +33,19 @@ class CrestTaxonomy(Taxonomy):
     /otu_table.csv
     /otu_table_norm.csv
     /centers.fasta
+    /db_hits.xml
     /graphs/
     /stats/
     /comp_phyla/
     /comp_tips/
     /comp_order/
     /comp_class/
-    /crest_hits.xml
-    /crest_composition.txt
-    /crest_tree.txt
-    /crest_assignments.txt
+    /crest/All_Composition.tsv
+    /crest/community.hits_Assignments.tsv
+    /crest/community.hits_Composition.tsv
+    /crest/community.hits_Tree.txt
+    /crest/Relative_Abundance.tsv
+    /crest/Richness.tsv
     """
 
     def __init__(self, fasta_path, parent, database='silvamod', base_dir=None):
@@ -76,16 +79,12 @@ class CrestTaxonomy(Taxonomy):
 
     def assign(self):
         # Run #
-        sh.megablast('-a', nr_threads, '-i', self.fasta, '-d', self.database_path, '-b100', '-v100', '-m7', '-o', self.p.crest_hits)
-        if os.path.getsize(self.p.crest_hits) == 0: raise Exception("Hits file empty. The MEGABLAST process was probably killed.")
+        #sh.megablast('-a', nr_threads, '-i', self.fasta, '-d', self.database_path, '-b100', '-v100', '-m7', '-o', self.p.db_hits)
+        if os.path.getsize(self.p.db_hits) == 0: raise Exception("Hits file empty. The MEGABLAST process was probably killed.")
         # CREST #
-        sh.classify(self.p.crest_hits, '-p', '-o', '-d', self.database)
-        shutil.move(self.p.crest_hits[:-4] + '_Composition.txt', self.p.crest_composition)
-        shutil.move(self.p.crest_hits[:-4] + '_Tree.txt', self.p.crest_tree)
-        shutil.move(self.p.crest_hits[:-4] + '_Assignments.txt', self.p.crest_assignments)
+        self.p.crest_dir.remove()
+        sh.classify('--rdp', '-o', self.base_dir + 'crest', '-d', self.database, self.p.db_hits)
         # Clean up #
-        comp_path = home + 'ILLUMITAG/All_Composition.txt'
-        if os.path.exists(comp_path): os.remove(comp_path)
         if os.path.exists("error.log") and os.path.getsize("error.log") == 0: os.remove("error.log")
         # Return #
         return self

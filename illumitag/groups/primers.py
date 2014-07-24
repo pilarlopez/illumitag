@@ -62,8 +62,10 @@ class PrimerGroup(object):
     def n_filter(self):
         """Called from AssembleGroup.discard_reads_with_n"""
         def no_n_iterator(reads):
+            fwd_len = self.pool.primers.fwd_len
+            rev_len = self.pool.primers.rev_len
             for read in reads:
-                if 'N' in read: continue
+                if 'N' in read[fwd_len:-rev_len]: continue
                 yield read
         self.n_filtered.write(no_n_iterator(self.orig_reads))
 

@@ -37,7 +37,8 @@ class FASTA(FilePath):
         self.samples = samples
         self.primers = primers
         # Graphs #
-        self.graphs = [getattr(single_plots, cls_name)(self, self.path + '.') for cls_name in single_plots.__all__]
+        graph_params = (self, self.directory + self.prefix.replace('.', '_') + '_')
+        self.graphs = [getattr(single_plots, cls_name)(*graph_params) for cls_name in single_plots.__all__]
 
     @property
     def first_read(self):

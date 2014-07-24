@@ -33,8 +33,6 @@ class Presample(BarcodeGroup):
 
     all_paths = """
     /info.json
-    /fwd.fastq
-    /rev.fastq
     /logs/
     /assembled/
     /unassembled/
@@ -45,6 +43,8 @@ class Presample(BarcodeGroup):
     /quality/renamed.fastq
     /quality/reads.fasta
     """
+
+    kind = 'presample'
 
     def __repr__(self): return '<%s object "%s">' % (self.__class__.__name__, self.id_name)
     def __str__(self): return self.id_name
@@ -91,6 +91,8 @@ class Presample(BarcodeGroup):
         self.samples.load()
         # Pool dummy #
         self.pool, self.parent = self, self
+        self.loaded = True
+        self.used = True
         # Files #
         if not os.access('/proj/%s' % self.account, os.R_OK): return
         self.fwd_path = home + "proj/%s/INBOX/%s/%s/%s" % (self.account, self.run_label, self.label, self.fwd_name)

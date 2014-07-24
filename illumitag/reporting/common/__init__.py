@@ -19,9 +19,13 @@ class HeaderTemplate(object):
     def __init__(self, report, title):
         # Attributes #
         self.report, self.parent = report, report
-        self.presample = self.parent.presample
-        # Other #
         self.title = title
+
+    def render(self, escape=None, delimiters=None):
+        if escape is None: escape = lambda u: u
+        if delimiters is None: delimiters = (u'@@[', u']@@')
+        pystache.defaults.DELIMITERS = delimiters
+        return pystache.Renderer(escape=escape).render(self)
 
     def name(self):
         if 'USER_FULL_NAME' in os.environ: return os.environ['USER_FULL_NAME']
@@ -36,7 +40,12 @@ class HeaderTemplate(object):
 ###############################################################################
 class FooterTemplate(object):
     """All the parameters to be rendered in the LaTeX footer template"""
-    pass
+
+    def render(self, escape=None, delimiters=None):
+        if escape is None: escape = lambda u: u
+        if delimiters is None: delimiters = (u'{{', u'}}')
+        pystache.defaults.DELIMITERS = delimiters
+        return pystache.Renderer(escape=escape).render(self)
 
 ###############################################################################
 class ScaledFigure(object):
@@ -45,9 +54,13 @@ class ScaledFigure(object):
     def __repr__(self): return '<%s object on %s>' % (self.__class__.__name__, self.parent)
 
     def __init__(self, path, caption, label=None, **kwargs):
+        # Attributes #
         self.path, self.caption = path, caption
         self.label = r"\label{" + label + "}\n" if label is not None else ''
         self.kwargs = kwargs
+        # Check #
+        if self.path.count('.') > 1:
+            raise Exception("Can't have several extension in a LaTeX file path.")
 
     def __str__(self):
         pystache.defaults.DELIMITERS = (u'@@[', u']@@')
@@ -57,7 +70,10 @@ class ScaledFigure(object):
     def path(self): return self.path
     def caption(self): return self.caption
     def label(self): return self.label
-    def graph_params(self): return ','.join('%s=%s' % (k,v) for k,v in self.kwargs.items())
+    def graph_params(self):
+        params = list('%s=%s' % (k,v) for k,v in self.kwargs.items())
+        params += ['keepaspectratio']
+        return ','.join(params)
 
 ###############################################################################
 class DualFigure(object):
@@ -66,12 +82,16 @@ class DualFigure(object):
     def __repr__(self): return '<%s object on %s>' % (self.__class__.__name__, self.parent)
 
     def __init__(self, path_one, path_two, caption_one, caption_two, label_one, label_two, caption_main, label_main):
+        # Attributes #
         self.path_one, self.path_two = path_one, path_two
         self.caption_one, self.caption_two = caption_one, caption_two
         self.label_one = r"\label{" + label_one + "}\n" if label_one is not None else ''
         self.label_two = r"\label{" + label_two + "}\n" if label_two is not None else ''
         self.caption_main = caption_main
         self.label_main = r"\label{" + label_main + "}\n" if label_main is not None else ''
+        # Check #
+        if self.path_one.count('.') > 1 or self.path_two.count('.') > 1:
+            raise Exception("Can't have several extension in a LaTeX file path.")
 
     def __str__(self):
         pystache.defaults.DELIMITERS = (u'@@[', u']@@')
