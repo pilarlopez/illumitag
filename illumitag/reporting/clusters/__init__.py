@@ -121,11 +121,48 @@ class ClusterTemplate(object):
 
     # Clustering #
     def clustering_citation(self):
-        msg = "The %s method. The publication is available at %s"
-        return msg % (self.cluster.otus.title, self.cluster.otus.article)
+        msg = "the %s method (%s). The publication is available at %s"
+        return msg % (self.cluster.otus.title, self.cluster.otus.version, self.cluster.otus.article)
     def clustering_graph(self):
-        caption = "Distribution of sequence lengths at input"
-        path = self.cluster.reads.graphs[1].path
-        label = "input_length_dist"
+        caption = "Distribution of OTU sizes"
+        path = self.cluster.otus.taxonomy.graphs[0].path
+        label = "clustering_graph"
         return str(ScaledFigure(path, caption, label))
 
+    # Classification #
+    def classification_citation(self): return split_thousands(len(self.cluster.reads))
+    def otus_total(self): return split_thousands(len(self.cluster.reads))
+    def otus_classified(self): return split_thousands(len(self.cluster.reads))
+    def unwanted_phyla(self): return split_thousands(len(self.cluster.reads))
+    def otus_filtered(self): return split_thousands(len(self.cluster.reads))
+
+    # OTU table #
+    def otu_sums_graph(self):
+        caption = "Distribution of OTU sizes"
+        path = self.cluster.otus.taxonomy.graphs[0].path
+        label = "otu_sums_graph"
+        return str(ScaledFigure(path, caption, label))
+    def sample_sums_graph(self):
+        caption = "Distribution of OTU sizes"
+        path = self.cluster.otus.taxonomy.graphs[0].path
+        label = "sample_sums_graph"
+        return str(ScaledFigure(path, caption, label))
+    def cumulative_presence(self):
+        caption = "Distribution of OTU sizes"
+        path = self.cluster.otus.taxonomy.graphs[0].path
+        label = "cumulative_presence"
+        return str(ScaledFigure(path, caption, label))
+
+    # Composition #
+    def phyla_composition(self):
+        caption = "Distribution of OTU sizes"
+        path = self.cluster.otus.taxonomy.graphs[0].path
+        label = "phyla_composition"
+        return str(ScaledFigure(path, caption, label))
+
+    # Composition #
+    def standard_nmds(self):
+        caption = "Distribution of OTU sizes"
+        path = self.cluster.otus.taxonomy.graphs[0].path
+        label = "standard_nmds"
+        return str(ScaledFigure(path, caption, label))

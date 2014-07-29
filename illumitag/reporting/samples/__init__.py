@@ -65,7 +65,7 @@ class SampleReport(object):
         self.p.report_aux.remove()
         self.p.report_log.remove()
         self.p.report_pdf.remove()
-        sh.xelatex("--interaction=nonstopmode", '-output-directory', self.base_dir, self.p.report_tex, )
+        sh.xelatex("--interaction=nonstopmode", '-output-directory', self.base_dir, self.p.report_tex)
         sh.xelatex("--interaction=nonstopmode", '-output-directory', self.base_dir, self.p.report_tex)
 
 ###############################################################################

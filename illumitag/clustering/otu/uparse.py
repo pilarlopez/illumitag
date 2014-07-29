@@ -19,6 +19,9 @@ from illumitag.clustering.source.seqenv import Seqenv
 # Third party modules #
 import sh, pandas
 
+# Constants #
+uparse_version = sh.usearch7('-version').stdout[8:]
+
 ###############################################################################
 class UparseOTUs(OTUs):
     """Will use uparse to create OTU clusters from a given FASTA file
@@ -27,7 +30,7 @@ class UparseOTUs(OTUs):
     short_name = 'uparse'
     title = 'UPARSE denovo picking'
     article = "http://www.nature.com/doifinder/10.1038/nmeth.2604"
-
+    version = uparse_version
 
     all_paths = """
     /derep.fasta

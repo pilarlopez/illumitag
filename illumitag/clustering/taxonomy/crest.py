@@ -1,5 +1,5 @@
 # Built-in modules #
-import os
+import os, shutil
 
 # Internal modules #
 from illumitag.fasta.single import FASTA
@@ -33,17 +33,16 @@ class CrestTaxonomy(Taxonomy):
     /otu_table.csv
     /otu_table_norm.csv
     /centers.fasta
-    /db_hits.xml
     /graphs/
     /stats/
     /comp_phyla/
     /comp_tips/
     /comp_order/
     /comp_class/
-    /crest/All_Composition.tsv
-    /crest/community.hits_Assignments.tsv
-    /crest/community.hits_Composition.tsv
-    /crest/community.hits_Tree.txt
+    /db_hits.xml
+    /crest/assignments.tsv
+    /crest/composition.tsv
+    /crest/tree.txt
     /crest/Relative_Abundance.tsv
     /crest/Richness.tsv
     """
@@ -83,7 +82,10 @@ class CrestTaxonomy(Taxonomy):
         if os.path.getsize(self.p.db_hits) == 0: raise Exception("Hits file empty. The MEGABLAST process was probably killed.")
         # CREST #
         self.p.crest_dir.remove()
-        sh.classify('--rdp', '-o', self.base_dir + 'crest', '-d', self.database, self.p.db_hits)
+        sh.classify('--includeunknown', '--rdp', '-o', self.base_dir + 'crest/', '-d', self.database, self.p.db_hits)
+        shutil.move(self.p.db_hits[:-4] + '_Composition.tsv', self.p.crest_composition)
+        shutil.move(self.p.db_hits[:-4] + '_Tree.txt', self.p.crest_tree)
+        shutil.move(self.p.db_hits[:-4] + '_Assignments.tsv', self.p.crest_assignments)
         # Clean up #
         if os.path.exists("error.log") and os.path.getsize("error.log") == 0: os.remove("error.log")
         # Return #

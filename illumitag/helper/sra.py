@@ -1,6 +1,18 @@
 # -*- coding: utf-8 -*-
 
-# Built-in modules #
+"""
+Start with a BioProject creation here:
+https://submit.ncbi.nlm.nih.gov/subs/bioproject/
+
+Then the BioSamples (use the first TSV):
+https://submit.ncbi.nlm.nih.gov/subs/biosample/
+
+Finally a new submission here:
+http://trace.ncbi.nlm.nih.gov/Traces/sra_sub/sub.cgi
+
+And email the second TSV to the support there:
+sra@ncbi.nlm.nih.gov
+"""
 
 # Internal modules #
 from illumitag.common import Password, md5sum, gps_deg_to_float
@@ -12,7 +24,70 @@ from ftputil import FTPHost
 # Constants #
 ftp_server = "ftp-private.ncbi.nih.gov"
 ftp_login = "sra"
-ftp_password = Password("ENA FTP password for user '%s':" % ftp_login)
+ftp_password = Password("SRA FTP password for user '%s':" % ftp_login)
+
+# Lists #
+header_bio = [
+    '*sample_name',
+    'description',
+    'bioproject_id',
+    'sample_title',
+    '*organism',
+    '*collection_date',
+    '*depth',
+    '*env_biome',
+    '*env_feature',
+    '*env_material',
+    '*geo_loc_name',
+    '*lat_lon',
+]
+
+header_sra =  [
+    'bioproject_accession',
+    'biosample_accession',
+    'sample_name',
+    'library_ID',
+    'title/short description',
+    'library_strategy',
+    'library_source',
+    'library_selection',
+    'library_layout',
+    'platform',
+    'instrument_model',
+    'design_description',
+    'reference_genome_assembly',
+    'alignment_software',
+    'forward_read_length',
+    'reverse_read_length',
+    'filetype',
+    'filename',
+    'MD5_checksum',
+    'filetype',
+    'filename',
+    'MD5_checksum',
+]
+
+default_bio = {
+    'bioproject_id'        : "PRJNA000000",
+    'organism'             : "aquatic metagenome",
+    'depth'                : "surface",
+    'env_biome'            : "river",
+    'env_feature'          : "river",
+    'env_material'         : "water",
+}
+
+default_sra = {
+    'library_strategy'        : "AMPLICON",
+    'library_source'          : "METAGENOMIC",
+    'library_selection'       : "PCR",
+    'library_layout'          : "Paired-end",
+    'platform'                : "ILLUMINA",
+    'instrument_model'        : "Illumina MiSeq",
+    'forward_read_length'     : "250",
+    'reverse_read_length'     : "250",
+    'forward_filetype'        : "fastq",
+    'reverse_filetype'        : "fastq",
+}
 
 ###############################################################################
 class SampleSRA(object):
@@ -26,24 +101,25 @@ class SampleSRA(object):
         self.base_name = 'run%03d_pool%02d_sample%02d_{}_reads.fastq.gz'
         self.base_name = self.base_name % (self.s.pool.run_num, self.s.pool.num, self.s.num)
 
-    def upload_to_sra(self):
+    def upload_to_sra(self, verbose=True):
+        """They have an FTP site where you should drop the files first"""
         # Print #
-        print self.s.short_name
+        if verbose: print self.s.short_name + ' (' + self.s.name + ')'
         # Connect #
-        print "Connecting..."
+        if verbose: print "Connecting..."
         ftp = FTPHost(ftp_server, ftp_login, str(ftp_password))
         # Gzip if not there yet #
         if not self.s.raw_gz.exists:
             self.s.raw.fwd.gzip_to(self.s.p.raw_forward_gz)
             self.s.raw.rev.gzip_to(self.s.p.raw_reverse_gz)
         # Make directory #
-        print "Making directories..."
+        if verbose: print "Making directories..."
         ftp.makedirs(self.directory)
         # Upload #
         base_path = self.directory + self.base_name
-        print "Uploading forward..."
+        if verbose: print "Uploading forward..."
         ftp.upload(self.s.p.raw_forward_gz, base_path.format("forward"))
-        print "Uploading reverse..."
+        if verbose: print "Uploading reverse..."
         ftp.upload(self.s.p.raw_reverse_gz, base_path.format("reverse"))
         # Return #
         ftp.close()
@@ -52,132 +128,151 @@ class SampleSRA(object):
     def biosample_line(self):
         """Will generate the corresponding BioSample entry"""
         # sample_name
-        line = ["Soda lake %s (%s)" % (self.s.short_name, self.s.name)]
+        line = ["Sample %s (%s)" % (self.s.short_name, self.s.name)]
         # description
         line += [""]
         # bioproject_id
-        line += ["PRJNA255501"]
+        line += default_bio['bioproject_id']
         # sample_title
         line += [""]
         # organism
-        line += ["aquatic metagenome"]
+        line += default_bio["organism"]
         # collection_date
         line += [self.s.info['date']]
-        # collection_depth
-        line += ["surface"]
+        # depth
+        line += default_bio["depth"]
         # env_biome, env_feature, env_material
-        line += ["saline lake"]
-        line += ["lake"]
-        line += ["water"]
-        # geo_loc_name, lat_lon
-        line += ["Austria: " + self.s.info['real_name'][0]]
+        line += default_bio["env_biome"]
+        line += default_bio["env_feature"]
+        line += default_bio["env_material"]
+        # geo_loc_name
+        line += ["%s: %s" % (self.s.info['country'], self.s.info['real_name'])]
         # lat_lon
-        coords = (gps_deg_to_float(self.s.info['GPS N'][0]), gps_deg_to_float(self.s.info['GPS E'][0]))
+        coords = (gps_deg_to_float(self.s.info['GPS N'][0]), # Latitude
+                  gps_deg_to_float(self.s.info['GPS E'][0])) # Longitude
         line += ['{:7.6f} N {:7.6f} E'.format(*coords)]
         # Return #
         return line
 
     @property
-    def fwd_md5(self): return md5sum(self.s.p.raw_forward_gz)
-    @property
-    def rev_md5(self): return md5sum(self.s.p.raw_reverse_gz)
-
-###############################################################################
-class PyroSampleSRA(object):
-
-    def __init__(self, sample):
-        self.s = sample
-        self.directory = '/ILLUMITAG/pyrosamples/'
-        self.name = self.s.short_name + '.sff'
-
-    def upload_to_sra(self):
-        # Print #
-        print self.s.short_name
-        # Connect #
-        print "Connecting..."
-        ftp = FTPHost(ftp_server, ftp_login, str(ftp_password))
-        # Make directory #
-        print "Making directories..."
-        ftp.makedirs(self.directory)
-        # Upload #
-        dest_path = self.directory + self.name
-        print "Uploading to '%s' (%s)..." % (dest_path, self.s.p.raw_sff.size)
-        ftp.upload(self.s.p.raw_sff, dest_path)
+    def biosample_line_danube(self):
+        """Special Domenico case"""
+        # sample_name
+        line = ["%s (%s km %s)" % (self.s.short_name, self.s.info['River'], self.s.info['River_km'])]
+        # description
+        if self.s.info['Filter_fraction'] == '3.0': line += [u"Attached fraction (> 3.0 μm)"]
+        elif self.s.info['Filter_fraction'] == '0.2': line += [u"Free fraction (0.2-3.0 μm)"]
+        else: line += [""]
+        # bioproject_id
+        line += ["PRJNA256993"]
+        # sample_title
+        line += [""]
+        # organism
+        line += [default_bio["organism"]]
+        # collection_date
+        line += [self.s.info['Date_of_Sampling'].replace('_','T')]
+        # depth
+        line += [self.s.info['Depth'] if self.s.info['Depth'] else 'surface']
+        # env_biome, env_feature, env_material
+        line += ["river"]
+        line += ["river"]
+        line += ["water"]
+        # geo_loc_name
+        line += ["%s: %s km %s" % (self.s.info['Country'].replace('.',' '), self.s.info['River'], self.s.info['River_km'])]
+        # lat_lon
+        line += ['%s N %s E' % (self.s.info['Latitude'], self.s.info['Latitude'])]
+        # fraction
+        line += [self.s.info['Filter_fraction']]
+        line += [self.s.short_name]
         # Return #
-        ftp.close()
+        return line
 
     @property
-    def base_name(self):
-        class NoFormat(object):
-            @classmethod
-            def format(cls, _):
-                return self.name
-        return NoFormat()
+    def sra_line(self):
+        """Will generate the corresponding entry for SRA submission"""
+        # accession
+        line =  [self.s.info['bioproject']]
+        line += [self.s.info['biosample']]
+        # name
+        line += [self.s.short_name]
+        line += [self.s.short_name]
+        # description
+        machine = 'Illumina MiSeq' if 'machine' not in self.s.__dict__ else self.s.machine
+        desc = "Soda lake '%s' (code %s) sampled on %s and run on a %s"
+        desc += " -- run number %i, pool number %i, barcode number %i."
+        line += [desc % (self.s.info['real_name'][0], self.s.short_name, self.s.info['date'],
+                         machine, self.s.pool.run_num, self.s.pool.num, self.s.num)]
+        # library_strategy
+        line += [default_sra['library_strategy']]
+        line += [default_sra['library_source']]
+        line += [default_sra['library_selection']]
+        line += [default_sra['library_layout']]
+        line += [default_sra['platform']]
+        line += [default_sra['instrument_model']]
+        # design_description
+        line += [self.s.pool.info['design_description']]
+        # reference_genome_assembly
+        line += ['', '']
+        # forward_read_length
+        line += [self.forward_read_length, self.reverse_read_length]
+        # forward
+        line += [self.forward_filetype, self.base_name.format("forward")]
+        line += [md5sum(self.s.p.raw_forward_gz)]
+        # reverse
+        line += [self.reverse_filetype, self.base_name.format("reverse")]
+        line += [md5sum(self.s.p.raw_reverse_gz)]
+        # return
+        return line
 
     @property
-    def fwd_md5(self): return md5sum(self.s.p.raw_sff)
-    @property
-    def rev_md5(self): return md5sum(self.s.p.raw_sff)
+    def sra_line_danube(self):
+        """Special Domenico case"""
+        # BioSample ID
+        import illumitag
+        bioids = open(illumitag.repos_dir + 'scripts/domenico/biosample_ids.txt', 'r')
+        bioids = [l.split(' ')[0] for l in bioids if not l.startswith('a')]
+        bioids = dict([(l.split(',')[1], l.split(',')[0]) for l in bioids])
+        # accession
+        line =  ["PRJNA256993"]
+        line += [bioids[self.s.short_name]]
+        # name
+        line += [self.s.short_name]
+        line += [self.s.short_name]
+        # description
+        desc = "%s (%s km %s)" % (self.s.short_name, self.s.info['River'], self.s.info['River_km'])
+        desc += " -- run number %i, pool number %i, barcode number %i."
+        line += [desc % (self.s.pool.run_num, self.s.pool.num, self.s.num)]
+        # library_strategy
+        line += [default_sra['library_strategy']]
+        line += [default_sra['library_source']]
+        line += [default_sra['library_selection']]
+        line += [default_sra['library_layout']]
+        line += [default_sra['platform']]
+        line += [default_sra['instrument_model']]
+        # design_description
+        line += [u"Water was sampled and cells were captured on 0.2 µm filters. Samples were kept frozen under -80°C. Nucleic acids were extracted using a power soil DNA isolation Kit (MO BIO Laboratories Inc, CA, USA). Primers targeting the V3 and V4 regions of the ribosomal RNA gene originally designed for pyrosequencing (Herlemann et al. 2011.) were adapted to Illumina sequencing. The DNA material was amplified for 25 cycles directly with the barcoded primers. All PCRs were conducted in 20 µl volume using 1.0 U Phusion high fidelity DNA polymerase (NEB, UK), 0.25 µM primers, 200 µM dNTP mix, and 0.4 µg bovine serum albumin. Following this, the solution was purified by Qiagen gel purification kit (Qiagen, Germany) and quantified using a fluorescent stain-based kit (PicoGreen, Invitrogen)"]
+        # reference_genome_assembly
+        line += ['', '']
+        # forward_read_length
+        line += [default_sra['forward_read_length'], default_sra['reverse_read_length']]
+        # forward
+        line += [default_sra['forward_filetype'], self.base_name.format("forward")]
+        line += [md5sum(self.s.p.raw_forward_gz)]
+        # reverse
+        line += [default_sra['reverse_filetype'], self.base_name.format("reverse")]
+        line += [md5sum(self.s.p.raw_reverse_gz)]
+        # return
+        return line
 
 ###############################################################################
 class MakeSpreadsheet(object):
     """A class to generate the spreadsheets required by the NCBI/SRA
-    raw data submission"""
-
-    bioproject_accession    = None
-    biosample_accession     = None
-    sample_name             = None
-    library_strategy        = "AMPLICON"
-    library_source          = "METAGENOMIC"
-    library_selection       = "PCR"
-    library_layout          = "Paired-end"
-    platform                = "ILLUMINA"
-    instrument_model        = "Illumina MiSeq"
-    forward_read_length     = "250"
-    reverse_read_length     = "250"
-    forward_filetype        = "fastq"
-    reverse_filetype        = "fastq"
+    for raw data submission"""
 
     all_paths = """
     /biosample_creation.tsv
     /sra_submission.tsv
     """
-
-    header_sra =  ['bioproject_accession',
-                   'biosample_accession',
-                   'sample_name',
-                   'library_ID',
-                   'title/short description',
-                   'library_strategy',
-                   'library_source',
-                   'library_selection',
-                   'library_layout',
-                   'platform',
-                   'instrument_model',
-                   'design_description',
-                   'reference_genome_assembly',
-                   'alignment_software',
-                   'forward_read_length',
-                   'reverse_read_length',
-                   'filetype',
-                   'filename',
-                   'MD5_checksum',
-                   'filetype',
-                   'filename',
-                   'MD5_checksum']
-
-    header_bio = ['*sample_name',
-                  'description',
-                  'bioproject_id',
-                  'sample_title',
-                  '*organism',
-                  '*collection_date',
-                  '*depth',
-                  '*env_biome',
-                  '*env_feature',
-                  '*env_material',
-                  '*geo_loc_name',
-                  '*lat_lon']
 
     def __init__(self, cluster):
         """You give a cluster as input"""
@@ -188,47 +283,14 @@ class MakeSpreadsheet(object):
         self.base_dir = self.cluster.base_dir + 'sra/'
         self.p = AutoPaths(self.base_dir, self.all_paths)
 
-    @property
-    def lines(self):
-        for s in self.samples:
-            # accession
-            line =  [s.info['bioproject']]
-            line += [s.info['biosample']]
-            # name
-            line += [s.short_name]
-            line += [s.short_name]
-            # description
-            machine = 'Illumina MiSeq' if 'machine' not in s.__dict__ else s.machine
-            desc = "Soda lake '%s' (code %s) sampled on %s and run on a %s"
-            desc += " -- run number %i, pool number %i, barcode number %i."
-            line += [desc % (s.info['real_name'][0], s.short_name, s.info['date'],
-                             machine, s.pool.run_num, s.pool.num, s.num)]
-            # library_strategy
-            line += [self.library_strategy, self.library_source, self.library_selection]
-            line += [self.library_layout, self.platform, self.instrument_model]
-            # design_description
-            line += [s.pool.info['design_description']]
-            # reference_genome_assembly
-            line += ['', '']
-            # forward_read_length
-            line += [self.forward_read_length, self.reverse_read_length]
-            # forward
-            line += [self.forward_filetype, s.sra.base_name.format("forward")]
-            line += [s.sra.fwd_md5]
-            # reverse
-            line += [self.reverse_filetype, s.sra.base_name.format("reverse")]
-            line += [s.sra.rev_md5]
-            # write
-            yield line
+    def write_bio_tsv(self):
+        """Will write the TSV required by the NCBI for the creation of 'BioSample' objects"""
+        header = '\t'.join(header_bio) + '\n'
+        content = '\n'.join('\t'.join(s.sra.biosample_line_danube) for s in self.samples)
+        self.p.biosample.write(header+content, 'utf-8')
 
     def write_sra_tsv(self):
         """Will write the appropriate TSV for the SRA submission in the cluster directory"""
-        header = '\t'.join(self.header_sra) + '\n'
-        content = '\n'.join('\t'.join(l) for l in self.lines)
-        self.p.submission.write(header+content, 'windows-1252')
-
-    def write_bio_tsv(self):
-        """Will write the TSV required by the NCBI for the creation of 'BioSample' objects"""
-        header = '\t'.join(self.header_bio) + '\n'
-        content = '\n'.join('\t'.join(s.sra.biosample_line) for s in self.samples)
-        self.p.biosample.write(header+content, 'utf-8')
+        header = '\t'.join(header_sra) + '\n'
+        content = '\n'.join('\t'.join(s.sra.sra_line_danube) for s in self.samples)
+        self.p.sra.write(header+content, 'windows-1252')

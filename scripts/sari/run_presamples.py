@@ -16,12 +16,6 @@ sys.exit("Copy paste the commands you want in ipython, don't run this script.")
 import illumitag
 
 ###############################################################################
-# Get vars #
-#proj = illumitag.projects['evaluation']
-#pools = proj.pools
-#samples = [s for pool in proj for s in pool.samples]
-#cluster = illumitag.clustering.favorites.evaluation
-
 # Check bad samples #
 s = illumitag.runs[10][-1]
 s.fwd.indices_counter.most_common(100)
@@ -57,7 +51,7 @@ p.cluster.otus.taxonomy.comp_phyla.make_plots()
 p.cluster.otus.taxonomy.comp_phyla.stats.nmds.run()
 p.cluster.otus.taxonomy.comp_tips.make_taxa_table()
 p.cluster.otus.taxonomy.comp_tips.make_plots()
-
+p.cluster.report.generate()
 
 # Run all #
 for s in samples:

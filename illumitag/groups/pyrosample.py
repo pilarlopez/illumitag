@@ -7,18 +7,56 @@ from collections import OrderedDict
 
 # Internal modules #
 import illumitag
-from illumitag.common import natural_sort, moving_average
+from illumitag.common import natural_sort, moving_average, md5sum
 from illumitag.common.autopaths import AutoPaths, FilePath
 from illumitag.common.tmpstuff import TmpFile
 from illumitag.fasta.single import FASTA, FASTQ
-from illumitag.helper.sra import PyroSampleSRA
+from illumitag.helper import sra
 
 # Third party modules #
 import sh, pandas, commands
 from shell_command import shell_output
+from ftputil import FTPHost
 
 # Constants #
 home = os.environ['HOME'] + '/'
+
+###############################################################################
+class PyroSampleSRA(object):
+
+    def __init__(self, sample):
+        self.s = sample
+        self.directory = '/ILLUMITAG/pyrosamples/'
+        self.name = self.s.short_name + '.sff'
+
+    def upload_to_sra(self):
+        # Print #
+        print self.s.short_name
+        # Connect #
+        print "Connecting..."
+        ftp = FTPHost(sra.ftp_server, sra.ftp_login, str(sra.ftp_password))
+        # Make directory #
+        print "Making directories..."
+        ftp.makedirs(self.directory)
+        # Upload #
+        dest_path = self.directory + self.name
+        print "Uploading to '%s' (%s)..." % (dest_path, self.s.p.raw_sff.size)
+        ftp.upload(self.s.p.raw_sff, dest_path)
+        # Return #
+        ftp.close()
+
+    @property
+    def base_name(self):
+        class NoFormat(object):
+            @classmethod
+            def format(cls, _):
+                return self.name
+        return NoFormat()
+
+    @property
+    def fwd_md5(self): return md5sum(self.s.p.raw_sff)
+    @property
+    def rev_md5(self): return md5sum(self.s.p.raw_sff)
 
 ###############################################################################
 class Pyrosample(object):

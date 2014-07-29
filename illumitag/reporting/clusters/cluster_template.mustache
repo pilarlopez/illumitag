@@ -39,26 +39,45 @@ Summing the reads from all the samples, we have {{count_sequences}} sequences to
 
 Clustering
 ----------
-Two sequences that diverge by no more than a few nucleotides are probably not produced by ecological diversity. They are most likely produced by errors along the laboratory method. So we put them together in one unit, called an OTU. A sequence that does not have any such similar-looking brothers is most likely the product of a recombination (chimera) and is discarded. This is done using {{clustering_citation}}. You can see the number of clusters produced in figure \ref{clustering_graph}
+Two sequences that diverge by no more than a few nucleotides are probably not produced by ecological diversity. They are most likely produced by errors along the laboratory method. So we put them together in one unit, called an OTU. A sequence that does not have any such similar-looking brothers is most likely the product of a recombination (chimera) and is discarded. This is done using {{clustering_citation}}. You can see the number and size of OTUs produced in figure \ref{clustering_graph}.
 
-{{clustering_graph}}.
-
-OTU table
----------
-Now we check which sample each sequence was coming from and make a count table with OTUs as rows and samples as columns. This table is too big to be viewed directly here. However we can plot some of its properties:
+{{clustering_graph}}
 
 Classification
 --------------
-Relying on the databases of ribosomal genes such as Silva, we can classify each cluster and give it an approximative affiliation. This provides a taxonomic name to each OTU. We can make more pretty graphs
+Relying on the databases of ribosomal genes such as Silva, we can classify each OTU and give it an approximative affiliation. This provides a taxonomic name to each OTU. This is done using {{classification_citation}}. Out of our {{otus_total}}, exactly {{otus_classified}} of them are assigned to a position in the tree of life.
 
-Diversity
+At this point we are going to remove some OTUs. All those pertaining to any of the following phyla are discarded: {{unwanted_phyla}}. This leaves us with {{otus_filtered}} 'good' OTUs.
+
+OTU table
 ---------
-We can compute estimators of diversity within the sample:
+Now we check which sample each sequence of each OTU was coming from and make a count table with OTUs as rows ({{otus_filtered}}) and samples as columns ({{count_samples}}). This table is too big to be viewed directly here. However we can plot some of its properties to better understand how sparse it is:
 
+{{otu_sums_graph}}
+
+{{sample_sums_graph}}
+
+{{cumulative_presence}}
+
+Taxa table
+----------
+If we modify the rows of our table to become taxonomic names instead of OTUs, some rows will have the same affiliations and will be merged together by summation. This produces the taxa table which has {{count_samples}} samples and {{count_taxa}} named taxa.
+
+Composition
+-----------
+Obviously, at this point, one of the most obvious graphs to produce is a bar-chart detailing the composition in terms of taxonomy of every one of our samples. To keep things simple we will only consider the 'phyla' taxonomic level. This can be seen in figure \ref{phyla_composition}.
+
+{{phyla_composition}}
 
 Comparison
 ----------
-Using the other samples included in the same project (45 samples) we can start comparing this sample to the others. A first simple means of doing that is plotting them on an ordination plot.
+Using the other samples included in the same cluster we can start comparing the samples amongst each other. A first means of doing that is by plotting them on an ordination plot. This can be seen in figure \ref{standard_nmds}.
+
+{{standard_nmds}}
+
+Diversity
+---------
+We can compute estimators of diversity within the cluster:
 
 Environmental tag
 -----------------

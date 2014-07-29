@@ -32,13 +32,16 @@ class Taxonomy(object):
         # Remove unwanted #
         result = self.otu.cluster_counts_table.copy()
         for otu_name in result:
-            species = self.assignments[otu_name]
+            species = self.assignments.get(otu_name, None)
+            if species is None: # This is a bug in LCA Classifier
+                result = result.drop(otu_name, 1) # This is a bug in LCA Classifier
+                continue # This is a bug in LCA Classifier
             if len(species) > 2 and species[2] in self.unwanted: result = result.drop(otu_name, 1)
         # Merge samples when reruns #
         for name, data in result.iterrows():
             sample = [s for s in self.samples if s.short_name == name][0]
-            rerun_row = result.loc[name]
             if not sample.info.get('rerun'): continue
+            rerun_row = result.loc[name]
             rn, p, n = sample.info['rerun']['run'], sample.info['rerun']['pool'], sample.info['rerun']['num']
             orig_sample = illumitag.runs[rn][p-1][n-1]
             orig_name = orig_sample.short_name
@@ -46,7 +49,7 @@ class Taxonomy(object):
             result.loc[orig_name] = orig_row + rerun_row
             result = result.drop(name)
         # Convert to CSV #
-        result.to_csv(self.otu_csv, sep='\t')
+        result.to_csv(str(self.otu_csv), sep='\t')
         prepend_to_file(self.otu_csv, 'X')
 
     @property_cached
@@ -71,29 +74,6 @@ class Taxonomy(object):
             for seq in f:
                 if seq.id in self.otus_to_keep: yield seq
         self.centers.write(filter_otus(self.otu.centers))
-
-    def resample_otu_table(self, down_to=5000):
-        """This code does not work yet"""
-        # Eliminate samples that are under down_to #
-        are_high = self.otu_table.sum(axis=1) > down_to
-        old_frame = self.otu_table.loc[are_high,:]
-        # Determine down_to #
-        sums = otus.sum(axis=1)
-        if not down_to: self.down_to = min(sums)
-        else:
-            self.down_to = down_to
-            otus = otus.drop(sums[sums < self.down_to].keys())
-        # Empty frame #
-        subotus = pandas.DataFrame(columns=otus.columns, index=otus.index, dtype=int)
-        # Do it #
-        for sample_name in otus.index:
-            row = otus.loc[sample_name]
-            weighted_choices = list(row[row != 0].iteritems())
-            population = [val for val, count in weighted_choices for i in range(count)]
-            sub_pop = random.sample(population, self.down_to)
-            frequencies = Counter(sub_pop)
-            new_row = pandas.Series(frequencies.values(), index=frequencies.keys(), dtype=int)
-            subotus.loc[sample_name] = new_row
 
 ###############################################################################
 class SimpleTaxonomy(object):

@@ -66,3 +66,13 @@ for otu_name in cluster.otu_uparse.cluster_counts_table:
     if len(assignement) > 2 and assignement[2] in silva.unwanted:
         result += cluster.otu_uparse.cluster_counts_table[otu_name].sum()
 print result
+
+# Submit to SRA #
+pools = illumitag.runs[4][0:4]
+for pool in pools: pool.create_raw_samples()
+for s in cluster: s.sra.upload_to_sra()
+from illumitag.helper.sra import MakeSpreadsheet
+make_tsv = MakeSpreadsheet(cluster)
+make_tsv.write_bio_tsv()
+make_tsv.write_sra_tsv()
+

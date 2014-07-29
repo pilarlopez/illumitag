@@ -63,3 +63,26 @@ def make_zipfile(self):
     # Zip it #
     sh.tar('-zc', '-C', self.base_dir, '-f', self.p.report_zip, 'report')
     shutil.rmtree(report_dir)
+
+def resample_otu_table(self, down_to=5000):
+    """This code does not work yet"""
+    # Eliminate samples that are under down_to #
+    are_high = self.otu_table.sum(axis=1) > down_to
+    old_frame = self.otu_table.loc[are_high,:]
+    # Determine down_to #
+    sums = otus.sum(axis=1)
+    if not down_to: self.down_to = min(sums)
+    else:
+        self.down_to = down_to
+        otus = otus.drop(sums[sums < self.down_to].keys())
+    # Empty frame #
+    subotus = pandas.DataFrame(columns=otus.columns, index=otus.index, dtype=int)
+    # Do it #
+    for sample_name in otus.index:
+        row = otus.loc[sample_name]
+        weighted_choices = list(row[row != 0].iteritems())
+        population = [val for val, count in weighted_choices for i in range(count)]
+        sub_pop = random.sample(population, self.down_to)
+        frequencies = Counter(sub_pop)
+        new_row = pandas.Series(frequencies.values(), index=frequencies.keys(), dtype=int)
+        subotus.loc[sample_name] = new_row
