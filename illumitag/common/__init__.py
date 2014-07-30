@@ -244,3 +244,17 @@ def pretty_now():
     """Prints some thing like '2014-07-24 11:12:45 CEST+0200'"""
     now = datetime.datetime.now(dateutil.tz.tzlocal())
     return now.strftime("%Y-%m-%d %H:%M:%S %Z%z")
+
+################################################################################
+def andify(list_of_strings):
+    """
+    Given a list of strings will join them with commas
+    and a final "and" word.
+
+    >>> andify(['Apples', 'Oranges', 'Mangos'])
+    'Apples, Oranges and Mangos'
+    """
+    result = ', '.join(list_of_strings)
+    comma_index = result.rfind(',')
+    if comma_index > -1: result = result[:comma_index] + ' and' + result[comma_index+1:]
+    return result

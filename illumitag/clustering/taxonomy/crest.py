@@ -23,8 +23,8 @@ home = os.environ['HOME'] + '/'
 
 # Databases #
 databases = {
-    'silvamod': home + "share/LCAClassifier/parts/flatdb/silvamod/silvamod.fasta",
-    'freshwater': home + "share/LCAClassifier/parts/flatdb/freshwater/freshwater.fasta"
+    'silvamod': home + "share/LCAClassifier2/parts/flatdb/silvamod/silvamod.fasta",
+    'freshwater': home + "share/LCAClassifier2/parts/flatdb/freshwater/freshwater.fasta"
 }
 
 ###############################################################################
@@ -47,6 +47,11 @@ class CrestTaxonomy(Taxonomy):
     /crest/Richness.tsv
     """
 
+    short_name = 'crest'
+    title = 'LCAClassifier'
+    article = "http://dx.plos.org/10.1371/journal.pone.0049334"
+    version = "version 2.0 (March 2014)"
+
     def __init__(self, fasta_path, parent, database='silvamod', base_dir=None):
         # Parent #
         self.otu, self.parent = parent, parent
@@ -62,7 +67,7 @@ class CrestTaxonomy(Taxonomy):
         else: self.base_dir = base_dir
         self.p = AutoPaths(self.base_dir, self.all_paths)
         # Graphs #
-        self.graphs = [getattr(plots, cls_name)(self) for cls_name in plots.__all__]
+        self.graphs = [getattr(plots, cls_name)(self) for cls_name in plots.__all__[:-1]]
         # OTU table #
         self.otu_csv = CSVTable(self.p.otu_csv, d='\t')
         self.otu_csv_norm = CSVTable(self.p.otu_csv_norm, d='\t')
@@ -78,7 +83,7 @@ class CrestTaxonomy(Taxonomy):
 
     def assign(self):
         # Run #
-        #sh.megablast('-a', nr_threads, '-i', self.fasta, '-d', self.database_path, '-b100', '-v100', '-m7', '-o', self.p.db_hits)
+        sh.megablast('-a', nr_threads, '-i', self.fasta, '-d', self.database_path, '-b100', '-v100', '-m7', '-o', self.p.db_hits)
         if os.path.getsize(self.p.db_hits) == 0: raise Exception("Hits file empty. The MEGABLAST process was probably killed.")
         # CREST #
         self.p.crest_dir.remove()
@@ -99,6 +104,11 @@ class CrestTaxonomy(Taxonomy):
                 code, species = line.split('\t')
                 result[code] = tuple(species.strip('\n').split(';'))[:8]
         return result
+
+    @property
+    def count_assigned(self):
+        """How many got a position"""
+        return len([s for s in self.assignments.values() if s != ('No hits',)])
 
 ###############################################################################
 class SimpleCrestTaxonomy(SimpleTaxonomy, CrestTaxonomy):

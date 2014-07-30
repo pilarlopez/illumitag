@@ -8,7 +8,7 @@ from matplotlib import pyplot
 
 ################################################################################
 class GraphNMDS(Graph):
-    """Non-metric dimensional scaling"""
+    """Non-metric dimensional scaling plot"""
     short_name = 'nmds'
 
     def plot(self):
@@ -34,6 +34,7 @@ class GraphNMDS(Graph):
 
 ###############################################################################
 class NMDS(object):
+    """Non-metric dimensional scaling"""
 
     all_paths = """
     /lorem

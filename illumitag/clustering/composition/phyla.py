@@ -4,6 +4,7 @@ from collections import defaultdict
 # Internal modules #
 from illumitag.clustering.composition import Composition
 from illumitag.common.cache import property_cached
+from illumitag.clustering.composition.plots import TaxaBarstack
 
 # Third party modules #
 import pandas
@@ -59,3 +60,11 @@ class CompositionPhyla(Composition):
         result = result.reindex_axis(sums.keys(), axis=1)
         # Return result #
         return result
+
+    @property_cached
+    def graphs(self):
+        return [TaxaBarstackPhyla(self)]
+
+################################################################################
+class TaxaBarstackPhyla(TaxaBarstack):
+    pass

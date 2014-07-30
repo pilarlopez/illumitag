@@ -6,7 +6,6 @@ import illumitag
 from illumitag.common.autopaths import AutoPaths
 from illumitag.common.csv_tables import CSVTable
 from illumitag.common.cache import property_cached
-from illumitag.clustering.composition import plots
 from illumitag.clustering.statistics import StatsOnComposition
 
 # Third party modules #
@@ -22,6 +21,8 @@ class Composition(object):
     /stats/
     """
 
+    def __len__(self): return len(set(self.taxonomy.assignments[o] for o in self.taxonomy.otu_table))
+
     def __init__(self, parent, base_dir=None):
         # Parent #
         self.taxonomy, self.parent = parent, parent
@@ -31,8 +32,6 @@ class Composition(object):
         if base_dir is None: self.base_dir = self.parent.p.composition_dir
         else: self.base_dir = base_dir
         self.p = AutoPaths(self.base_dir, self.all_paths)
-        # Graphs #
-        self.graphs = [getattr(plots, cls_name)(self) for cls_name in plots.__all__]
         # Taxa table #
         self.taxa_csv = CSVTable(self.p.taxa_csv)
         # Stats #
@@ -63,7 +62,7 @@ class Composition(object):
 
     def make_taxa_table(self):
         """Convert to CSV"""
-        self.taxa_table.to_csv(self.taxa_csv, sep='\t')
+        self.taxa_table.to_csv(str(self.taxa_csv), sep='\t')
 
 ###############################################################################
 class SimpleComposition(Composition):

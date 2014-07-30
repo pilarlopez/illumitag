@@ -9,13 +9,16 @@ from illumitag.fasta.single import FASTA, FASTQ
 from illumitag.fasta.paired import PairedFASTQ
 from illumitag.fasta import FastQCResults
 from illumitag.common.autopaths import AutoPaths, FilePath
+from illumitag.common.cache import property_cached
 from illumitag.helper.primers import TwoPrimers
 from illumitag.graphs import outcome_plots
 from illumitag.running.presample_runner import PresampleRunner
 from illumitag.reporting.samples import SampleReport
+from illumitag.clustering.diversity.alpha import AlphaDiversity
 
 # Third party modules #
 from shell_command import shell_call
+from tqdm import tqdm
 
 # Constants #
 home = os.environ['HOME'] + '/'
@@ -112,16 +115,26 @@ class Presample(BarcodeGroup):
         self.unassembled = Unassembled(self)
         self.children = (self.assembled, self.unassembled)
         self.first = self.assembled
-        # Graphs #
-        self.graphs = [getattr(outcome_plots, cls_name)(self) for cls_name in outcome_plots.__all__]
-        # Runner #
-        self.runner = PresampleRunner(self)
         # Final #
         self.trimmed = FASTQ(self.p.trimmed)
         self.renamed = FASTQ(self.p.renamed)
         self.fasta = FASTA(self.p.reads_fasta)
+        # Graphs #
+        self.graphs = [getattr(outcome_plots, cls_name)(self) for cls_name in outcome_plots.__all__]
+        # Runner #
+        self.runner = PresampleRunner(self)
+        # Diversity #
+        self.diversity = AlphaDiversity(self)
         # Report #
         self.report = SampleReport(self)
+
+    @property_cached
+    def counts(self):
+        """The OTU counts"""
+        taxa_table = self.project.cluster.otus.taxonomy.comp_tips.taxa_table
+        row = taxa_table.loc[self.short_name].copy()
+        row.sort(ascending=False)
+        return row
 
     def load(self):
         pass
@@ -152,3 +165,15 @@ class Presample(BarcodeGroup):
 
     def make_presample_plots(self):
         for graph in self.graphs: graph.plot()
+
+    def fish_out(self, undetermined):
+        """This is a special method for when the sample needs to be built
+        starting from the MIDs and the undetermined_indices file."""
+        self.create()
+        for pair in tqdm(undetermined.parse_indices()):
+            if pair.fwd_indices.fwd_index == self.fwd_mid:
+                if pair.fwd_indices.rev_index == self.rev_mid:
+                    assert pair.fwd_indices.fwd_index == pair.rev_indices.fwd_index
+                    assert pair.fwd_indices.rev_index == pair.rev_indices.rev_index
+                    self.add_pair(pair)
+        self.close()

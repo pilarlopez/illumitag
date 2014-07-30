@@ -21,23 +21,23 @@ rd4000<-rrarefy(d2,min(rowSums(d2)))
 dim(rd4000)
 
 #nmds Soda Lakes
-d1 = rd.m[ ,colSums(rd.m)!=0] 
+d1 = rd.m[ ,colSums(rd.m)!=0]
 dim(d1)
 nmds1<-metaMDS(d1[c(1:9,34:42),],distance="bray", trymax=200)
 plot(nmds1)
 
-d.ill<-d1[c(1:10),] 
+d.ill<-d1[c(1:10),]
 # just soda lakes d.ill<-d1[c(1:9),]
-d.454<-d1[c(34:43),] 
+d.454<-d1[c(34:43),]
 # just soda lakes d.454<-d1[c(34:43),]
 
 #procrustes test Soda Lakes
-sqrt1<- sqrt(d.ill) 
-w1<-wisconsin(sqrt1) 
+sqrt1<- sqrt(d.ill)
+w1<-wisconsin(sqrt1)
 a.ill<-vegdist(w1, method="bray")
 
-sqrt2<- sqrt(d.454) 
-w2<-wisconsin(sqrt2) 
+sqrt2<- sqrt(d.454)
+w2<-wisconsin(sqrt2)
 a.454<-vegdist(w2, method="bray")
 
 p<-procrustes(a.454,a.ill)
@@ -98,7 +98,6 @@ plot(eR.454$S.chao1,eR.ill$S.chao1,cex=2)
 abline(chao1.lm)
 dev.off()
 
-
 J.ill<-J[c(1:5,7,8)]
 J.454<-J[c(32,33,35:38,40)]
 J.lm<-lm(J.ill~J.454)
@@ -146,15 +145,15 @@ dev.off()
 e<-read.csv(file="otu_table250.csv", sep="\t", row.names=1)
 e4000<-e[rowSums(e) > 4000, ]
 e4000<-rrarefy(e4000,min(rowSums(e4000)))
-e4000 = e4000[ ,colSums(e4000)!=0] 
+e4000 = e4000[ ,colSums(e4000)!=0]
 
 e5000<-e[rowSums(e) > 5000, ]
 e5000<-rrarefy(e5000,min(rowSums(e5000)))
-e5000 = e5000[ ,colSums(e5000)!=0] 
+e5000 = e5000[ ,colSums(e5000)!=0]
 
 e1500<-e[rowSums(e) > 1500, ]
 e1500<-rrarefy(e1500,min(rowSums(e1500)))
-e1500 = e1500[ ,colSums(e1500)!=0] 
+e1500 = e1500[ ,colSums(e1500)!=0]
 
 res4000<-merge(mdata,e4000,by.x="row.names", by.y="row.names")
 adonis(formula = e4000 ~ pool * barcode, data = res4000, permutations = 1000, method = "bray")
@@ -346,15 +345,15 @@ plot(a.cdhit1,a.uclust1)
 
 uparse5000<-uparse1[rowSums(uparse1) > 5000, ]
 uparse5000<-rrarefy(uparse5000,min(rowSums(uparse5000)))
-uparse5000 = uparse5000[ ,colSums(uparse5000)!=0] 
+uparse5000 = uparse5000[ ,colSums(uparse5000)!=0]
 
 uclust5000<-uclust1[rowSums(uclust1) > 5000, ]
 uclust5000<-rrarefy(uclust5000,min(rowSums(uclust5000)))
-uclust5000 = uclust5000[ ,colSums(uclust5000)!=0] 
+uclust5000 = uclust5000[ ,colSums(uclust5000)!=0]
 
 cdhit5000<-cdhit1[rowSums(cdhit1) > 5000, ]
 uclust5000<-rrarefy(uclust5000,min(rowSums(uclust5000)))
-uclust5000 = uclust5000[ ,colSums(uclust5000)!=0] 
+uclust5000 = uclust5000[ ,colSums(uclust5000)!=0]
 
 eRuparse<-as.data.frame(t(estimateR(uparse5000)))  #chao1 and ACE
 Huparse <- diversity(uparse5000)

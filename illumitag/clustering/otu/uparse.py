@@ -20,7 +20,7 @@ from illumitag.clustering.source.seqenv import Seqenv
 import sh, pandas
 
 # Constants #
-uparse_version = sh.usearch7('-version').stdout[8:]
+uparse_version = sh.usearch7('-version').stdout[8:].strip('\n')
 
 ###############################################################################
 class UparseOTUs(OTUs):
@@ -31,6 +31,7 @@ class UparseOTUs(OTUs):
     title = 'UPARSE denovo picking'
     article = "http://www.nature.com/doifinder/10.1038/nmeth.2604"
     version = uparse_version
+    threshold = 3.0
 
     all_paths = """
     /derep.fasta
@@ -70,7 +71,10 @@ class UparseOTUs(OTUs):
         # Source tracking #
         self.seqenv = Seqenv(self)
 
-    def run(self, threshold=3.0):
+    def run(self, threshold=None):
+        # Optional threshold #
+        if threshold is None: threshold = self.threshold
+        identity = (100 - threshold) / 100
         # Dereplicate #
         sh.usearch7("--derep_fulllength", self.reads, '-output', self.derep, '-sizeout')
         # Order by size and kill singeltons #
@@ -78,9 +82,8 @@ class UparseOTUs(OTUs):
         # Compute the centers #
         sh.usearch7("--cluster_otus", self.sorted, '-otus', self.centers, '-otu_radius_pct', threshold)
         # Rename the centers #
-        self.centers.rename_with_num('OTU_')
+        self.centers.rename_with_num('OTU-')
         # Map the reads back to the centers #
-        identity = (100 - threshold) / 100
         sh.usearch7("-usearch_global", self.reads, '-db', self.centers, '-strand', 'plus', '-id', identity, '-uc', self.readmap)
 
     def checks(self):
@@ -100,7 +103,7 @@ class UparseOTUs(OTUs):
 class UClusterFile(FilePath):
     """A special format outputed by uparse
     An example line:
-    H       1474    422     97.6    +       0       0       422M    run4_pool1_sample1_read2        OTU_1474
+    H       1474    422     97.6    +       0       0       422M    run4_pool1_sample1_read2        OTU-1474
 
     The corresponding legend:
     # 1=Type, 2=ClusterNr, 3=SeqLength or ClusterSize, 4=PctId, 5=Strand, 6=QueryStart, 7=SeedStart, 8=Alignment, 9=QueryLabel, 10=TargetLabel

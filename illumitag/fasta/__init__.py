@@ -30,5 +30,13 @@ class ReadWithIndices(object):
     def __init__(self, read):
         self.read = read
         indices = read.description[-16:]
-        self.fwd_index = indices[:8]
-        self.rev_index = indices[8:]
+        self.fwd_index = indices[8:]
+        self.rev_index = indices[:8]
+
+###############################################################################
+class ReadPairWithIndices(object):
+    def __init__(self, fwd, rev):
+        self.fwd = fwd
+        self.rev = rev
+        self.fwd_indices = ReadWithIndices(fwd)
+        self.rev_indices = ReadWithIndices(rev)

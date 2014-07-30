@@ -2,7 +2,8 @@
 from __future__ import division
 
 # Built-in modules #
-import re
+import re, shutil
+from collections import OrderedDict
 
 # Internal modules #
 import illumitag
@@ -12,7 +13,8 @@ from illumitag.reporting.common import HeaderTemplate, FooterTemplate
 from illumitag.reporting.common import DualFigure, ScaledFigure
 
 # Third party modules #
-import pystache, sh
+import pystache, sh, pandas
+from tabulate import tabulate
 
 ###############################################################################
 class SampleReport(object):
@@ -67,6 +69,17 @@ class SampleReport(object):
         self.p.report_pdf.remove()
         sh.xelatex("--interaction=nonstopmode", '-output-directory', self.base_dir, self.p.report_tex)
         sh.xelatex("--interaction=nonstopmode", '-output-directory', self.base_dir, self.p.report_tex)
+
+    def web_export(self):
+        """Copy the report to the webexport directory where it can be viewed by anyone"""
+        destination = "/proj/%s/webexport/ILLUMITAG/samples/run%03d_sample%02d.pdf"
+        destination = destination % (self.presample.account, self.presample.run_num, self.presample.num)
+        shutil.copy(self.p.pdf, destination)
+
+    @property
+    def url(self):
+        link = "https://export.uppmax.uu.se/%s/ILLUMITAG/samples/run%03d_sample%02d.pdf"
+        return link % (self.presample.account, self.presample.run_num, self.presample.num)
 
 ###############################################################################
 class SampleTemplate(object):
@@ -182,5 +195,41 @@ class SampleTemplate(object):
         good = self.presample.assembled.good_primers
         return "%.1f%%" % ((len(good.len_filtered)/len(self.presample))*100)
 
-    # Lorem #
-    def image_path(self): return self.presample.p.graphs_dir + 'graph.pdf'
+    # Taxonomy #
+    def abundant_table(self):
+        # The data #
+        row = self.presample.counts
+        frame = pandas.DataFrame(index=range(len(row)))
+        frame['Rank']  = range(1, len(row)+1)
+        frame['Clade'] = row.index
+        frame['Reads'] = [split_thousands(r) for r in row.values]
+        frame['OTUs'] = [self.presample.project.cluster.otus.taxonomy.comp_tips.count_otus(s) for s in row.index]
+        frame = frame[0:20]
+        # Make it as text #
+        table = tabulate(OrderedDict(frame), headers="keys", numalign="right", tablefmt="pipe")
+        # Add caption #
+        return table + "\n\n   : The 20 most abundant species in this sample."
+
+    # Diversity #
+    def total_otu_sum(self): return split_thousands(sum(self.presample.counts))
+    def total_otu_count(self): return split_thousands(len(self.presample.counts))
+    def chao1_curve(self):
+        caption = "Chao1 rarefaction curve"
+        path = self.presample.diversity.chao1.path
+        label = "chao1_curve"
+        return str(ScaledFigure(path, caption, label))
+    def ace_curve(self):
+        caption = "Ace rarefaction curve"
+        path = self.presample.diversity.ace.path
+        label = "ace_curve"
+        return str(ScaledFigure(path, caption, label))
+    def shannon_curve(self):
+        caption = "Shannon rarefaction curve"
+        path = self.presample.diversity.shannon.path
+        label = "shannon_curve"
+        return str(ScaledFigure(path, caption, label))
+    def simpson_curve(self):
+        caption = "Simpson rarefaction curve"
+        path = self.presample.diversity.simpson.path
+        label = "simpson_curve"
+        return str(ScaledFigure(path, caption, label))

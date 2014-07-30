@@ -70,7 +70,7 @@ class CdhitOTUs(OTUs):
         cdhit = sh.Command(cdhit_script)
         cdhit('-i', self.reads, '-o', self.p.clusters_dir, '-p', TmpFile.from_string('[ACTG]'))
         # Create the centers file with good names #
-        self.cdhit_centers.rename_with_num('OTU_', self.centers)
+        self.cdhit_centers.rename_with_num('OTU-', self.centers)
 
     @property_cached
     def cluster_counts_table(self):
@@ -80,7 +80,7 @@ class CdhitOTUs(OTUs):
         # Loop #
         for line in self.cdhit_clusters:
             if line.startswith('>'):
-                otu = "OTU_%s" % line.split()[1]
+                otu = "OTU-%s" % line.split()[1]
                 continue
             nums = re.findall(">run([0-9]+)_pool([0-9]+)_sample([0-9]+)_read([0-9]+)\.\.\.", line)
             if nums:

@@ -31,11 +31,12 @@ class ClusterSizes(Graph):
         axes.plot(x, y, 'ro')
         axes.set_xscale('symlog')
         axes.set_yscale('log')
-        axes.set_title('Distribution of cluster sizes for %s clusters' % split_thousands(sum(y)))
-        fig.suptitle('Clustering method: %s' % self.parent.otu.title)
-        axes.set_xlabel('Number of children in a cluster')
-        axes.set_ylabel('Number of clusters with this many children')
-        axes.xaxis.grid(False)
+        axes.set_title('Distribution of sizes for %s OTUs' % split_thousands(sum(y)))
+        #fig.suptitle('Clustering method: %s' % self.parent.otu.title)
+        axes.set_xlabel('Number of sequences in an OTU')
+        axes.set_ylabel('Number of OTUs with that many sequences in them')
+        axes.xaxis.grid(True)
+        axes.yaxis.grid(True)
         # Add annotations #
         for i in range(min(5,len(x))):
             pyplot.annotate("%i: %s" % (x[i], split_thousands(y[i])), size=13, xy = (x[i], y[i]), xytext = (10, 0),
@@ -58,9 +59,9 @@ class PresencePerSample(Graph):
         axes = self.frame.hist(color='gray', bins=40)
         fig = pyplot.gcf()
         axes.set_title('Histogram of OTU appearance sums per sample')
-        fig.suptitle('Clustering method: %s' % self.parent.otu.title)
+        #fig.suptitle('Clustering method: %s' % self.parent.otu.title)
         axes.set_xlabel('Number of OTUs present (non-null) in a sample')
-        axes.set_ylabel('Number of samples with this many OTUs in them')
+        axes.set_ylabel('Number of samples with that many OTUs in them')
         axes.xaxis.grid(False)
         # Save it #
         self.save_plot(fig, axes)
@@ -74,13 +75,13 @@ class PresencePerOTU(Graph):
 
     def plot(self):
         # Sum by row and count frequencies #
-        self.frame = self.parent.otu_table.astype(bool).sum(axis=0)
+        self.frame = self.parent.otu_table.astype(bool).sum(axis=0).value_counts().sort_index()
         # Make hist #
         fig = pyplot.figure()
-        axes = self.frame.hist(color='gray', bins=40)
+        axes = self.frame.plot(kind='bar', color='gray')
         fig = pyplot.gcf()
         axes.set_title('Histogram of OTU appearance sums per OTU')
-        fig.suptitle('Clustering method: %s' % self.parent.otu.title)
+        #fig.suptitle('Clustering method: %s' % self.parent.otu.title)
         axes.set_xlabel('Number of samples an OTU appears in (max. %i)' % self.parent.otu_table.shape[0])
         axes.set_ylabel('Number of OTUs that appear in these many samples')
         axes.xaxis.grid(False)
@@ -119,9 +120,9 @@ class CumulativePresence(Graph):
         axes = fig.add_subplot(111)
         axes.step(self.x, self.y, fillstyle='bottom')
         axes.set_title('Cumulative graph of OTU presence in samples for %s OTUs' % num_of_otus)
-        fig.suptitle('Clustering method: %s' % self.parent.otu.title)
+        #fig.suptitle('Clustering method: %s' % self.parent.otu.title)
         axes.set_xlabel('Fraction of samples (100%% equates %i samples)' % num_of_samples)
-        axes.set_ylabel('Number of OTUs that appear in this fraction of samples or more')
+        axes.set_ylabel('Number of OTUs that appear in that fraction of samples or more')
         axes.invert_xaxis()
         axes.set_xticks([min(self.x) + (max(self.x)-min(self.x))* n / 9 for n in range(10)])
         axes.set_yscale('log')
@@ -157,9 +158,9 @@ class CumulativePresenceScaled(Graph):
         axes = fig.add_subplot(111)
         axes.step(self.x, self.y)
         axes.set_title('Cumulative graph of OTU presence in samples scaled by number of reads')
-        fig.suptitle('Clustering method: %s' % self.parent.otu.title)
+        #fig.suptitle('Clustering method: %s' % self.parent.otu.title)
         axes.set_xlabel('Fraction of samples (100%% equates %i samples)' % num_of_samples)
-        axes.set_ylabel('Number of reads in all OTUs that appear in these many samples or more.')
+        axes.set_ylabel('Reads (sum) in all of the OTUs that appear in these many samples or more.')
         axes.invert_xaxis()
         axes.xaxis.grid(True)
         # Set percentage #
@@ -179,7 +180,6 @@ class HeatmapOTU(HiearchicalHeatmap):
         self.frame = self.parent.otu_table.transpose()
         self.row_method = None
         self.fig_height = 200
-
         # Super #
         fig, axm, axcb, cb = super(HeatmapOTU, self).plot()
         cb.set_label("Number of sequences in cluster")

@@ -18,7 +18,7 @@ class TaxaBarstack(Graph):
     short_name = 'taxa_barstack'
     width = 24.0
     height = 14.0
-    bottom = 0.20
+    bottom = 0.25
     top = 0.97
     left = 0.04
     right = 0.98

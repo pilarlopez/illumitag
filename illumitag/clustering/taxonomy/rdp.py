@@ -55,7 +55,14 @@ class RdpTaxonomy(Taxonomy):
 
     @property_cached
     def assignments(self):
-        pass
+        result = {}
+        with open(self.p.assignments, 'r') as handle:
+            for line in handle:
+                line = line.strip('\n').split('\t')
+                code = line.pop(0)
+                species = tuple(x.strip('"') for x in line[1::3])
+                result[code] = species
+        return result
 
 ###############################################################################
 class SimpleRdpTaxonomy(SimpleTaxonomy):

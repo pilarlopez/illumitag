@@ -28,14 +28,11 @@ class Taxonomy(object):
         for graph in self.graphs: graph.plot()
 
     def make_otu_table(self):
-        """Asks the counts form the OTU class and does some modifications."""
+        """Ask the counts from the OTU class and do some modifications."""
         # Remove unwanted #
         result = self.otu.cluster_counts_table.copy()
         for otu_name in result:
             species = self.assignments.get(otu_name, None)
-            if species is None: # This is a bug in LCA Classifier
-                result = result.drop(otu_name, 1) # This is a bug in LCA Classifier
-                continue # This is a bug in LCA Classifier
             if len(species) > 2 and species[2] in self.unwanted: result = result.drop(otu_name, 1)
         # Merge samples when reruns #
         for name, data in result.iterrows():

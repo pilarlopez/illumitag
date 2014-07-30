@@ -8,6 +8,7 @@ from illumitag.helper.barcodes import ReadPairWithBarcode
 from illumitag.common.cache import property_cached
 from illumitag.fasta.single import FASTQ
 from illumitag.common.autopaths import DirectoryPath
+from illumitag.fasta import ReadPairWithIndices
 
 # Third party modules #
 import sh
@@ -99,4 +100,8 @@ class PairedFASTQ(object):
 
     def parse_barcodes(self):
         generator = (ReadPairWithBarcode(f, r, self.samples) for f,r in self.parse())
+        return GenWithLength(generator, len(self))
+
+    def parse_indices(self):
+        generator = (ReadPairWithIndices(f,r) for f,r in self.parse())
         return GenWithLength(generator, len(self))

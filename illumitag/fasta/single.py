@@ -127,6 +127,10 @@ class FASTA(FilePath):
         return OrderedDict([(name, self.barcode_counter[name + 'F']) for name in self.samples.bar_names])
 
     @property_cached
+    def indices_counter(self):
+        return Counter((r.fwd_index,r.rev_index) for r in self.parse_indices())
+
+    @property_cached
     def lengths(self):
         return Counter((len(s) for s in self.parse()))
 
@@ -135,10 +139,6 @@ class FASTA(FilePath):
 
     def shorter_than(self, value):
         return 100 * sum((v for k,v in self.lengths.items() if k < value)) / self.count
-
-    @property_cached
-    def indices_counter(self):
-        return Counter((r.fwd_index,r.rev_index) for r in self.parse_indices())
 
     def subsample(self, down_to, new_path=None):
         # Auto path #

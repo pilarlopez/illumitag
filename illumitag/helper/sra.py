@@ -155,39 +155,6 @@ class SampleSRA(object):
         return line
 
     @property
-    def biosample_line_danube(self):
-        """Special Domenico case"""
-        # sample_name
-        line = ["%s (%s km %s)" % (self.s.short_name, self.s.info['River'], self.s.info['River_km'])]
-        # description
-        if self.s.info['Filter_fraction'] == '3.0': line += [u"Attached fraction (> 3.0 μm)"]
-        elif self.s.info['Filter_fraction'] == '0.2': line += [u"Free fraction (0.2-3.0 μm)"]
-        else: line += [""]
-        # bioproject_id
-        line += ["PRJNA256993"]
-        # sample_title
-        line += [""]
-        # organism
-        line += [default_bio["organism"]]
-        # collection_date
-        line += [self.s.info['Date_of_Sampling'].replace('_','T')]
-        # depth
-        line += [self.s.info['Depth'] if self.s.info['Depth'] else 'surface']
-        # env_biome, env_feature, env_material
-        line += ["river"]
-        line += ["river"]
-        line += ["water"]
-        # geo_loc_name
-        line += ["%s: %s km %s" % (self.s.info['Country'].replace('.',' '), self.s.info['River'], self.s.info['River_km'])]
-        # lat_lon
-        line += ['%s N %s E' % (self.s.info['Latitude'], self.s.info['Latitude'])]
-        # fraction
-        line += [self.s.info['Filter_fraction']]
-        line += [self.s.short_name]
-        # Return #
-        return line
-
-    @property
     def sra_line(self):
         """Will generate the corresponding entry for SRA submission"""
         # accession
@@ -215,46 +182,6 @@ class SampleSRA(object):
         line += ['', '']
         # forward_read_length
         line += [self.forward_read_length, self.reverse_read_length]
-        # forward
-        line += [self.forward_filetype, self.base_name.format("forward")]
-        line += [md5sum(self.s.p.raw_forward_gz)]
-        # reverse
-        line += [self.reverse_filetype, self.base_name.format("reverse")]
-        line += [md5sum(self.s.p.raw_reverse_gz)]
-        # return
-        return line
-
-    @property
-    def sra_line_danube(self):
-        """Special Domenico case"""
-        # BioSample ID
-        import illumitag
-        bioids = open(illumitag.repos_dir + 'scripts/domenico/biosample_ids.txt', 'r')
-        bioids = [l.split(' ')[0] for l in bioids if not l.startswith('a')]
-        bioids = dict([(l.split(',')[1], l.split(',')[0]) for l in bioids])
-        # accession
-        line =  ["PRJNA256993"]
-        line += [bioids[self.s.short_name]]
-        # name
-        line += [self.s.short_name]
-        line += [self.s.short_name]
-        # description
-        desc = "%s (%s km %s)" % (self.s.short_name, self.s.info['River'], self.s.info['River_km'])
-        desc += " -- run number %i, pool number %i, barcode number %i."
-        line += [desc % (self.s.pool.run_num, self.s.pool.num, self.s.num)]
-        # library_strategy
-        line += [default_sra['library_strategy']]
-        line += [default_sra['library_source']]
-        line += [default_sra['library_selection']]
-        line += [default_sra['library_layout']]
-        line += [default_sra['platform']]
-        line += [default_sra['instrument_model']]
-        # design_description
-        line += [u"Water was sampled and cells were captured on 0.2 µm filters. Samples were kept frozen under -80°C. Nucleic acids were extracted using a power soil DNA isolation Kit (MO BIO Laboratories Inc, CA, USA). Primers targeting the V3 and V4 regions of the ribosomal RNA gene originally designed for pyrosequencing (Herlemann et al. 2011.) were adapted to Illumina sequencing. The DNA material was amplified for 25 cycles directly with the barcoded primers. All PCRs were conducted in 20 µl volume using 1.0 U Phusion high fidelity DNA polymerase (NEB, UK), 0.25 µM primers, 200 µM dNTP mix, and 0.4 µg bovine serum albumin. Following this, the solution was purified by Qiagen gel purification kit (Qiagen, Germany) and quantified using a fluorescent stain-based kit (PicoGreen, Invitrogen)"]
-        # reference_genome_assembly
-        line += ['', '']
-        # forward_read_length
-        line += [default_sra['forward_read_length'], default_sra['reverse_read_length']]
         # forward
         line += [default_sra['forward_filetype'], self.base_name.format("forward")]
         line += [md5sum(self.s.p.raw_forward_gz)]

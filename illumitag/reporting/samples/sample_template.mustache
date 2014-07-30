@@ -77,12 +77,26 @@ Next, we filter the sequences based on several criteria. These many sequences ar
 * Running a {{window_size}} base pair window over the sequences and checking that quality doesn't drop below {{window_threshold}} discards {{window_discard}} sequences ({{window_left}} left).
 * Checking that no sequence is shorter than {{length_threshold}} base pairs discards {{length_discard}} sequences ({{length_left}} left).
 
-This leaves us with {{percent_remaining}} of the original sequences. The next step in the pipeline is generating outputs that are compatible with "Qiime" and "Mothur" for those who are interested in that. We will also trim the primers on both ends of sequences.
-
-Diversity
----------
-One of the basic questions one can ask is "What is the diversity in this sample ?", or more specifically "What are the richness and evenness ?".
+This leaves us with {{percent_remaining}} of the original sequences. The next step in the pipeline is generating outputs that are compatible with "Qiime" and "Mothur" for those who are interested in that. We will also trim the primers on both ends of sequences now.
 
 Taxonomy
 --------
-Further analysis is usually performed not at the single sample level but on a bunch of samples at the same time (samples are grouped into cluster), so you should go see the corresponding cluster report now. This will include OTU generation, taxonomic assignment and more filtering. Nonetheless we can present some of the results from that analysis here.
+Further analysis is usually performed not at the single sample level but on a bunch of samples at the same time (samples are grouped into cluster), so you should go see the corresponding cluster report now. This will include OTU generation, taxonomic assignment and more filtering. Nonetheless we can present some of the results from that analysis here. Here are the 20 most abundant species observed in this sample:
+
+{{abundant_table}}
+
+Diversity
+---------
+One of the basic questions one can ask is "What is the diversity in this sample ?", or more specifically "What are the richness and evenness ?". Several estimators are available. Moreover, we can calculate these estimates at several rarefaction values to check if the sampling depth was sufficient. We input the OTU count vector for this specific sample (containing {{total_otu_sum}} sequences and {{total_otu_count}} OTUs) and down-sample it iteratively (without replacement). The Chao1, ACE, Shannon and Simpsons estimates can be seen in figures \ref{chao1_curve}, \ref{ace_curve}, \ref{shannon_curve} and \ref{simpson_curve}.
+
+{{chao1_curve}}
+
+{{ace_curve}}
+
+{{shannon_curve}}
+
+{{simpson_curve}}
+
+A list of other estimators that can easily be added can be seen here:
+
+> <http://scikit-bio.org/docs/0.1.4/math.diversity.alpha.html>

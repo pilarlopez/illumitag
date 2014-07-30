@@ -33,25 +33,33 @@ The results and all the files generated for this cluster can be found on UPPMAX 
 
 Input data
 ----------
-Summing the reads from all the samples, we have {{count_sequences}} sequences to work on. Quality information is disregarded from this point on. Before starting we can look at the length distribution pattern that they form in figure \ref{input_length_dist}.
+Summing the reads from all the samples, we have {{count_sequences}} sequences to work on. Sequence quality information is disregarded from this point on. Before starting the analysis we can look at the length distribution pattern that these reads form in figure \ref{input_length_dist}.
 
 {{input_length_dist}}
 
 Clustering
 ----------
-Two sequences that diverge by no more than a few nucleotides are probably not produced by ecological diversity. They are most likely produced by errors along the laboratory method. So we put them together in one unit, called an OTU. A sequence that does not have any such similar-looking brothers is most likely the product of a recombination (chimera) and is discarded. This is done using {{clustering_citation}}. You can see the number and size of OTUs produced in figure \ref{clustering_graph}.
+Two sequences that diverge by no more than a few nucleotides are probably not produced by ecological diversity. They are most likely produced by errors along the laboratory method. So we put them together in one unit, called an OTU. On the other hand, a sequence that does not have any such similar-looking brothers is most likely the product of a recombination (chimera) and is discarded. This process is done using {{clustering_citation}}. The publication is available at:
 
-{{clustering_graph}}
+> <{{clustering_publication}}>
+
+The similarity threshold chosen is {{clustering_threshold}}. Exactly {{otus_total}} OTUs are produced.
 
 Classification
 --------------
-Relying on the databases of ribosomal genes such as Silva, we can classify each OTU and give it an approximative affiliation. This provides a taxonomic name to each OTU. This is done using {{classification_citation}}. Out of our {{otus_total}}, exactly {{otus_classified}} of them are assigned to a position in the tree of life.
+Relying on databases of ribosomal genes such as Silva, we can classify each OTU and give it an approximative affiliation. This provides a taxonomic name to each OTU. This is done using {{classification_citation}}. The publication is available at:
 
-At this point we are going to remove some OTUs. All those pertaining to any of the following phyla are discarded: {{unwanted_phyla}}. This leaves us with {{otus_filtered}} 'good' OTUs.
+> <{{classification_publication}}>
+
+Out of our {{otus_total}} OTUs, exactly {{otus_classified}} of them are assigned to a position somewhere in the tree of life (not necessary on a tip though).
+
+At this point we are going to remove some OTUs. All those pertaining to any of the following phyla are discarded: {{unwanted_phyla}}. This leaves us with {{otus_filtered}} 'good' OTUs. As OTUs contain a varying number of sequences in them, we can plot this distribution in figure \ref{otu_sizes_graph}.
+
+{{otu_sizes_graph}}
 
 OTU table
 ---------
-Now we check which sample each sequence of each OTU was coming from and make a count table with OTUs as rows ({{otus_filtered}}) and samples as columns ({{count_samples}}). This table is too big to be viewed directly here. However we can plot some of its properties to better understand how sparse it is:
+Now we check which sample each sequence of each OTU was coming from and make a count table with OTUs as rows ({{otus_filtered}}) and samples as columns ({{count_samples}}). Each cell tells us how many sequences are pertaining to this OTU from this sample. This table is too big to be viewed directly here. However we can plot some of its properties to better understand how sparse it is as seen in figures \ref{otu_sums_graph}, \ref{sample_sums_graph} and \ref{cumulative_presence}:
 
 {{otu_sums_graph}}
 
@@ -61,24 +69,32 @@ Now we check which sample each sequence of each OTU was coming from and make a c
 
 Taxa table
 ----------
-If we modify the rows of our table to become taxonomic names instead of OTUs, some rows will have the same affiliations and will be merged together by summation. This produces the taxa table which has {{count_samples}} samples and {{count_taxa}} named taxa.
+If we modify the rows of our table to become taxonomic names instead of OTUs, some rows will have the same affiliations and will be merged together by summation. This produces the taxa table which has {{count_samples}} samples and {{count_taxa}} named taxa. It's important to consider the difference between an OTU table and a taxa table.
 
 Composition
 -----------
-Obviously, at this point, one of the most obvious graphs to produce is a bar-chart detailing the composition in terms of taxonomy of every one of our samples. To keep things simple we will only consider the 'phyla' taxonomic level. This can be seen in figure \ref{phyla_composition}.
+At this point, one of the most obvious graphs to produce is a bar-chart detailing the composition in terms of taxonomy of every one of our samples. To keep things simple we will only consider the 'phyla' taxonomic level and only sometimes dividing phyla into their composing classes if they are very large (going deeper while still including everything would yield an unreadable graph). This can be seen in figure \ref{phyla_composition}.
 
 {{phyla_composition}}
 
 Comparison
 ----------
-Using the other samples included in the same cluster we can start comparing the samples amongst each other. A first means of doing that is by plotting them on an ordination plot. This can be seen in figure \ref{standard_nmds}.
+We now would like to start comparing samples amongst each other to determine which ones are similar or if any clear groups can be observed. A first means of doing that is by using the information in the OTU table and a distance metric such as the "Horn 1966" one to place them on an ordination plot. This can be seen in figure \ref{otu_nmds}.
 
-{{standard_nmds}}
+{{otu_nmds}}
 
-Diversity
+These kind of graphs have a random component to them and can be easily influenced by one or two differently looking samples. If one uses the taxa table instead, already one gets a different result as seen in figure \ref{taxa_nmds}.
+
+{{taxa_nmds}}
+
+One can also make NMDS plots with more complicated distance measures such as phylogenetic ones. More about that later.
+
+Distances
 ---------
-We can compute estimators of diversity within the cluster:
+To compute beta diversity, other distance measures are possible of course. Bray-curtis and Jaccard distance matrices are available. We can also explore phylogenetic distance measures such as the UniFrac one. This is also implemented and a UniFrac distance matrix can easily be computed. One can also build a hierarchical clustering of the samples from it (not included).
 
-Environmental tag
------------------
-Relying on the same kind of databases and their meta-data, we can try to infer a typical environmental tag to each sequence. This, in turn, enables us to assign a linear combination of environmental tags to each sample and to the cluster as a whole.
+Environmental tags
+------------------
+Relying on the same kind of databases and their meta-data, we can try to infer a typical environmental tag to each sequence. This, in turn, enables us to assign a linear combination of environmental tags to each sample and to the cluster as a whole. This method is also implemented in the pipeline (results on demand):
+
+> <http://environments.hcmr.gr/seqenv.html>
