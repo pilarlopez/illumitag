@@ -47,13 +47,13 @@ class PairedFASTQ(object):
     @property
     def avg_quality(self): return (self.fwd.avg_quality, self.rev.avg_quality)
 
-    def open(self):
+    def open(self, mode='r'):
         # Fwd #
-        if self.gziped: self.fwd_handle = gzip.open(self.fwd_path, 'r')
-        else:           self.fwd_handle = open(self.fwd_path, 'r')
+        if self.gziped: self.fwd_handle = gzip.open(self.fwd_path, mode)
+        else:           self.fwd_handle = open(self.fwd_path, mode)
         # Rev #
-        if self.gziped: self.rev_handle = gzip.open(self.rev_path, 'r')
-        else:           self.rev_handle = open(self.rev_path, 'r')
+        if self.gziped: self.rev_handle = gzip.open(self.rev_path, mode)
+        else:           self.rev_handle = open(self.rev_path, mode)
 
     def close(self):
         if hasattr(self, 'buffer'): self.flush()
@@ -70,8 +70,7 @@ class PairedFASTQ(object):
         if not os.path.exists(self.fwd_dir): os.makedirs(self.fwd_dir)
         if not os.path.exists(self.rev_dir): os.makedirs(self.rev_dir)
         # The files #
-        self.fwd_handle = open(self.fwd_path, 'w')
-        self.rev_handle = open(self.rev_path, 'w')
+        self.open('w')
 
     def add_pair(self, pair):
         self.buffer.append(pair)

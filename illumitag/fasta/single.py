@@ -223,6 +223,7 @@ class FASTQ(FASTA):
         # Case directory #
         if directory is not None:
             if not isinstance(directory, DirectoryPath): directory = DirectoryPath(directory)
+            if directory.exists: directory.remove()
             tmp_dir = new_temp_dir()
             sh.fastqc(self.path, '-q', '-o', tmp_dir)
             created_dir = tmp_dir + self.prefix.split('.')[0] + '_fastqc/'
