@@ -50,7 +50,7 @@ class CrestTaxonomy(Taxonomy):
     short_name = 'crest'
     title = 'LCAClassifier'
     article = "http://dx.plos.org/10.1371/journal.pone.0049334"
-    version = "version 2.0 (March 2014)"
+    version = "version 2.0 - March 2014"
 
     def __init__(self, fasta_path, parent, database='silvamod', base_dir=None):
         # Parent #

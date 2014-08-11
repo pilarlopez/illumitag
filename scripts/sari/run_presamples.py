@@ -34,7 +34,7 @@ s.report.generate()
 s.report.web_export()
 
 # Project #
-p = illumitag.projects['kivu']
+p = illumitag.projects['allinen']
 p.cluster.combine_reads()
 p.cluster.reads.graphs[1].plot()
 p.cluster.otus.run()
@@ -84,3 +84,7 @@ def second(s):
     s.report.generate()
     s.report.web_export()
 for s in samples: second(s)
+
+###############################################################################
+# Unfiltered OTU table #
+p.cluster.otus.cluster_counts_table.to_csv(p.cluster.otus.base_dir + 'unfiltered_otus.tsv', sep='\t', float_format='%.5g')

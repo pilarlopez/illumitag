@@ -10,7 +10,7 @@ import illumitag
 from illumitag.common import split_thousands, pretty_now, andify
 from illumitag.common.autopaths import AutoPaths
 from illumitag.reporting.common import HeaderTemplate, FooterTemplate
-from illumitag.reporting.common import ScaledFigure #DualFigure,
+from illumitag.reporting.common import ScaledFigure
 
 # Third party modules #
 import pystache, sh
@@ -139,7 +139,7 @@ class ClusterTemplate(object):
     def otus_total(self): return split_thousands(len(self.otus.centers))
 
     # Classification #
-    def classification_citation(self): return "the %s method (%s)." % (self.taxonomy.title, self.taxonomy.version)
+    def classification_citation(self): return "the %s method (%s)" % (self.taxonomy.title, self.taxonomy.version)
     def classification_publication(self): return self.taxonomy.article
     def otus_classified(self): return split_thousands(self.taxonomy.count_assigned)
     def unwanted_phyla(self): return andify(self.taxonomy.unwanted)

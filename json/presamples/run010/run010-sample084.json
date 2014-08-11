@@ -24,8 +24,8 @@
 
     "project":       "alinen",
     "project_name":  "alinen",
-    "sample":        "sari1b",
-    "sample_name":   "sari1b",
+    "sample":        "sari1b (paired with the metagenomes)",
+    "sample_name":   "sari1b (paired with the metagenomes)",
     "group":         "alinen-depth",
 
     "forward_mid":   "AAGGAGTA",
