@@ -1,0 +1,85 @@
+{
+    "contacts": {
+        "main": {
+            "name": "Torsten Jeske",
+            "email": "Torsten.jeske@ebc.uu.se"
+        },
+        "pi": {
+            "name": "Stefan Bertilsson",
+            "email": "stebe@ebc.uu.se"
+        },
+    },
+
+    "uppmax_id":     "b2011032",
+    "run_num":       11,
+    "run_id":        "140613_M00629_0002_000000000-A919T",
+    "pool_num":      2,
+    "pool_id":       "Sample_Jeske2",
+    "forward_reads": "Jeske2_TTAGGC_L001_R1_001.fastq.gz",
+    "reverse_reads": "Jeske2_TTAGGC_L001_R2_001.fastq.gz",
+
+    "project":       "annsjo",
+    "project_name":  "Annsjo sediment incubations",
+    "pool":          "Jeske2",
+    "pool_name":     "Jeske2",
+
+    "samples": [
+        {"name": "C14-1",     "used": 1, "group": "C14", "num": 1,      "fwd": "TATCACG", "rev": "ACTGAGA"},
+        {"name": "C14-2",     "used": 1, "group": "C14", "num": 2,      "fwd": "TACGTCA", "rev": "ACTGACT"},
+        {"name": "C14-3",     "used": 1, "group": "C14", "num": 3,      "fwd": "ACATCAG", "rev": "ACTGATC"},
+        {"name": "C14-4",     "used": 1, "group": "C14", "num": 4,      "fwd": "ACACTGT", "rev": "ACTGTGT"},
+        {"name": "C14-5",     "used": 1, "group": "C14", "num": 5,      "fwd": "ACACACT", "rev": "ACTCGAT"},
+        {"name": "C14-6",     "used": 1, "group": "C14", "num": 6,      "fwd": "ACACAGA", "rev": "ACTCAGT"},
+        {"name": "C14-7",     "used": 1, "group": "C14", "num": 7,      "fwd": "ACGATGT", "rev": "ACTCTGA"},
+        {"name": "C14-8",     "used": 1, "group": "C14", "num": 8,      "fwd": "ACGAGTA", "rev": "ACTCTCT"},
+        {"name": "D1-1",      "used": 1, "group": "D1", "num": 9,       "fwd": "ACGAGAT", "rev": "ACTCTAC"},
+        {"name": "D1-2",      "used": 1, "group": "D1", "num": 10,      "fwd": "TACGAGT", "rev": "TACTGCA"},
+        {"name": "D1-3",      "used": 1, "group": "D1", "num": 11,      "fwd": "ACGCTAT", "rev": "ACTACGT"},
+        {"name": "D1-4",      "used": 1, "group": "D1", "num": 12,      "fwd": "AGTCTCA", "rev": "ACTACAC"},
+        {"name": "D1-5",      "used": 1, "group": "D1", "num": 13,      "fwd": "AGTCACT", "rev": "ACTATGC"},
+        {"name": "D1-6",      "used": 1, "group": "D1", "num": 14,      "fwd": "AGTCAGA", "rev": "ATGCGAT"},
+        {"name": "D1-7",      "used": 1, "group": "D1", "num": 15,      "fwd": "AGTGAGT", "rev": "ATGCACT"},
+        {"name": "D1-8",      "used": 1, "group": "D1", "num": 16,      "fwd": "AGATGCT", "rev": "ATGCTGT"},
+        {"name": "D27-1",     "used": 1, "group": "D27", "num": 17,     "fwd": "TACGCTA", "rev": "ATGAGCA"},
+        {"name": "D27-2",     "used": 1, "group": "D27", "num": 18,     "fwd": "AGACTCT", "rev": "ATGAGTC"},
+        {"name": "D27-3",     "used": 1, "group": "D27", "num": 19,     "fwd": "AGACTGA", "rev": "ATGTGCT"},
+        {"name": "D27-4",     "used": 1, "group": "D27", "num": 20,     "fwd": "AGACACA", "rev": "TACTGAC"},
+        {"name": "D27-5",     "used": 1, "group": "D27", "num": 21,     "fwd": "AGACGAT", "rev": "ATGTCGT"},
+        {"name": "D27-6",     "used": 1, "group": "D27", "num": 22,     "fwd": "AGAGTCA", "rev": "ATCGCAT"},
+        {"name": "D27-7",     "used": 1, "group": "D27", "num": 23,     "fwd": "AGAGATG", "rev": "ATCGACT"},
+        {"name": "D27-8",     "used": 1, "group": "D27", "num": 24,     "fwd": "AGAGACT", "rev": "ATCGTGT"},
+        {"name": "empty",     "used": 0, "group": "empty", "num": 25,   "fwd": "AGCATGT", "rev": "ATCAGAC"},
+        {"name": "empty",     "used": 0, "group": "empty", "num": 26,   "fwd": "TAGTCAG", "rev": "ATCACTC"},
+        {"name": "empty",     "used": 0, "group": "empty", "num": 27,   "fwd": "AGCAGAT", "rev": "ATCATGC"},
+        {"name": "empty",     "used": 0, "group": "empty", "num": 28,   "fwd": "GTATCAC", "rev": "ATCTCAC"},
+        {"name": "empty",     "used": 0, "group": "empty", "num": 29,   "fwd": "GTCTACT", "rev": "TACTCGA"},
+        {"name": "empty",     "used": 0, "group": "empty", "num": 30,   "fwd": "GTCTCAT", "rev": "ATAGCGT"},
+        {"name": "empty",     "used": 0, "group": "empty", "num": 31,   "fwd": "TAGACTG", "rev": "ATACGCT"},
+        {"name": "empty",     "used": 0, "group": "empty", "num": 32,   "fwd": "GTCATAG", "rev": "ATACTGC"},
+        {"name": "empty",     "used": 0, "group": "empty", "num": 33,   "fwd": "GTCATCT", "rev": "TGCGATA"},
+        {"name": "empty",     "used": 0, "group": "empty", "num": 34,   "fwd": "GTCACTA", "rev": "TGCTGTA"},
+        {"name": "empty",     "used": 0, "group": "empty", "num": 35,   "fwd": "GATACTG", "rev": "TGCTAGA"},
+        {"name": "empty",     "used": 0, "group": "empty", "num": 36,   "fwd": "TAGACGA", "rev": "TGAGCAT"},
+        {"name": "empty",     "used": 0, "group": "empty", "num": 37,   "fwd": "GATGAGT", "rev": "TGAGTGA"},
+        {"name": "empty",     "used": 0, "group": "empty", "num": 38,   "fwd": "GACTATG", "rev": "TACTCTC"},
+        {"name": "empty",     "used": 0, "group": "empty", "num": 39,   "fwd": "GACTCTA", "rev": "TGAGTAC"},
+        {"name": "empty",     "used": 0, "group": "empty", "num": 40,   "fwd": "GACTGAT", "rev": "TGACACT"},
+        {"name": "empty",     "used": 0, "group": "empty", "num": 41,   "fwd": "GACATCA", "rev": "TGACTCA"},
+        {"name": "empty",     "used": 0, "group": "empty", "num": 42,   "fwd": "TAGAGAG", "rev": "TGTGCTA"},
+        {"name": "empty",     "used": 0, "group": "empty", "num": 43,   "fwd": "GAGTCAT", "rev": "TGTGTCA"},
+        {"name": "empty",     "used": 0, "group": "empty", "num": 44,   "fwd": "GAGAGAT", "rev": "TGTCGTA"},
+        {"name": "empty",     "used": 0, "group": "empty", "num": 45,   "fwd": "GCTATCA", "rev": "TGTCACA"},
+        {"name": "empty",     "used": 0, "group": "empty", "num": 46,   "fwd": "GCTACTA", "rev": "TACTAGC"},
+        {"name": "empty",     "used": 0, "group": "empty", "num": 47,   "fwd": "GCTCATA", "rev": "TCGCATA"},
+        {"name": "empty",     "used": 0, "group": "empty", "num": 48,   "fwd": "GCATACT", "rev": "TCGTAGA"},
+        {"name": "empty",     "used": 0, "group": "empty", "num": 49,   "fwd": "GCATCAT", "rev": "TCAGCTA"},
+        {"name": "empty",     "used": 0, "group": "empty", "num": 50,   "fwd": "TAGAGCA", "rev": "TCAGAGA"}
+      ],
+
+    "primers": {
+            "name":    "General bacteria primers",
+            "sense":   "5' to 3'",
+            "forward": {"name": "341F", "sequence": "CCTACGGGNGGCWGCAG"},
+            "reverse": {"name": "805R", "sequence": "GACTACHVGGGTATCTAATCC"}
+    }
+}
