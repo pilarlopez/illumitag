@@ -50,6 +50,7 @@ $ pip install ipython
 $ pip install scikit-learn
 $ pip install fastqident
 $ pip install rpy2
+$ pip install brewer2mpl
 $ pyenv rehash
 
 -------------------------------------------------------------------------------
