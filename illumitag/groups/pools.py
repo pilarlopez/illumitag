@@ -84,6 +84,8 @@ class Pool(object):
         self.p.info_json.link_from(self.json_path, safe=True)
         # Children #
         self.samples.load()
+        # Check there are 50 #
+        assert len(self.samples.children) == 50
         # Raw file pairs #
         if not os.access('/proj/%s' % self.account, os.R_OK): return
         self.fwd_path = home + "/proj/%s/INBOX/%s/%s/%s" % (self.account, self.run_label, self.label, self.fwd_name)

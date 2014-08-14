@@ -13,7 +13,7 @@ from illumitag.common.cache import expiry_every
 # Third party modules #
 import sh
 
-# Constant #
+# Constants #
 hostname = socket.gethostname()
 user = getpass.getuser()
 
@@ -271,6 +271,8 @@ class SLURMJob(object):
         static_module_dir = self.log_dir + project_name + '/'
         # Archive version #
         self.module_version = module.__version__ + ' ' + illumitag.git_repo.tag
+        # Check command type #
+        if not isinstance(command, list): command = [command]
         # Make script #
         script =  ["import os, sys"]
         script += ["sys.path.insert(0, '%s')" % static_module_dir]

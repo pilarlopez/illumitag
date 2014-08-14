@@ -41,8 +41,8 @@ class PoolRunner(Runner):
         {'barcode_fastqc':            {}},
         {'assembly_fastqc':           {}},
         ### Plots ###
-        {'make_pool_plots':           {'threads':False}},
-        {'make_outcome_plots':        {'threads':False}},
+        {'make_pool_plots':           {'threads': False}},
+        {'make_outcome_plots':        {'threads': False}},
     ]
 
     def __init__(self, parent):

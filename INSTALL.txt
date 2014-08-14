@@ -57,6 +57,7 @@ $ pip install shell_command
 $ pip install pystache
 $ pip install tabulate
 $ pip install tqdm
+$ pip install scikit-bio==0.1.4
 $ pyenv rehash
 
 -------------------------------------------------------------------------------
@@ -64,10 +65,7 @@ $ pyenv rehash
 $ cd ~
 $ mkdir ILLUMITAG
 $ cd ILLUMITAG
-$ mkdir views
-$ mkdir INBOX
-$ cd INBOX
-$ ln -s /proj/b2011035/INBOX/* ./
+$ ln -s /proj/ $HOME/proj
 
 -------------------------------------------------------------------------------
 ### Step 6: Start typing python commands to analyze your data ###

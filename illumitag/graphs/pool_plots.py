@@ -20,7 +20,9 @@ from statsmodels.formula.api import ols
 import statsmodels.graphics as smgraphics
 
 # Constants #
-__all__ = ['BarcodeHist', 'ReadsThatPassHist', 'SalvageHist', 'MismatchReg', 'PrimerCounts', 'ReadsWithN', 'QualityFilter', 'LenFilter', 'UchimeRefBar', 'UchimeDenovoBar', 'LengthHist']
+__all__ = ['BarcodeHist', 'ReadsThatPassHist', 'SalvageHist', 'MismatchReg', 'PrimerCounts', 'ReadsWithN', 'QualityFilter', 'LenFilter',  'LengthHist']
+
+__removed__ = ['UchimeRefBar', 'UchimeDenovoBar']
 
 ################################################################################
 class BarcodeHist(Graph):
