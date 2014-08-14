@@ -80,3 +80,8 @@ samples =  [s for s in illumitag.runs[5][3].samples if s.used]
 samples += [s for s in illumitag.runs[5][4].samples if s.used]
 samples += [s for s in illumitag.runs[5][5][0:11] if s.used]
 monica = Cluster(samples, 'monica')
+
+# Valerie's cluster #
+samples = [s for s in illumitag.runs[5][5][12:] if s.used]
+samples = [s for s in illumitag.runs[6][0].samples if s.used]
+valerie = Cluster(samples, 'valerie')

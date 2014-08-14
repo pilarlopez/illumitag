@@ -1,7 +1,6 @@
 # Built-in modules #
 import os
 from collections import Counter, defaultdict, OrderedDict
-from commands import getstatusoutput
 
 # Internal modules #
 from assemble import Assembled, Unassembled
@@ -12,6 +11,7 @@ from illumitag.common.autopaths import AutoPaths
 
 # Third party modules #
 import sh, numpy
+from shell_command import shell_call
 
 ###############################################################################
 class BarcodeGroup(PairedFASTQ):
@@ -50,10 +50,11 @@ class BarcodeGroup(PairedFASTQ):
 
     def assemble(self):
         """A better term than assemble would be 'join' since there are only pairs
-        Uses pandaseq 2.5"""
-        command = 'pandaseq -f %s -r %s -u %s -F 1> %s 2> %s'
-        command = command % (self.p.fwd_fastq, self.p.rev_fastq, self.unassembled.path, self.assembled.path, self.assembled.p.out)
-        getstatusoutput(command)
+        Uses pandaseq 2.7"""
+        self.assembled.remove()
+        command = 'pandaseq27 -T 1 -f %s -r %s -u %s -F 1> %s 2> %s'
+        command = command % (self.fwd_path, self.rev_path, self.unassembled.path, self.assembled.path, self.assembled.p.out)
+        shell_call(command) # Because it exits with status 1 https://github.com/neufeld/pandaseq/issues/40
 
     def check_noalign_counts(self):
         """Check the sanity of pandaseq"""
