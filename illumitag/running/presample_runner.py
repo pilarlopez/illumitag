@@ -48,9 +48,9 @@ class PresampleRunner(Runner):
 
     def run_slurm(self, steps=None, **kwargs):
         # Script #
-        command = """steps = %s
-                     presample = [p for p in illumitag.presamples if str(p)=='%s'][0]
-                     presample.runner.run(steps)""" % (steps, self.parent)
+        command =  ["steps = %s" % steps]
+        command += ["presample = [p for p in illumitag.presamples if str(p)=='%s'][0]'" % self.parent]
+        command += ["presample.runner.run(steps)"]
         # Send it #
         if 'time' not in kwargs: kwargs['time'] = self.default_time
         if 'email' not in kwargs: kwargs['email'] = None

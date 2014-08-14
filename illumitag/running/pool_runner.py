@@ -68,9 +68,9 @@ class PoolRunner(Runner):
             kwargs['qos'] = False
             kwargs['email'] = '/dev/null'
         # Script #
-        command = """steps = %s
-                     pool = [p for p in illumitag.pools if str(p)=='%s'][0]
-                     pool(steps)""" % (steps, self.parent)
+        command =  ["steps = %s" % steps]
+        command += ["pool = [p for p in illumitag.pools if str(p)=='%s'][0]'" % self.parent]
+        command += ["pool(steps)"]
         # Send it #
         if 'time' not in kwargs: kwargs['time'] = self.default_time
         if 'email' not in kwargs: kwargs['email'] = None
