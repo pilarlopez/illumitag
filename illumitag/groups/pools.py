@@ -18,7 +18,6 @@ from illumitag.common.autopaths import AutoPaths
 from illumitag.common.cache import property_cached
 
 # Third party modules #
-import fastqident
 from tqdm import tqdm
 
 # Constants #
@@ -170,9 +169,7 @@ class Pool(object):
 
     def check_fastq_version(self):
         """Let's make sure we are dealing with the Sanger encoding"""
-        for o in self.outcomes:
-            assert fastqident.detect_encoding(o.fwd_path) == 'sanger'
-            assert fastqident.detect_encoding(o.rev_path) == 'sanger'
+        pass
 
     def make_pool_plots(self):
         """Call graphs that are in pool_plots.py"""

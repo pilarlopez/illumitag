@@ -48,9 +48,15 @@ $ pip install statsmodels
 $ pip install pandas
 $ pip install ipython
 $ pip install scikit-learn
-$ pip install fastqident
 $ pip install rpy2
 $ pip install brewer2mpl
+$ pip install regex
+$ pip install ftputil
+$ pip install names
+$ pip install shell_command
+$ pip install pystache
+$ pip install tabulate
+$ pip install tqdm
 $ pyenv rehash
 
 -------------------------------------------------------------------------------

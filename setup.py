@@ -11,5 +11,5 @@ setup(
       author_email     = 'lucas.sinclair@me.com',
       classifiers      = ['Topic :: Scientific/Engineering :: Bio-Informatics'],
       packages         = ['illumitag'],
-      requires         = ['biopython', 'matplotlib', 'threadpool', 'sh', 'patsy', 'pandas', 'statsmodels', 'fastqident', 'rpy2'],
+      requires         = ['biopython', 'matplotlib', 'threadpool', 'sh', 'patsy', 'pandas', 'statsmodels', 'rpy2'],
 )

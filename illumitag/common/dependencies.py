@@ -2,7 +2,7 @@
 import subprocess, sys
 
 # Required modules #
-modules = ['Bio', 'sh', 'patsy', 'pandas', 'statsmodels', 'fastqident', 'rpy2', 'matplotlib', 'threadpool']
+modules = ['Bio', 'sh', 'patsy', 'pandas', 'statsmodels', 'rpy2', 'matplotlib', 'threadpool']
 
 # Required executables #
 executables = ['pandaseq27', 'usearch7', 'usearch6', 'fastqc']
