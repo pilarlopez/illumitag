@@ -15,6 +15,7 @@ class ClusterRunner(Runner):
 
     default_steps = [
         ### Start ###
+        {'process_samples':           {}},
         {'combine_reads':             {}},
         ### OTUs ###
         {'run_uparse':                {}},

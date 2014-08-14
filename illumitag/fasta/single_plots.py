@@ -19,7 +19,7 @@ class UniqueStarts(Graph):
         # Data #
         gen = iter(self.parent)
         self.seqs = [gen.next() for x in xrange(self.upto)]
-        self.func = lambda x: len(set([r.seq.tostring()[0:self.kmer] for r in self.seqs[0:x]]))
+        self.func = lambda x: len(set([str(r.seq)[0:self.kmer] for r in self.seqs[0:x]]))
         self.data = [self.func(x) for x in xrange(self.upto)]
         self.frame = pandas.Series(self.data)
         # Plot #

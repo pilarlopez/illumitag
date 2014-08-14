@@ -35,8 +35,8 @@ class ReadWithBarcodes(object):
     def __init__(self, read, samples):
         self.read = read
         self.bar_len = samples.bar_len
-        self.first = BarcodeMatch(read.seq.tostring()[0:self.bar_len], samples)
-        self.last = BarcodeMatch(read.reverse_complement().seq.tostring()[0:self.bar_len], samples)
+        self.first = BarcodeMatch(str(read.seq)[0:self.bar_len], samples)
+        self.last = BarcodeMatch(str(read.reverse_complement().seq)[0:self.bar_len], samples)
         self.matches = (self.first, self.last)
 
 ###############################################################################
@@ -49,8 +49,8 @@ class ReadPairWithBarcode(object):
     @property
     def matches(self):
         bar_len = self.samples.bar_len
-        fwd_m = BarcodeMatch(self.fwd.seq.tostring()[0:bar_len], self.samples)
-        rev_m = BarcodeMatch(self.rev.seq.tostring()[0:bar_len], self.samples)
+        fwd_m = BarcodeMatch(str(self.fwd.seq)[0:bar_len], self.samples)
+        rev_m = BarcodeMatch(str(self.rev.seq)[0:bar_len], self.samples)
         return [m for m in (fwd_m,rev_m) if m]
 
     @property
