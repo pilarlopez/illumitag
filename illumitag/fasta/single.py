@@ -100,46 +100,6 @@ class FASTA(FilePath):
         self.open()
         return SeqIO.parse(self.handle, self.extension)
 
-    def parse_barcodes(self):
-        generator = (ReadWithBarcodes(r, self.samples) for r in self.parse())
-        return GenWithLength(generator, len(self))
-
-    def parse_primers(self, mismatches=0):
-        if mismatches == 0:
-            generator = (ReadWithPrimers(r, self.primers) for r in self.parse())
-            return GenWithLength(generator, len(self))
-        else:
-            fwd_regex = regex.compile("(%s){s<=%i}" % (self.primers.fwd_pattern, mismatches))
-            rev_regex = regex.compile("(%s){s<=%i}" % (self.primers.rev_pattern, mismatches))
-            generator = (ReadWithPrimersMissmatch(r, self.primers, fwd_regex, rev_regex) for r in self.parse())
-            return GenWithLength(generator, len(self))
-
-    def parse_indices(self):
-        generator = (ReadWithIndices(r) for r in self.parse())
-        return GenWithLength(generator, len(self))
-
-    @property_cached
-    def barcode_counter(self):
-        return Counter((str(m) for read in self.parse_barcodes() for m in read.matches))
-
-    @property_cached
-    def good_barcodes_breakdown(self):
-        return OrderedDict([(name, self.barcode_counter[name + 'F']) for name in self.samples.bar_names])
-
-    @property_cached
-    def indices_counter(self):
-        return Counter((r.fwd_index,r.rev_index) for r in self.parse_indices())
-
-    @property_cached
-    def lengths(self):
-        return Counter((len(s) for s in self.parse()))
-
-    def lengths_gen(self):
-        for s in self.parse(): yield len(s)
-
-    def shorter_than(self, value):
-        return 100 * sum((v for k,v in self.lengths.items() if k < value)) / self.count
-
     def subsample(self, down_to, new_path=None):
         # Auto path #
         if new_path is None: new_path = self.p.subsample
@@ -195,6 +155,46 @@ class FASTA(FilePath):
         fraction.close()
         return fraction
 
+    def parse_barcodes(self):
+        generator = (ReadWithBarcodes(r, self.samples) for r in self.parse())
+        return GenWithLength(generator, len(self))
+
+    def parse_primers(self, mismatches=0):
+        if mismatches == 0:
+            generator = (ReadWithPrimers(r, self.primers) for r in self.parse())
+            return GenWithLength(generator, len(self))
+        else:
+            fwd_regex = regex.compile("(%s){s<=%i}" % (self.primers.fwd_pattern, mismatches))
+            rev_regex = regex.compile("(%s){s<=%i}" % (self.primers.rev_pattern, mismatches))
+            generator = (ReadWithPrimersMissmatch(r, self.primers, fwd_regex, rev_regex) for r in self.parse())
+            return GenWithLength(generator, len(self))
+
+    def parse_indices(self):
+        generator = (ReadWithIndices(r) for r in self.parse())
+        return GenWithLength(generator, len(self))
+
+    @property_cached
+    def barcode_counter(self):
+        return Counter((str(m) for read in self.parse_barcodes() for m in read.matches))
+
+    @property_cached
+    def good_barcodes_breakdown(self):
+        return OrderedDict([(name, self.barcode_counter[name + 'F']) for name in self.samples.bar_names])
+
+    @property_cached
+    def indices_counter(self):
+        return Counter((r.fwd_index,r.rev_index) for r in self.parse_indices())
+
+    @property_cached
+    def lengths(self):
+        return Counter((len(s) for s in self.parse()))
+
+    def lengths_gen(self):
+        for s in self.parse(): yield len(s)
+
+    def shorter_than(self, value):
+        return 100 * sum((v for k,v in self.lengths.items() if k < value)) / self.count
+
 #-----------------------------------------------------------------------------#
 class FASTQ(FASTA):
     """A single FASTQ file somewhere in the filesystem"""
@@ -208,10 +208,12 @@ class FASTQ(FASTA):
     def to_fasta(self, path):
         with open(path, 'w') as handle:
             for r in self: SeqIO.write(r, handle, 'fasta')
+        return FASTA(path)
 
     def to_qual(self, path):
         with open(path, 'w') as handle:
             for r in self: SeqIO.write(r, handle, 'qual')
+        return FilePath(path)
 
     @property_cached
     def avg_quality(self):
@@ -220,6 +222,11 @@ class FASTQ(FASTA):
         return mean
 
     def fastqc(self, directory=None):
+        # Default case #
+        if directory is None:
+            sh.fastqc(self.path, '-q')
+            os.remove(self.prefix_path + '_fastqc.zip')
+            return DirectoryPath(self.prefix.split('.')[0] + '_fastqc/')
         # Case directory #
         if directory is not None:
             if not isinstance(directory, DirectoryPath): directory = DirectoryPath(directory)
@@ -229,10 +236,7 @@ class FASTQ(FASTA):
             created_dir = tmp_dir + self.prefix.split('.')[0] + '_fastqc/'
             shutil.move(created_dir, directory)
             tmp_dir.remove()
-        # Default case #
-        else:
-            sh.fastqc(self.path, '-q')
-            os.remove(self.prefix_path + '_fastqc.zip')
+            return directory
 
     @property
     def fastqc_results(self): return FastQCResults(self.prefix_path + '_fastqc/')

@@ -17,7 +17,7 @@ from illumitag.groups.aggregate import Aggregate
 from illumitag.groups.projects import Projects, Project
 from illumitag.groups.presamples import Presample
 from illumitag.groups.pyrosample import Pyrosample, Demultiplexer454
-from illumitag.common import dependencies, GitReop
+from illumitag.common import dependencies, GitRepo
 
 # Constants #
 home = os.environ['HOME'] + '/'
@@ -34,7 +34,7 @@ view_dir = out_dir = home + 'ILLUMITAG/views/'
 self = sys.modules[__name__]
 module_dir = os.path.dirname(self.__file__) + '/'
 repos_dir = os.path.abspath(module_dir + '/../') + '/'
-git_repo = GitReop(repos_dir)
+git_repo = GitRepo(repos_dir)
 
 # Load all standard pools #
 pools_dir = repos_dir + 'json/pools/*/'

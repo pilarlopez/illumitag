@@ -25,6 +25,7 @@ class ClusterRunner(Runner):
         {'otu_uparse.taxonomy_silva.make_otu_table_norm':           {}},
         {'otu_uparse.taxonomy_silva.make_plots':                    {}},
         {'otu_uparse.taxonomy_silva.stats.nmds.run':                {}},
+        {'otu_uparse.taxonomy_silva.make_filtered_centers':         {}},
         {'otu_uparse.taxonomy_silva.comp_phyla.make_taxa_table':    {}},
         {'otu_uparse.taxonomy_silva.comp_phyla.make_plots':         {}},
         {'otu_uparse.taxonomy_silva.comp_phyla.stats.nmds.run':     {}},

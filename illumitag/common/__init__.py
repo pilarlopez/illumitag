@@ -30,7 +30,7 @@ class Password(object):
         return self._value
 
 ###############################################################################
-class GitReop(object):
+class GitRepo(object):
     """A git repository with some convenience methods"""
 
     def __init__(self, directory):

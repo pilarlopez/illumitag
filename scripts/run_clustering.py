@@ -33,6 +33,9 @@ cluster.otu_uparse.taxonomy_silva.comp_tips.make_taxa_table()
 cluster.otu_uparse.taxonomy_silva.comp_tips.make_plots()
 cluster.otu_uparse.seqenv.run()
 
+# Via SLURM #
+cluster.run_slurm(steps=[{'otu_uparse.seqenv.run':{}}], threads=False)
+
 # Run it with UCLUST #
 cluster.otu_uclust.run()
 cluster.otu_uclust.taxonomy_silva.assign()
