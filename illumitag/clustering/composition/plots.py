@@ -4,7 +4,7 @@ from __future__ import division
 # Built-in modules #
 
 # Internal modules #
-from illumitag.graphs import Graph, cool_colors
+from plumbing.graphs import Graph, cool_colors
 
 # Third party modules #
 from matplotlib import pyplot

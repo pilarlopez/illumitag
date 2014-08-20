@@ -1,7 +1,7 @@
 # Internal modules #
 from plumbing.autopaths import AutoPaths
-from plumbing.conversion import r_matrix_to_dataframe, pandas_df_to_r_df
-from illumitag.graphs import Graph
+from plumbing.dataframes import r_matrix_to_dataframe, pandas_df_to_r_df
+from plumbing.graphs import Graph
 
 # Third party modules #
 from matplotlib import pyplot

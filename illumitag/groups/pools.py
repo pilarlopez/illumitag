@@ -11,7 +11,7 @@ from quality import QualityReads
 from illumitag.groups.fractions import Fractions
 from illumitag.helper.primers import TwoPrimers
 from fasta import FASTQ
-from from fasta import PairedFASTQ
+from fasta import PairedFASTQ
 from illumitag.running.pool_runner import PoolRunner
 from illumitag.graphs import pool_plots
 from plumbing.autopaths import AutoPaths

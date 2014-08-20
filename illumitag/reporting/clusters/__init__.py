@@ -7,7 +7,7 @@ from collections import OrderedDict
 
 # Internal modules #
 import illumitag
-from plumbing import split_thousands, pretty_now, andify
+from plumbing.common import split_thousands, pretty_now, andify
 from plumbing.autopaths import AutoPaths
 from illumitag.reporting.common import HeaderTemplate, FooterTemplate
 from illumitag.reporting.common import ScaledFigure

@@ -4,7 +4,7 @@ from collections import OrderedDict
 
 # Internal modules #
 from fasta import FASTQ, FASTA
-from from fasta import PairedFASTQ
+from fasta import PairedFASTQ
 from plumbing.autopaths import AutoPaths
 from illumitag.helper.sra import SampleSRA
 

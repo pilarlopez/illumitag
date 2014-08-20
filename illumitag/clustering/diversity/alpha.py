@@ -6,7 +6,7 @@ http://scikit-bio.org/docs/0.1.4/math.diversity.alpha.html
 # Built-in modules #
 
 # Internal modules #
-from illumitag.graphs import Graph
+from plumbing.graphs import Graph
 
 # Third party modules #
 import skbio

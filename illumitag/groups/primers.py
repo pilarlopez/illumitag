@@ -2,7 +2,7 @@
 import sys, os
 
 # Internal modules #
-from plumbing import moving_average
+from plumbing.common import moving_average
 from illumitag.helper.chimeras import UchimeRef, UchimeDenovo
 from fasta import FASTQ, FASTA
 from plumbing.autopaths import AutoPaths

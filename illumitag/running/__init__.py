@@ -2,7 +2,7 @@
 import os, sys, time, datetime
 
 # Internal modules #
-from plumbing import flatten
+from plumbing.common import flatten
 from plumbing.color import Color
 
 # Third party modules #

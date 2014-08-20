@@ -6,7 +6,7 @@ from collections import Counter
 
 # Internal modules #
 import illumitag
-from plumbing import prepend_to_file
+from plumbing.common import prepend_to_file
 from plumbing.cache import property_cached
 from plumbing.autopaths import AutoPaths
 from fasta import FASTA

@@ -6,8 +6,8 @@ from illumitag.groups.outcomes import BarcodeGroup
 from illumitag.groups.assemble import Assembled, Unassembled
 from illumitag.groups.samples import Samples
 from fasta import FASTA, FASTQ
-from from fasta import PairedFASTQ
-from illumitag.fasta import FastQCResults
+from fasta import PairedFASTQ
+from fasta.common import FastQCResults
 from plumbing.autopaths import AutoPaths, FilePath
 from plumbing.cache import property_cached
 from illumitag.helper.primers import TwoPrimers

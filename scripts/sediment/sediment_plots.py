@@ -6,9 +6,9 @@ from collections import Counter, OrderedDict
 
 # Internal modules #
 import illumitag
-from illumitag.graphs import Graph, cool_colors
+from plumbing.graphs import Graph, cool_colors
 from illumitag.helper.silvamod import amplified
-from plumbing import split_thousands
+from plumbing.common import split_thousands
 
 # Third party modules #
 import pandas, matplotlib

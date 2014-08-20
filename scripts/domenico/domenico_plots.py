@@ -6,7 +6,7 @@ from collections import defaultdict
 
 # Internal modules #
 import illumitag
-from illumitag.graphs import Graph
+from plumbing.graphs import Graph
 from illumitag.helper.freshwater import species_names, clade_names
 
 # Third party modules #

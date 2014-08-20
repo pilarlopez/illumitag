@@ -4,9 +4,9 @@ from __future__ import division
 # Built-in modules #
 
 # Internal modules #
-from illumitag.graphs import Graph
+from plumbing.graphs import Graph
 from illumitag.graphs.hierarchical_heatmap import HiearchicalHeatmap
-from plumbing import split_thousands
+from plumbing.common import split_thousands
 
 # Third party modules #
 import matplotlib

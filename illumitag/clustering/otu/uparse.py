@@ -7,7 +7,7 @@ from collections import defaultdict
 
 # Internal modules #
 import illumitag
-from plumbing import natural_sort
+from plumbing.common import natural_sort
 from plumbing.autopaths import AutoPaths, FilePath
 from plumbing.cache import property_cached, LazyString
 from fasta import FASTA, SizesFASTA

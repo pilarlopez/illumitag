@@ -3,13 +3,11 @@ from collections import defaultdict
 
 # Internal modules #
 from fasta import FASTA, FASTQ
-from illumitag.fasta.other import QualFile, GroupFile
-from plumbing.autopaths import AutoPaths
+from fasta import QualFile
+from plumbing.autopaths import AutoPaths, FilePath
 
 # Third party modules #
 from Bio.SeqIO.FastaIO import FastaWriter
-
-# Constants #
 
 ###############################################################################
 class QualityReads(object):
@@ -43,7 +41,7 @@ class QualityReads(object):
         # Mothur #
         self.mothur_fasta = FASTA(self.p.mothur_fasta)
         self.mothur_qual = QualFile(self.p.mothur_qual)
-        self.mothur_groups = GroupFile(self.p.mothur_groups)
+        self.mothur_groups = FilePath(self.p.mothur_groups)
         # Primer size #
         self.trim_fwd = self.pool.samples.trim_fwd
         self.trim_rev = self.pool.samples.trim_rev

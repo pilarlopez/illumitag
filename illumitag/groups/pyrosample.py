@@ -7,7 +7,7 @@ from collections import OrderedDict
 
 # Internal modules #
 import illumitag
-from plumbing import natural_sort, moving_average, md5sum
+from plumbing.common import natural_sort, moving_average, md5sum
 from plumbing.autopaths import AutoPaths, FilePath
 from plumbing.tmpstuff import TmpFile
 from fasta import FASTA, FASTQ

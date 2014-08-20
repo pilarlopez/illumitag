@@ -7,11 +7,11 @@ from collections import Counter
 
 # Internal modules #
 from primers import GoodPrimers, WrongPrimers, OnlyFwdPrimers, OnlyRevPrimers, NoPrimers
-from plumbing import tail, flatten, reverse_compl_with_name
+from plumbing.common import tail, flatten, reverse_compl_with_name
 from fasta import FASTQ, FASTA
 from plumbing.cache import property_cached
 from plumbing.autopaths import AutoPaths
-from illumitag.fasta.single_plots import LengthDistribution
+from fasta.plots import LengthDistribution
 
 # Third party modules #
 

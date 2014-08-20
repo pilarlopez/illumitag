@@ -4,8 +4,8 @@ from __future__ import division
 # Built-in modules #
 
 # Internal modules #
-from plumbing import flatten
-from illumitag.graphs import Graph
+from plumbing.common import flatten
+from plumbing.graphs import Graph
 from illumitag.helper.chimeras import UchimeRef, UchimeDenovo
 
 # Third party modules #

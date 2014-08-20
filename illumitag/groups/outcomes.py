@@ -4,7 +4,7 @@ from collections import Counter, defaultdict, OrderedDict
 
 # Internal modules #
 from assemble import Assembled, Unassembled
-from from fasta import PairedFASTQ
+from fasta import PairedFASTQ
 from illumitag.graphs import outcome_plots
 from plumbing.cache import property_cached
 from plumbing.autopaths import AutoPaths

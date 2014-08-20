@@ -1,7 +1,7 @@
 # Built-in modules #
 
 # Internal modules #
-from plumbing import flatten
+from plumbing.common import flatten
 
 # Third party modules #
 

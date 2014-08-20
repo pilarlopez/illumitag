@@ -20,7 +20,7 @@ The documentation about the custom color gradients can be found here:
 import random
 
 # Internal modules #
-from illumitag.graphs import Graph
+from plumbing.graphs import Graph
 
 # Third party modules #
 import numpy, scipy, matplotlib, pandas

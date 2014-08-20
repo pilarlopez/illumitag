@@ -6,6 +6,14 @@ __version__ = '1.0.1'
 # Built-in modules #
 import os, sys, glob
 
+# Get paths to module #
+self = sys.modules[__name__]
+module_dir = os.path.dirname(self.__file__)
+
+# Dependencies #
+from plumbing.common import dependencies
+dependencies.check_setup(module_dir + 'setup.py')
+
 # No need for an X display #
 import matplotlib
 matplotlib.use('Agg', warn=False)
@@ -17,16 +25,12 @@ from illumitag.groups.aggregate import Aggregate
 from illumitag.groups.projects import Projects, Project
 from illumitag.groups.presamples import Presample
 from illumitag.groups.pyrosample import Pyrosample, Demultiplexer454
-from plumbing import dependencies, GitRepo
+from plumbing.git import GitRepo
 
 # Constants #
 home = os.environ['HOME'] + '/'
 
 ###############################################################################
-# Check dependencies #
-dependencies.check_modules()
-dependencies.check_executables()
-
 # Output directory #
 view_dir = out_dir = home + 'ILLUMITAG/views/'
 

@@ -2,8 +2,8 @@
 import json
 
 # Internal modules #
-from illumitag.graphs import Graph
-from plumbing import flatten
+from plumbing.graphs import Graph
+from plumbing.common import flatten
 
 # Third party modules #
 import pandas

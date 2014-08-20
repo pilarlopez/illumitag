@@ -15,7 +15,7 @@ sra@ncbi.nlm.nih.gov
 """
 
 # Internal modules #
-from plumbing import Password, md5sum, gps_deg_to_float
+from plumbing.common import Password, md5sum, gps_deg_to_float
 from plumbing.autopaths import AutoPaths
 
 # Third party modules #

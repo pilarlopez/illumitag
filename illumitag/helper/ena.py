@@ -1,7 +1,7 @@
 # Built-in modules #
 
 # Internal modules #
-from plumbing import Password, md5sum
+from plumbing.common import Password, md5sum
 from plumbing.autopaths import AutoPaths
 
 # Third party modules #

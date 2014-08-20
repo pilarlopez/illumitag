@@ -3,8 +3,8 @@ from collections import Counter, OrderedDict
 import locale
 
 # Internal modules #
-from illumitag.graphs import Graph, cool_colors
-from plumbing import flatten
+from plumbing.graphs import Graph, cool_colors
+from plumbing.common import flatten
 from illumitag.helper.silvamod import amplified
 
 # Third party modules #
