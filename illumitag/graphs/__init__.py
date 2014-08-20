@@ -2,8 +2,8 @@
 import os, time, getpass
 
 # Internal modules #
-from illumitag.common.autopaths import FilePath
-from illumitag.common import split_thousands
+from plumbing.autopaths import FilePath
+from plumbing import split_thousands
 
 # Third party modules #
 import matplotlib, brewer2mpl

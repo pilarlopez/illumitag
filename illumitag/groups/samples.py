@@ -3,9 +3,9 @@ import json, re
 from collections import OrderedDict
 
 # Internal modules #
-from illumitag.fasta.single import FASTQ, FASTA
-from illumitag.fasta.paired import PairedFASTQ
-from illumitag.common.autopaths import AutoPaths
+from fasta import FASTQ, FASTA
+from from fasta import PairedFASTQ
+from plumbing.autopaths import AutoPaths
 from illumitag.helper.sra import SampleSRA
 
 # Third party modules #

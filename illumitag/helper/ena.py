@@ -1,8 +1,8 @@
 # Built-in modules #
 
 # Internal modules #
-from illumitag.common import Password, md5sum
-from illumitag.common.autopaths import AutoPaths
+from plumbing import Password, md5sum
+from plumbing.autopaths import AutoPaths
 
 # Third party modules #
 from ftputil import FTPHost

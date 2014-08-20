@@ -17,7 +17,7 @@ from illumitag.groups.aggregate import Aggregate
 from illumitag.groups.projects import Projects, Project
 from illumitag.groups.presamples import Presample
 from illumitag.groups.pyrosample import Pyrosample, Demultiplexer454
-from illumitag.common import dependencies, GitRepo
+from plumbing import dependencies, GitRepo
 
 # Constants #
 home = os.environ['HOME'] + '/'

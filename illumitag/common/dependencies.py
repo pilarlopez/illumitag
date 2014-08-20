@@ -5,7 +5,7 @@ import subprocess, sys
 modules = ['Bio', 'sh', 'patsy', 'pandas', 'statsmodels', 'rpy2', 'matplotlib', 'threadpool']
 
 # Required executables #
-executables = ['pandaseq27', 'usearch7', 'usearch6', 'fastqc', 'megablast', 'classify']
+executables = ['pandaseq27', 'usearch7', 'usearch6', 'fastqc', 'blastn', 'classify']
 
 ################################################################################
 # We might be missing some executables #

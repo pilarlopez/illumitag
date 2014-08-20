@@ -2,11 +2,11 @@
 import sys, os
 
 # Internal modules #
-from illumitag.common import moving_average
+from plumbing import moving_average
 from illumitag.helper.chimeras import UchimeRef, UchimeDenovo
-from illumitag.fasta.single import FASTQ, FASTA
-from illumitag.common.autopaths import AutoPaths
-from illumitag.common.color import Color
+from fasta import FASTQ, FASTA
+from plumbing.autopaths import AutoPaths
+from plumbing.color import Color
 
 # Third party modules #
 

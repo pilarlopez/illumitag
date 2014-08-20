@@ -2,7 +2,7 @@
 
 # Internal modules #
 from illumitag.running import Runner
-from illumitag.common.slurm import SLURMJob
+from plumbing.slurm import SLURMJob
 
 # Third party modules #
 

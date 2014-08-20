@@ -7,7 +7,7 @@ A script to run some stuff on Inga's experiment.
 
 # Modules #
 import illumitag, shutil
-from illumitag.common.autopaths import DirectoryPath
+from plumbing.autopaths import DirectoryPath
 from tqdm import tqdm
 
 ###############################################################################

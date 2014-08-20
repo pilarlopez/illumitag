@@ -6,7 +6,7 @@ from __future__ import division
 # Internal modules #
 from illumitag.graphs import Graph
 from illumitag.graphs.hierarchical_heatmap import HiearchicalHeatmap
-from illumitag.common import split_thousands
+from plumbing import split_thousands
 
 # Third party modules #
 import matplotlib

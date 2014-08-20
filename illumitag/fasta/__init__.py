@@ -1,7 +1,7 @@
 # Built-in modules #
 
 # Internal modules #
-from illumitag.common.autopaths import FilePath, DirectoryPath
+from plumbing.autopaths import FilePath, DirectoryPath
 
 # Third party modules #
 

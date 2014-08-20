@@ -3,11 +3,11 @@ import os, sys, gzip
 from itertools import izip
 
 # Internal modules #
-from illumitag.common import GenWithLength
+from plumbing import GenWithLength
 from illumitag.helper.barcodes import ReadPairWithBarcode
-from illumitag.common.cache import property_cached
-from illumitag.fasta.single import FASTQ
-from illumitag.common.autopaths import DirectoryPath
+from plumbing.cache import property_cached
+from fasta import FASTQ
+from plumbing.autopaths import DirectoryPath
 from illumitag.fasta import ReadPairWithIndices
 
 # Third party modules #

@@ -3,7 +3,7 @@ import shutil
 
 # Internal modules #
 from illumitag.cluster.taxonomy import Taxonomy
-from illumitag.common.cache import property_cached
+from plumbing.cache import property_cached
 
 # Third party modules #
 import sh

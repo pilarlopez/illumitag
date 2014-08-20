@@ -3,7 +3,7 @@ import os, time, shutil, tempfile
 
 # Internal modules #
 from illumitag.cluster.taxonomy import Taxonomy
-from illumitag.common.cache import property_cached
+from plumbing.cache import property_cached
 from illumitag.helper.mothur import process_log_file
 
 # Third party modules #

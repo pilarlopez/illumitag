@@ -3,7 +3,7 @@ import json
 
 # Internal modules #
 from illumitag.graphs import Graph
-from illumitag.common import flatten
+from plumbing import flatten
 
 # Third party modules #
 import pandas

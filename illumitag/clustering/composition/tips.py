@@ -2,7 +2,7 @@
 
 # Internal modules #
 from illumitag.clustering.composition import Composition
-from illumitag.common.cache import property_cached
+from plumbing.cache import property_cached
 from illumitag.clustering.composition.plots import TaxaBarstack
 
 # Third party modules #

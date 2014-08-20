@@ -2,11 +2,11 @@
 import os, shutil
 
 # Internal modules #
-from illumitag.fasta.single import FASTA
-from illumitag.common.autopaths import AutoPaths
-from illumitag.common.slurm import nr_threads
-from illumitag.common.cache import property_cached
-from illumitag.common.csv_tables import CSVTable
+from fasta import FASTA
+from plumbing.autopaths import AutoPaths
+from plumbing.slurm import nr_threads
+from plumbing.cache import property_cached
+from plumbing.csv_tables import CSVTable
 from illumitag.clustering.statistics import StatsOnTaxonomy
 from illumitag.clustering.taxonomy import Taxonomy, SimpleTaxonomy
 from illumitag.clustering.taxonomy import plots
@@ -83,7 +83,7 @@ class CrestTaxonomy(Taxonomy):
 
     def assign(self):
         # Run #
-        sh.megablast('-a', nr_threads, '-i', self.fasta, '-d', self.database_path, '-b100', '-v100', '-m7', '-o', self.p.db_hits)
+        sh.blastn('-task', 'megablast', '-num_threads', nr_threads, '-query', self.fasta, '-db', self.database_path, '-max_target_seqs', '100', '-outfmt', '7' ,'-out', self.p.db_hits)
         if os.path.getsize(self.p.db_hits) == 0: raise Exception("Hits file empty. The MEGABLAST process was probably killed.")
         # CREST #
         self.p.crest_dir.remove()

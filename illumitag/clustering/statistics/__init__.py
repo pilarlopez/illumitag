@@ -1,7 +1,7 @@
 # Built-in modules #
 
 # Internal modules #
-from illumitag.common.autopaths import AutoPaths
+from plumbing.autopaths import AutoPaths
 from illumitag.clustering.statistics.nmds import NMDS
 from illumitag.clustering.statistics.permanova import PERMANOVA
 from illumitag.clustering.statistics.betadis import BetaDispersion

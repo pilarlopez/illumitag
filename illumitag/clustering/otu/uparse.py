@@ -7,10 +7,10 @@ from collections import defaultdict
 
 # Internal modules #
 import illumitag
-from illumitag.common import natural_sort
-from illumitag.common.autopaths import AutoPaths, FilePath
-from illumitag.common.cache import property_cached
-from illumitag.fasta.single import FASTA, SizesFASTA
+from plumbing import natural_sort
+from plumbing.autopaths import AutoPaths, FilePath
+from plumbing.cache import property_cached, LazyString
+from fasta import FASTA, SizesFASTA
 from illumitag.clustering.otu import OTUs
 from illumitag.clustering.taxonomy.crest import CrestTaxonomy
 from illumitag.clustering.taxonomy.rdp import RdpTaxonomy
@@ -20,7 +20,7 @@ from illumitag.clustering.source.seqenv import Seqenv
 import sh, pandas
 
 # Constants #
-uparse_version = sh.usearch7('-version').stdout[8:].strip('\n')
+uparse_version = LazyString(lambda: sh.usearch7('-version').stdout[8:].strip('\n'))
 
 ###############################################################################
 class UparseOTUs(OTUs):

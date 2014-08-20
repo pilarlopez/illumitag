@@ -5,11 +5,11 @@ import os, json
 from illumitag.groups.outcomes import BarcodeGroup
 from illumitag.groups.assemble import Assembled, Unassembled
 from illumitag.groups.samples import Samples
-from illumitag.fasta.single import FASTA, FASTQ
-from illumitag.fasta.paired import PairedFASTQ
+from fasta import FASTA, FASTQ
+from from fasta import PairedFASTQ
 from illumitag.fasta import FastQCResults
-from illumitag.common.autopaths import AutoPaths, FilePath
-from illumitag.common.cache import property_cached
+from plumbing.autopaths import AutoPaths, FilePath
+from plumbing.cache import property_cached
 from illumitag.helper.primers import TwoPrimers
 from illumitag.graphs import outcome_plots
 from illumitag.running.presample_runner import PresampleRunner
@@ -82,6 +82,11 @@ class Presample(BarcodeGroup):
         self.id_name = "run%03d-sample%02d" % (self.run_num, self.num)
         self.fwd_mid = self.info['forward_mid']
         self.rev_mid = self.info['reverse_mid']
+        # Second init #
+        self.loaded = False
+
+    def load(self):
+        """A second __init__ that is delayed and called only if needed"""
         # Automatic paths #
         self.base_dir = self.out_dir + self.id_name + '/'
         self.p = AutoPaths(self.base_dir, self.all_paths)
@@ -127,6 +132,10 @@ class Presample(BarcodeGroup):
         self.diversity = AlphaDiversity(self)
         # Report #
         self.report = SampleReport(self)
+        # Loaded #
+        self.loaded = True
+        # Return self for convenience #
+        return self
 
     @property_cached
     def counts(self):
@@ -135,9 +144,6 @@ class Presample(BarcodeGroup):
         row = taxa_table.loc[self.short_name].copy()
         row.sort(ascending=False)
         return row
-
-    def load(self):
-        pass
 
     def run_fastqc(self): self.fastq.fastqc(self.p.fastqc_dir)
 

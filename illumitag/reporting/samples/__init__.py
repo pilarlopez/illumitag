@@ -7,8 +7,8 @@ from collections import OrderedDict
 
 # Internal modules #
 import illumitag
-from illumitag.common import split_thousands, pretty_now
-from illumitag.common.autopaths import AutoPaths
+from plumbing import split_thousands, pretty_now
+from plumbing.autopaths import AutoPaths
 from illumitag.reporting.common import HeaderTemplate, FooterTemplate
 from illumitag.reporting.common import DualFigure, ScaledFigure
 

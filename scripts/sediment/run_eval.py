@@ -13,8 +13,8 @@ sys.exit("Copy paste the commands you want in ipython, don't run this script.")
 
 # Modules #
 import illumitag
-from illumitag.fasta.single import FASTA
-from illumitag.common.autopaths import DirectoryPath
+from fasta import FASTA
+from plumbing.autopaths import DirectoryPath
 from illumitag.clustering.taxonomy.crest import SimpleCrestTaxonomy
 from illumitag.clustering.taxonomy.rdp import SimpleRdpTaxonomy
 

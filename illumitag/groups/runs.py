@@ -4,7 +4,7 @@ import xml.etree.ElementTree as etree
 
 # Internal modules #
 from aggregate import Collection, Aggregate
-from illumitag.common.autopaths import AutoPaths
+from plumbing.autopaths import AutoPaths
 
 # Third party modules #
 

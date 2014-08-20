@@ -8,7 +8,7 @@ from collections import Counter, OrderedDict
 import illumitag
 from illumitag.graphs import Graph, cool_colors
 from illumitag.helper.silvamod import amplified
-from illumitag.common import split_thousands
+from plumbing import split_thousands
 
 # Third party modules #
 import pandas, matplotlib

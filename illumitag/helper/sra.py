@@ -15,8 +15,8 @@ sra@ncbi.nlm.nih.gov
 """
 
 # Internal modules #
-from illumitag.common import Password, md5sum, gps_deg_to_float
-from illumitag.common.autopaths import AutoPaths
+from plumbing import Password, md5sum, gps_deg_to_float
+from plumbing.autopaths import AutoPaths
 
 # Third party modules #
 from ftputil import FTPHost

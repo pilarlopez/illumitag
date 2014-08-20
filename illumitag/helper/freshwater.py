@@ -1,7 +1,7 @@
 # Built-in modules #
 
 # Internal modules #
-from illumitag.common import flatten
+from plumbing import flatten
 
 # Third party modules #
 

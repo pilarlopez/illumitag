@@ -3,8 +3,8 @@ import os, shutil, csv
 from itertools import izip
 
 # Internal modules #
-from illumitag.common.autopaths import FilePath
-from illumitag.common.tmpstuff import TmpFile
+from plumbing.autopaths import FilePath
+from plumbing.tmpstuff import TmpFile
 
 # Third party modules #
 import sh

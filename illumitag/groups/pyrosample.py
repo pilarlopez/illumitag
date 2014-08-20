@@ -7,10 +7,10 @@ from collections import OrderedDict
 
 # Internal modules #
 import illumitag
-from illumitag.common import natural_sort, moving_average, md5sum
-from illumitag.common.autopaths import AutoPaths, FilePath
-from illumitag.common.tmpstuff import TmpFile
-from illumitag.fasta.single import FASTA, FASTQ
+from plumbing import natural_sort, moving_average, md5sum
+from plumbing.autopaths import AutoPaths, FilePath
+from plumbing.tmpstuff import TmpFile
+from fasta import FASTA, FASTQ
 from illumitag.helper import sra
 
 # Third party modules #
@@ -101,6 +101,18 @@ class Pyrosample(object):
         self.machine = "454 GS FLX Titanium"
         # SFF files #
         self.sff_files_info = self.info['files']
+        # Pool dummy #
+        self.pool, self.parent = self, self
+        # Other dummy variables #
+        self.bar_len = 0
+        self.gziped = False
+        self.used = True
+        # Loaded #
+        self.loaded = False
+
+    def load(self):
+        """A second __init__ that is delayed and called only if needed"""
+        # Check files are there #
         for f in self.sff_files_info:
             if not os.path.exists(f['path']): raise Exception("No file at %s" % f['path'])
         # Automatic paths #
@@ -108,12 +120,6 @@ class Pyrosample(object):
         self.p = AutoPaths(self.base_dir, self.all_paths)
         # Make an alias to the json #
         self.p.info_json.link_from(self.json_path, safe=True)
-        # Pool dummy #
-        self.pool, self.parent = self, self
-        # Other dummy variables #
-        self.bar_len = 0
-        self.gziped = False
-        self.used = True
         # Primer #
         self.primer_regex = re.compile(self.info['primer'])
         # Raw files #
@@ -132,6 +138,10 @@ class Pyrosample(object):
             self.reads.link_from(self.info['predenoised'], safe=True)
         # Special submission attributes #
         self.sra = PyroSampleSRA(self)
+        # Loaded #
+        self.loaded = True
+        # Return self for convenience #
+        return self
 
     @property
     def mate(self):
@@ -140,9 +150,6 @@ class Pyrosample(object):
         pool_num = self.info['mate']['pool']
         barcode_num = self.info['mate']['num']
         return illumitag.runs[run_num][pool_num-1][barcode_num-1]
-
-    def load(self):
-        pass
 
     def extract(self):
         # Call extraction #

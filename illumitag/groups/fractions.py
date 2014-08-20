@@ -2,8 +2,8 @@
 
 # Internal modules #
 from illumitag.helper.chimeras import UchimeRef, UchimeDenovo
-from illumitag.fasta.single import FASTA
-from illumitag.common.autopaths import AutoPaths
+from fasta import FASTA
+from plumbing.autopaths import AutoPaths
 from illumitag.clustering.taxonomy.rdp import SimpleRdpTaxonomy
 from illumitag.clustering.taxonomy.crest import SimpleCrestTaxonomy
 

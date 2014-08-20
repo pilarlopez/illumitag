@@ -3,11 +3,11 @@ import os
 
 # Internal modules #
 from illumitag.clustering.taxonomy import Taxonomy, SimpleTaxonomy
-from illumitag.common.cache import property_cached
-from illumitag.common.autopaths import AutoPaths
+from plumbing.cache import property_cached
+from plumbing.autopaths import AutoPaths
 from illumitag.clustering.taxonomy import plots
-from illumitag.fasta.single import FASTA
-from illumitag.common.csv_tables import CSVTable
+from fasta import FASTA
+from plumbing.csv_tables import CSVTable
 from illumitag.clustering.statistics import StatsOnTaxonomy
 
 # Third party modules #

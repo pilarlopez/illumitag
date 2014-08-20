@@ -4,10 +4,10 @@ from collections import defaultdict
 
 # Internal modules #
 import illumitag
-from illumitag.common import natural_sort
-from illumitag.common.autopaths import AutoPaths, FilePath
-from illumitag.common.cache import property_cached
-from illumitag.fasta.single import FASTA
+from plumbing import natural_sort
+from plumbing.autopaths import AutoPaths, FilePath
+from plumbing.cache import property_cached
+from fasta import FASTA
 from illumitag.clustering.otu import OTUs
 from illumitag.clustering.taxonomy.crest import CrestTaxonomy
 

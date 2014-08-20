@@ -2,7 +2,7 @@
 import os, stat, tempfile, re, subprocess, shutil, gzip, codecs
 
 # Internal modules #
-from illumitag.common import append_to_file, prepend_to_file
+from plumbing import append_to_file, prepend_to_file
 
 ################################################################################
 class AutoPaths(object):

@@ -4,7 +4,7 @@ import locale
 
 # Internal modules #
 from illumitag.graphs import Graph, cool_colors
-from illumitag.common import flatten
+from plumbing import flatten
 from illumitag.helper.silvamod import amplified
 
 # Third party modules #

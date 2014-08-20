@@ -3,9 +3,9 @@ import shutil
 
 # Internal modules #
 import illumitag
-from illumitag.common.tmpstuff import new_temp_path
-from illumitag.common.autopaths import AutoPaths
-from illumitag.fasta.single import FASTA
+from plumbing.tmpstuff import new_temp_path
+from plumbing.autopaths import AutoPaths
+from fasta import FASTA
 from illumitag.running.cluster_runner import ClusterRunner
 from illumitag.clustering.otu.uparse import UparseOTUs
 from illumitag.clustering.otu.uclust import UclustOTUs
@@ -52,11 +52,15 @@ class Cluster(object):
         # Figure out pools #
         self.pools = list(set([s.pool for s in self.samples]))
         self.pools.sort(key = lambda x: x.id_name)
-        # Load them #
-        for p in self.pools: p.load()
-        # Dir #
+        # Directory #
         if base_dir: self.base_dir = base_dir
         else: self.base_dir = illumitag.view_dir + "clusters/" + self.name + '/'
+        # Loaded #
+        self.loaded = False
+
+    def load(self):
+        """A second __init__ that is delayed and called only if needed"""
+        # Dir #
         self.p = AutoPaths(self.base_dir, self.all_paths)
         # Figure out if it's a project #
         if set(self.samples) == set(self.first.pool.project.samples): self.project = self.first.pool.project
@@ -75,6 +79,10 @@ class Cluster(object):
         self.reporter = ClusterReporter(self)
         # Full report #
         self.report = ClusterReport(self)
+        # Loaded #
+        self.loaded = True
+        # Return self for convenience #
+        return self
 
     def run(self, *args, **kwargs):
         self.runner.run(*args, **kwargs)

@@ -5,9 +5,9 @@ from __future__ import division
 import sys, os, time
 
 # Internal modules #
-from illumitag.fasta.single import FASTA, SizesFASTA
-from illumitag.common.autopaths import AutoPaths
-from illumitag.common.color import Color
+from fasta import FASTA, SizesFASTA
+from plumbing.autopaths import AutoPaths
+from plumbing.color import Color
 
 # Third party modules #
 import sh

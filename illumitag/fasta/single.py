@@ -6,13 +6,13 @@ import os, gzip, re
 from collections import Counter, OrderedDict
 
 # Internal modules #
-from illumitag.common import isubsample, GenWithLength, imean
-from illumitag.common.autopaths import FilePath, DirectoryPath
-from illumitag.common.tmpstuff import new_temp_path, new_temp_dir
+from plumbing import isubsample, GenWithLength, imean
+from plumbing.autopaths import FilePath, DirectoryPath
+from plumbing.tmpstuff import new_temp_path, new_temp_dir
 from illumitag.helper.barcodes import ReadWithBarcodes
 from illumitag.helper.primers import ReadWithPrimers, ReadWithPrimersMissmatch
-from illumitag.common.cache import property_cached
-from illumitag.common.color import Color
+from plumbing.cache import property_cached
+from plumbing.color import Color
 from illumitag.fasta import single_plots, ReadWithIndices, FastQCResults
 
 # Third party modules #

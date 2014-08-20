@@ -4,11 +4,11 @@ from __future__ import division
 # Built-in modules #
 
 # Internal modules #
-from illumitag.common.autopaths import AutoPaths
+from plumbing.autopaths import AutoPaths
 from illumitag.graphs import aggregate_plots
 from illumitag.clustering import Cluster
 from illumitag.reporting import Reporter
-from illumitag.common.cache import property_cached
+from plumbing.cache import property_cached
 
 # Third party modules #
 

@@ -3,9 +3,9 @@ from collections import defaultdict
 
 # Internal modules #
 import illumitag
-from illumitag.common.autopaths import AutoPaths
-from illumitag.common.csv_tables import CSVTable
-from illumitag.common.cache import property_cached
+from plumbing.autopaths import AutoPaths
+from plumbing.csv_tables import CSVTable
+from plumbing.cache import property_cached
 from illumitag.clustering.statistics import StatsOnComposition
 
 # Third party modules #

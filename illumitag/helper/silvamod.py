@@ -3,7 +3,7 @@ import os
 
 # Internal modules #
 import illumitag
-from illumitag.fasta.single import FASTA
+from fasta import FASTA
 
 # Third party modules #
 import sh

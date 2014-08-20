@@ -4,7 +4,7 @@ from __future__ import division
 # Built-in modules #
 
 # Internal modules #
-from illumitag.common import flatten
+from plumbing import flatten
 from illumitag.graphs import Graph
 from illumitag.helper.chimeras import UchimeRef, UchimeDenovo
 

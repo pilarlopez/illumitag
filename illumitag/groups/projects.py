@@ -3,7 +3,7 @@
 # Internal modules #
 import illumitag
 from illumitag.groups.aggregate import Collection, Aggregate
-from illumitag.common.autopaths import AutoPaths
+from plumbing.autopaths import AutoPaths
 
 # Third party modules #
 

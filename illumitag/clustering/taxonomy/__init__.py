@@ -6,10 +6,10 @@ from collections import Counter
 
 # Internal modules #
 import illumitag
-from illumitag.common import prepend_to_file
-from illumitag.common.cache import property_cached
-from illumitag.common.autopaths import AutoPaths
-from illumitag.fasta.single import FASTA
+from plumbing import prepend_to_file
+from plumbing.cache import property_cached
+from plumbing.autopaths import AutoPaths
+from fasta import FASTA
 
 # Third party modules #
 import pandas, numpy

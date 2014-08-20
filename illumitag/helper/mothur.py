@@ -2,7 +2,7 @@
 import re, os, time, shutil
 
 # Internal modules #
-from illumitag.common import find_files_by_regex, prepend_to_file, append_to_file
+from plumbing import find_files_by_regex, prepend_to_file, append_to_file
 
 # Third party modules #
 

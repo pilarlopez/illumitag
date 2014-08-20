@@ -2,14 +2,14 @@
 import os, shutil, glob
 
 # Internal modules #
-from illumitag.common.autopaths import AutoPaths, FilePath
-from illumitag.common.cache import property_cached
-from illumitag.common.csv_tables import CSVTable
+from plumbing.autopaths import AutoPaths, FilePath
+from plumbing.cache import property_cached
+from plumbing.csv_tables import CSVTable
 from illumitag.clustering.statistics.nmds import NMDS
 
 # Third party modules #
 import sh, pandas
-from illumitag.fasta.single import FASTA
+from fasta import FASTA
 
 # Constants #
 home = os.environ['HOME'] + '/'

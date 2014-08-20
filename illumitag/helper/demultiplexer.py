@@ -8,9 +8,9 @@ from collections import Counter
 
 # Internal modules #
 import illumitag
-from illumitag.fasta.single import FASTQ
-from illumitag.fasta.paired import PairedFASTQ
-from illumitag.common.cache import property_cached
+from fasta import FASTQ
+from from fasta import PairedFASTQ
+from plumbing.cache import property_cached
 
 # Third party modules #
 

@@ -1,5 +1,5 @@
 # Internal modules #
-from illumitag.common.autopaths import AutoPaths
+from plumbing.autopaths import AutoPaths
 
 # Third party modules #
 

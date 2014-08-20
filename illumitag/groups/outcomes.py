@@ -4,10 +4,10 @@ from collections import Counter, defaultdict, OrderedDict
 
 # Internal modules #
 from assemble import Assembled, Unassembled
-from illumitag.fasta.paired import PairedFASTQ
+from from fasta import PairedFASTQ
 from illumitag.graphs import outcome_plots
-from illumitag.common.cache import property_cached
-from illumitag.common.autopaths import AutoPaths
+from plumbing.cache import property_cached
+from plumbing.autopaths import AutoPaths
 
 # Third party modules #
 import sh, numpy

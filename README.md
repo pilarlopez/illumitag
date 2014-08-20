@@ -88,7 +88,7 @@ Don't forget to rehash the binary links at the end:
     $ which usearch7
     $ which usearch6
     $ which fastqc
-    $ which megablast
+    $ which blastn
     $ which classify
 
 ### Step 6: Check you have all the required R dependencies

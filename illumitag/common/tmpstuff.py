@@ -2,7 +2,7 @@
 import tempfile
 
 # Internal modules #
-from illumitag.common.autopaths import FilePath, DirectoryPath
+from plumbing.autopaths import FilePath, DirectoryPath
 
 ################################################################################
 def new_temp_path(**kwargs):

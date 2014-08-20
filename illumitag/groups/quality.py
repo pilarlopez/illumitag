@@ -2,9 +2,9 @@
 from collections import defaultdict
 
 # Internal modules #
-from illumitag.fasta.single import FASTA, FASTQ
+from fasta import FASTA, FASTQ
 from illumitag.fasta.other import QualFile, GroupFile
-from illumitag.common.autopaths import AutoPaths
+from plumbing.autopaths import AutoPaths
 
 # Third party modules #
 from Bio.SeqIO.FastaIO import FastaWriter

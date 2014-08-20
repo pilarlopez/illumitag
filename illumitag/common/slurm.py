@@ -5,10 +5,10 @@ from collections import OrderedDict
 
 # Internal modules #
 import illumitag
-from illumitag.common import tail, is_integer, flatten
-from illumitag.common.color import Color
-from illumitag.common.tmpstuff import TmpFile, new_temp_path
-from illumitag.common.cache import expiry_every
+from plumbing import tail, is_integer, flatten
+from plumbing.color import Color
+from plumbing.tmpstuff import TmpFile, new_temp_path
+from plumbing.cache import expiry_every
 
 # Third party modules #
 import sh

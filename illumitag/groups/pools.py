@@ -10,12 +10,12 @@ from outcomes import NoBarcode, OneBarcode, SameBarcode, BadBarcode, GoodBarcode
 from quality import QualityReads
 from illumitag.groups.fractions import Fractions
 from illumitag.helper.primers import TwoPrimers
-from illumitag.fasta.single import FASTQ
-from illumitag.fasta.paired import PairedFASTQ
+from fasta import FASTQ
+from from fasta import PairedFASTQ
 from illumitag.running.pool_runner import PoolRunner
 from illumitag.graphs import pool_plots
-from illumitag.common.autopaths import AutoPaths
-from illumitag.common.cache import property_cached
+from plumbing.autopaths import AutoPaths
+from plumbing.cache import property_cached
 
 # Third party modules #
 from tqdm import tqdm
@@ -77,6 +77,17 @@ class Pool(object):
 
     def load(self):
         """A second __init__ that is delayed, solves some circular references"""
+        # Raw file pairs #
+        self.fwd_path = home + "/proj/%s/INBOX/%s/%s/%s" % (self.account, self.run_label, self.label, self.fwd_name)
+        self.rev_path = home + "/proj/%s/INBOX/%s/%s/%s" % (self.account, self.run_label, self.label, self.rev_name)
+        self.fwd = FASTQ(self.fwd_path)
+        self.rev = FASTQ(self.rev_path)
+        self.fastq = PairedFASTQ(self.fwd.path, self.rev.path, self)
+        # Check we can load it #
+        if not os.access('/proj/%s' % self.account, os.R_OK):
+            raise Exception("You don't have access to the project %s" % self.account)
+        if not self.fwd.exists: raise Exception("No file at '%s'" % self.fwd)
+        if not self.rev.exists: raise Exception("No file at '%s'" % self.rev)
         # Automatic paths #
         self.base_dir = self.out_dir + self.id_name + '/'
         self.p = AutoPaths(self.base_dir, self.all_paths)
@@ -86,13 +97,6 @@ class Pool(object):
         self.samples.load()
         # Check there are 50 #
         assert len(self.samples.children) == 50
-        # Raw file pairs #
-        if not os.access('/proj/%s' % self.account, os.R_OK): return
-        self.fwd_path = home + "/proj/%s/INBOX/%s/%s/%s" % (self.account, self.run_label, self.label, self.fwd_name)
-        self.rev_path = home + "/proj/%s/INBOX/%s/%s/%s" % (self.account, self.run_label, self.label, self.rev_name)
-        self.fwd = FASTQ(self.fwd_path)
-        self.rev = FASTQ(self.rev_path)
-        self.fastq = PairedFASTQ(self.fwd.path, self.rev.path, self)
         # Barcode length #
         self.bar_len = self.samples.bar_len
         # Make Outcomes #

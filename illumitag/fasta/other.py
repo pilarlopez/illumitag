@@ -2,8 +2,8 @@
 import os
 
 # Internal modules #
-from illumitag.common import replace_extension
-from illumitag.fasta.single import FASTA
+from plumbing import replace_extension
+from fasta import FASTA
 
 # Third party modules #
 import sh, shutil

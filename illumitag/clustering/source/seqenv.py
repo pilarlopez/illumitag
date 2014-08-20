@@ -2,10 +2,10 @@
 import os, shutil
 
 # Internal modules #
-from illumitag.common.autopaths import AutoPaths
-from illumitag.common.slurm import nr_threads
-from illumitag.common.csv_tables import CSVTable
-from illumitag.common.tmpstuff import TmpFile
+from plumbing.autopaths import AutoPaths
+from plumbing.slurm import nr_threads
+from plumbing.csv_tables import CSVTable
+from plumbing.tmpstuff import TmpFile
 
 # Third party modules #
 import pandas, sh

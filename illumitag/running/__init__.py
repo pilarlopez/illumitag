@@ -2,8 +2,8 @@
 import os, sys, time, datetime
 
 # Internal modules #
-from illumitag.common import flatten
-from illumitag.common.color import Color
+from plumbing import flatten
+from plumbing.color import Color
 
 # Third party modules #
 import threadpool

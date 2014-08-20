@@ -3,7 +3,7 @@ from collections import defaultdict
 
 # Internal modules #
 from illumitag.clustering.composition import Composition
-from illumitag.common.cache import property_cached
+from plumbing.cache import property_cached
 
 # Third party modules #
 import pandas
