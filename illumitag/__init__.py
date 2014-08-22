@@ -34,9 +34,7 @@ home = os.environ['HOME'] + '/'
 # Output directory #
 view_dir = out_dir = home + 'ILLUMITAG/views/'
 
-# Get the location #
-self = sys.modules[__name__]
-module_dir = os.path.dirname(self.__file__) + '/'
+# Get the repo #
 repos_dir = os.path.abspath(module_dir + '/../') + '/'
 git_repo = GitRepo(repos_dir)
 
