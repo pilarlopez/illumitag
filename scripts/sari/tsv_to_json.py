@@ -23,7 +23,7 @@ template = u"""{
         },
         "phd_student": {
             "name": "Lucas Sinclair",
-            "email": "lucas.sinclair@ebc.uu.se"
+            "email": "lucas.sinclair@me.com"
         }
     },
 
