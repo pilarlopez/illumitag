@@ -39,7 +39,7 @@ class BarcodeGroup(PairedFASTQ):
         # Super #
         self.fwd_path = self.p.fwd_fastq
         self.rev_path = self.p.rev_fastq
-        self.gziped = True if self.fwd_path.endswith('gz') else False
+        self.gzipped = True if self.fwd_path.endswith('gz') else False
         # Add assembly files #
         self.assembled = Assembled(self)
         self.unassembled = Unassembled(self)

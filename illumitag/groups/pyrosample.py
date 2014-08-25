@@ -105,7 +105,7 @@ class Pyrosample(object):
         self.pool, self.parent = self, self
         # Other dummy variables #
         self.bar_len = 0
-        self.gziped = False
+        self.gzipped = False
         self.used = True
         # Loaded #
         self.loaded = False

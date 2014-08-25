@@ -105,7 +105,7 @@ class Presample(BarcodeGroup):
         if not os.access('/proj/%s' % self.account, os.R_OK): return
         self.fwd_path = home + "proj/%s/INBOX/%s/%s/%s" % (self.account, self.run_label, self.label, self.fwd_name)
         self.rev_path = home + "proj/%s/INBOX/%s/%s/%s" % (self.account, self.run_label, self.label, self.rev_name)
-        self.gziped = True if self.fwd_path.endswith('gz') else False
+        self.gzipped = True if self.fwd_path.endswith('gz') else False
         self.fwd = FASTQ(self.fwd_path)
         self.rev = FASTQ(self.rev_path)
         self.fastq = PairedFASTQ(self.fwd.path, self.rev.path, self)
