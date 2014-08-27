@@ -8,8 +8,6 @@ A script to make some graphs for the soda project.
 from __future__ import division
 from matplotlib import pyplot
 import illumitag, math, brewer2mpl
-from pandas.rpy.common import convert_to_r_dataframe
-from rpy2 import robjects as ro
 
 ###############################################################################
 temporal = [s for s in illumitag.runs[3][7].samples if s.used]
@@ -124,6 +122,27 @@ def ph_temp_graph():
     # Save #
     fig.savefig("ph_against_temp.pdf")
 
+
+def temp_cond_graph():
+    with_ph = [s for s in samples if 'pH' in s.info and s.info['pH']]
+    x = [s.info['temperature'][0] for s in with_ph]
+    y = [s.info['conductance'][0] for s in with_ph]
+    fig, axes = pyplot.subplots()
+    fig.set_figwidth(8)
+    fig.set_figheight(8)
+    fig.subplots_adjust(bottom=0.3, top=0.98, left=0.1, right=0.98)
+    axes.plot(x, y, 'ko')
+    axes.set_xlabel('Temp')
+    axes.set_ylabel('Cond')
+    # Add annotations #
+    for i in range(len(with_ph)):
+        pyplot.annotate(with_ph[i].short_name, size=9, xy = (x[i], y[i]), xytext = (10, 0),
+                        textcoords = 'offset points', ha = 'left', va = 'center',
+                        bbox = dict(boxstyle = 'round,pad=0.2', fc = 'yellow', alpha = 0.3))
+    # Save #
+    fig.savefig("temp_against_cond.pdf")
+
+
 ###############################################################################
 def temporal_taxa_barstack():
     # Data #
@@ -176,13 +195,3 @@ def spatial_taxa_barstack():
     fig.subplots_adjust(bottom=0.30, top=0.97, left=0.04, right=0.98)
     fig.savefig("spatial_taxa_barstack.pdf")
     pyplot.close(fig)
-
-###############################################################################
-def richness():
-    # Taxa table #
-    otu_table = cluster.otu_uparse.taxonomy_silva.otu_table
-    # Compute richness #
-    #ro.r.library("vegan")
-    #R_otu_table = convert_to_r_dataframe(otu_table)
-    #R_result = ro.r.qvalue(R_frame.rx2('pvalues'))
-    #qvalues = list(R_result.rx2('qvalues'))

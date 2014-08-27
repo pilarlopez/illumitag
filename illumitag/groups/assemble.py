@@ -7,7 +7,7 @@ from collections import Counter
 
 # Internal modules #
 from primers import GoodPrimers, WrongPrimers, OnlyFwdPrimers, OnlyRevPrimers, NoPrimers
-from plumbing.common import tail, flatten, reverse_compl_with_name
+from plumbing.common import tail, flatter, reverse_compl_with_name
 from fasta import FASTQ, FASTA
 from plumbing.cache import property_cached
 from plumbing.autopaths import AutoPaths
@@ -114,7 +114,7 @@ class Assembled(AssembleGroup, FASTQ):
         if "pandaseq: error" in result['raw']: raise Exception("Pandaseq did not run properly")
         result['distrib'] = re.findall('STAT\tOVERLAPS\t(.+)$', result['raw'], re.M)
         result['distrib'] = map(int, result['distrib'][0].split())
-        result['lengths'] = flatten([[i+1]*v for i,v in enumerate(result['distrib'])])
+        result['lengths'] = flatter([[i+1]*v for i,v in enumerate(result['distrib'])])
         result['noalign'] = int(re.findall('STAT\tNOALGN\t(.+)$', result['raw'], re.M)[0])
         result['lowqual'] = int(re.findall('STAT\tLOWQ\t(.+)$', result['raw'], re.M)[0])
         result['loss'] = 100 * sum(result['distrib'][100:]) / sum(result['distrib'])

@@ -3,7 +3,7 @@ import json
 
 # Internal modules #
 from plumbing.graphs import Graph
-from plumbing.common import flatten
+from plumbing.common import flatter
 
 # Third party modules #
 import pandas
@@ -50,8 +50,8 @@ class AssemblyPrimerPos(Graph):
         # Data #
         fwd_pos, rev_pos = self.parent.assembled.primer_positions
         if not fwd_pos and not rev_pos: return
-        fwd_data = flatten([[k]*v for k,v in fwd_pos.items()])
-        rev_data = flatten([[k]*v for k,v in rev_pos.items()])
+        fwd_data = flatter([[k]*v for k,v in fwd_pos.items()])
+        rev_data = flatter([[k]*v for k,v in rev_pos.items()])
         # Plot #
         fig = pyplot.figure()
         bins = range(min(rev_data + [0]), max(fwd_data + [0])+1, 1)
@@ -81,8 +81,8 @@ class UnassemblyPrimerPos(Graph):
         # Data #
         fwd_pos, rev_pos = self.parent.unassembled.primer_positions
         if not fwd_pos and not rev_pos: return
-        fwd_data = flatten([[k]*v for k,v in fwd_pos.items()])
-        rev_data = flatten([[k]*v for k,v in rev_pos.items()])
+        fwd_data = flatter([[k]*v for k,v in fwd_pos.items()])
+        rev_data = flatter([[k]*v for k,v in rev_pos.items()])
         # Plot #
         fig = pyplot.figure()
         bins = range(min(rev_data + [0]), max(fwd_data + [0])+1, 1)

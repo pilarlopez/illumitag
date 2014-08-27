@@ -4,7 +4,7 @@ from __future__ import division
 # Built-in modules #
 
 # Internal modules #
-from plumbing.common import flatten
+from plumbing.common import flatter
 from plumbing.graphs import Graph
 from illumitag.helper.chimeras import UchimeRef, UchimeDenovo
 
@@ -173,9 +173,9 @@ class PrimerCounts(Graph):
 
     def plot(self):
         # Data #
-        rows = flatten([(bg.doc + '\n and they assembled', bg.doc + '\n and they are unassembled') for bg in self.parent])
+        rows = flatter([(bg.doc + '\n and they assembled', bg.doc + '\n and they are unassembled') for bg in self.parent])
         columns = [pg.__doc__ for pg in self.parent.good_barcodes.assembled.children]
-        data = flatten([([len(pg) for pg in bg.assembled],[len(pg) for pg in bg.unassembled]) for bg in self.parent])
+        data = flatter([([len(pg) for pg in bg.assembled],[len(pg) for pg in bg.unassembled]) for bg in self.parent])
         self.frame = pandas.DataFrame(data, index=rows, columns=columns)
         # Plot #
         fig = pyplot.figure()
@@ -198,12 +198,12 @@ class ReadsWithN(Graph):
 
     def plot(self):
         # Data #
-        rows = flatten([(bg.doc + '\n and they assembled', bg.doc + '\n and they are unassembled') for bg in self.parent.outcomes])
+        rows = flatter([(bg.doc + '\n and they assembled', bg.doc + '\n and they are unassembled') for bg in self.parent.outcomes])
         columns = [pg.__doc__ for pg in self.parent.good_barcodes.assembled.children]
         percentage = lambda x,y: 100-(len(x)/len(y))*100 if len(y) != 0 else 0
         data_ass = [[percentage(pg.n_filtered, pg.orig_reads) for pg in bg.assembled] for bg in self.parent.outcomes]
         data_unass = [[percentage(pg.n_filtered, pg.orig_reads) for pg in bg.unassembled] for bg in self.parent.outcomes]
-        data = flatten(zip(data_ass,data_unass))
+        data = flatter(zip(data_ass,data_unass))
         self.frame = pandas.DataFrame(data, index=rows, columns=columns)
         # Plot #
         fig = pyplot.figure()

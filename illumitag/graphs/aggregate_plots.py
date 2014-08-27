@@ -4,7 +4,7 @@ import locale
 
 # Internal modules #
 from plumbing.graphs import Graph, cool_colors
-from plumbing.common import flatten
+from plumbing.common import flatter
 from illumitag.helper.silvamod import amplified
 
 # Third party modules #
@@ -49,8 +49,8 @@ class AssemblyCounts(Graph):
     def plot(self):
         # Data #
         rows = ['Pool "%s" (%s)' % (p.long_name, p) for p in self.parent.pools]
-        columns = flatten([(o.short_name + "_ass", o.short_name + "_unass") for o in self.parent.first.outcomes])
-        data = [flatten([(len(o.assembled), len(o.unassembled)) for o in pool.outcomes]) for pool in self.parent.pools]
+        columns = flatter([(o.short_name + "_ass", o.short_name + "_unass") for o in self.parent.first.outcomes])
+        data = [flatter([(len(o.assembled), len(o.unassembled)) for o in pool.outcomes]) for pool in self.parent.pools]
         self.frame = pandas.DataFrame(data, index=rows, columns=columns)
         # Plot #
         fig = pyplot.figure()

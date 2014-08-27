@@ -2,7 +2,7 @@
 import os, sys, time, datetime
 
 # Internal modules #
-from plumbing.common import flatten
+from plumbing.common import iflatten
 from plumbing.color import Color
 
 # Third party modules #
@@ -46,7 +46,7 @@ class Runner(object):
             if level == 0:
                 if not hasattr(obj, name): return []
                 else: return [getattr(obj, name)]
-            else: return flatten([get_children(o, name, level-1) for o in obj.children])
+            else: return iflatten([get_children(o, name, level-1) for o in obj.children])
         # Recursive #
         fns = None
         level = 0
