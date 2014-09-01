@@ -60,7 +60,7 @@ The average quality per base can be seen in figure \ref{per_base_qual} and the a
 
 Joining
 --------
-The first step in processing is joining the forward and reverse reads together. This is done with a program called "PandaSeq". Exactly {{assembled_count}} reads were joined, {{unassembled_count}} where unable to be joined and {{low_qual_count}} were deemed of too low quality by the algorithm. The size of the overlapping region varies for every read, hence a distribution of sequence lengths is produced after is step and can be seen in figure \ref{assembly_len_dist}. In addition, you can see the per base quality of the joined reads in figure \ref{joined_per_base_qual} and the per sequence quality in figure \ref{joined_per_seq_qual}.
+The first step in processing is joining the forward and reverse reads together. This is done with a program called "PandaSeq". Exactly {{assembled_count}} reads were joined, {{unassembled_count}} where unable to be joined and {{low_qual_count}} were deemed of too low quality by the algorithm. The size of the overlapping region varies for every read, hence a distribution of sequence lengths is produced after this step and can be seen in figure \ref{assembly_len_dist}. In addition, you can see the per base quality of the joined reads in figure \ref{joined_per_base_qual} and the per sequence quality in figure \ref{joined_per_seq_qual}.
 
 {{assembly_len_dist}}
 
@@ -81,7 +81,7 @@ This leaves us with {{percent_remaining}} of the original sequences. The next st
 
 Taxonomy
 --------
-Further analysis is usually performed not at the single sample level but on a bunch of samples at the same time (samples are grouped into cluster), so you should go see the corresponding cluster report now. This will include OTU generation, taxonomic assignment and more filtering. Nonetheless we can present some of the results from that analysis here. Here are the 20 most abundant species observed in this sample:
+Further analysis is usually performed not at the single sample level but on a bunch of samples at the same time (samples are grouped into clusters), so you should go see the corresponding cluster report now. This will include OTU generation, taxonomic assignment and more filtering. Nonetheless we can present some of the results from that analysis here. Here are the 20 most abundant species observed in this sample:
 
 {{abundant_table}}
 
