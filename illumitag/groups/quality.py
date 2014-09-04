@@ -2,7 +2,8 @@
 from collections import defaultdict
 
 # Internal modules #
-from fasta import FASTA, FASTQ
+from illumitag.helper.barcodes import BarcodedFASTA, BarcodedFASTQ
+from fasta import FASTA
 from fasta import QualFile
 from plumbing.autopaths import AutoPaths, FilePath
 
@@ -33,8 +34,8 @@ class QualityReads(object):
         self.base_dir = parent.p.quality_dir + '/'
         self.p = AutoPaths(self.base_dir, self.all_paths)
         # Files #
-        self.untrimmed = FASTQ(path, samples=self.samples)
-        self.only_used = FASTA(self.p.only_used, samples=self.samples)
+        self.untrimmed = BarcodedFASTQ(path, samples=self.samples)
+        self.only_used = BarcodedFASTA(self.p.only_used, samples=self.samples)
         self.trimmed = FASTA(self.p.trimmed)
         # Qiime output #
         self.qiime_fasta = FASTA(self.p.qiime_fasta)

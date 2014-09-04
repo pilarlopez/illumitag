@@ -35,7 +35,7 @@
         {"name": "LVal9",      "used": 1, "group": "L",   "num": 9,  "fwd": "ACGAGAT", "rev": "ACTCTAC"},
         {"name": "LVal10",     "used": 1, "group": "L",   "num": 10, "fwd": "TACGAGT", "rev": "TACTGCA"},
         {"name": "LVal11",     "used": 1, "group": "L",   "num": 11, "fwd": "ACGCTAT", "rev": "ACTACGT"},
-        {"name": "LVal12",     "used": 1, "group": "L1",  "num": 12, "fwd": "AGTCTCA", "rev": "ACTACAC"},
+        {"name": "LVal12",     "used": 1, "group": "L",   "num": 12, "fwd": "AGTCTCA", "rev": "ACTACAC"},
         {"name": "LGlu13",     "used": 1, "group": "L",   "num": 13, "fwd": "AGTCACT", "rev": "ACTATGC"},
         {"name": "LGlu14",     "used": 1, "group": "L",   "num": 14, "fwd": "AGTCAGA", "rev": "ATGCGAT"},
         {"name": "LGlu15",     "used": 1, "group": "L",   "num": 15, "fwd": "AGTGAGT", "rev": "ATGCACT"},

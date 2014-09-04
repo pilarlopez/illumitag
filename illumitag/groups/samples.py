@@ -49,7 +49,8 @@ class Samples(object):
         self.trim_fwd = self.bar_len + self.pool.primers.fwd_len
         self.trim_rev = self.bar_len + self.pool.primers.rev_len
         # Children #
-        for s in self: s.load()
+        for s in self:
+            if not s.loaded: s.load()
 
 ###############################################################################
 class Sample(FASTQ):
@@ -88,6 +89,8 @@ class Sample(FASTQ):
         self.name = 'run%i_pool%i_sample%i' % (self.pool.run_num, self.pool.num, self.num)
         # Special submission attributes #
         self.sra = SampleSRA(self)
+        # Second init #
+        self.loaded = False
 
     def load(self):
         # Special case for dummy samples #
@@ -107,6 +110,8 @@ class Sample(FASTQ):
         self.raw_gz = PairedFASTQ(self.p.raw_forward_gz, self.p.raw_reverse_gz, self.pool)
         # Inherit #
         self.project = self.pool.project
+        # Loaded #
+        self.loaded = True
 
     def process(self):
         def no_primers_iterator(reads):

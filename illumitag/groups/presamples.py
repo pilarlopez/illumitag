@@ -82,6 +82,7 @@ class Presample(BarcodeGroup):
         self.id_name = "run%03d-sample%02d" % (self.run_num, self.num)
         self.fwd_mid = self.info['forward_mid']
         self.rev_mid = self.info['reverse_mid']
+        self.used = True
         # Second init #
         self.loaded = False
 
@@ -100,7 +101,6 @@ class Presample(BarcodeGroup):
         # Pool dummy #
         self.pool, self.parent = self, self
         self.loaded = True
-        self.used = True
         # Files #
         if not os.access('/proj/%s' % self.account, os.R_OK): return
         self.fwd_path = home + "proj/%s/INBOX/%s/%s/%s" % (self.account, self.run_label, self.label, self.fwd_name)

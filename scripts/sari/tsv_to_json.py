@@ -98,14 +98,14 @@ corr = {
     u'project':              'project',
     u'Project Name':         'project_name',
     u'Sample Name':          'sample_name',
-    u'date':          'date',
-    u'country':       'country',
-    u'location':      'location',
-    u'depth':         'depth',
-    u'design':        'design',
-    u'env_biome':     'env_biome',
-    u'env_feature':   'env_feature',
-    u'env_material':  'env_material',
+    u'date':                 'date',
+    u'country':              'country',
+    u'location':             'location',
+    u'depth':                'depth',
+    u'design':               'design',
+    u'env_biome':            'env_biome',
+    u'env_feature':          'env_feature',
+    u'env_material':         'env_material',
 }
 
 # Iterate #

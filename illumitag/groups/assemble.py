@@ -6,12 +6,13 @@ import re
 from collections import Counter
 
 # Internal modules #
-from primers import GoodPrimers, WrongPrimers, OnlyFwdPrimers, OnlyRevPrimers, NoPrimers
+from illumitag.helper.barcodes import BarcodedPairedFASTQ, BarcodedFASTA
+from illumitag.groups.primers import GoodPrimers, WrongPrimers, OnlyFwdPrimers, OnlyRevPrimers, NoPrimers
 from plumbing.common import tail, flatter, reverse_compl_with_name
 from fasta import FASTQ, FASTA
+from fasta.plots import LengthDistribution
 from plumbing.cache import property_cached
 from plumbing.autopaths import AutoPaths
-from fasta.plots import LengthDistribution
 
 # Third party modules #
 
@@ -47,7 +48,9 @@ class AssembleGroup(object):
         self.no_primers       = NoPrimers(self)
         # Group them #
         self.children = (self.good_primers, self.wrong_primers, self.only_fwd_primers, self.only_rev_primers, self.no_primers)
-        self.first = self.good_primers
+
+    @property
+    def first(self): return self.children[0]
 
     @property
     def flipped_iterator(self):
@@ -99,11 +102,11 @@ class Assembled(AssembleGroup, FASTQ):
     def __eq__(self, other): return other == 'assembled'
 
     def load(self):
-        self.cls = FASTQ
+        self.cls = BarcodedPairedFASTQ
         self.base_dir = self.outcome.p.assembled_dir
         self.p = AutoPaths(self.base_dir, self.all_paths)
         self.path = self.p.orig_fastq
-        self.flipped_reads = FASTQ(self.p.flipped, self.samples, self.primers)
+        self.flipped_reads = BarcodedPairedFASTQ(self.p.flipped, self.samples, self.primers)
         # Graphs #
         self.length_dist_graph = LengthDistribution(self)
 
@@ -140,8 +143,8 @@ class Unassembled(AssembleGroup, FASTA):
     """
 
     def load(self):
-        self.cls = FASTA
+        self.cls = BarcodedFASTA
         self.base_dir = self.outcome.p.unassembled_dir
         self.p = AutoPaths(self.base_dir, self.all_paths)
         self.path = self.p.orig_fasta
-        self.flipped_reads = FASTA(self.p.flipped, self.samples, self.primers)
+        self.flipped_reads = BarcodedFASTA(self.p.flipped, self.samples, self.primers)

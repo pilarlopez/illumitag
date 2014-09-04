@@ -3,7 +3,7 @@ from collections import Counter, OrderedDict
 
 # Internal modules #
 from illumitag.helper.primers import ReadWithPrimers, ReadWithPrimersMissmatch
-from fasta import FASTA, PairedFASTQ
+from fasta import FASTA, FASTQ, PairedFASTQ
 from plumbing.common import GenWithLength
 from plumbing.cache import property_cached
 
@@ -71,6 +71,11 @@ class ReadPairWithBarcode(object):
 
 ###############################################################################
 class BarcodedFASTA(FASTA):
+    def __init__(self, path, samples, primers=None):
+        self.path = path
+        self.samples = samples
+        self.primers = primers
+
     def parse_barcodes(self):
         generator = (ReadWithBarcodes(r, self.samples) for r in self.parse())
         return GenWithLength(generator, len(self))
@@ -102,6 +107,9 @@ class BarcodedFASTA(FASTA):
         return Counter((r.fwd_index,r.rev_index) for r in self.parse_indices())
 
 ###############################################################################
+class BarcodedFASTQ(FASTQ, BarcodedFASTA): pass
+
+###############################################################################
 class ReadWithIndices(object):
     def __init__(self, read):
         self.read = read
@@ -119,6 +127,10 @@ class ReadPairWithIndices(object):
 
 ###############################################################################
 class BarcodedPairedFASTQ(PairedFASTQ):
+    def __init__(self, path, samples, primers=None):
+        self.path = path
+        self.samples = samples
+        self.primers = primers
 
     def parse_barcodes(self):
         generator = (ReadPairWithBarcode(f, r, self.samples) for f,r in self.parse())

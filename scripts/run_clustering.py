@@ -17,6 +17,7 @@ cluster = illumitag.clustering.favorites.test
 
 # Run it with UPARSE #
 illumitag.runs[0][0].create_samples()
+cluster.load()
 cluster.process_samples()
 cluster.combine_reads()
 cluster.otu_uparse.run()

@@ -60,6 +60,9 @@ class Cluster(object):
 
     def load(self):
         """A second __init__ that is delayed and called only if needed"""
+        # Load the pools and samples #
+        for p in self.pools: p.load()
+        for s in self.samples: s.load()
         # Dir #
         self.p = AutoPaths(self.base_dir, self.all_paths)
         # Figure out if it's a project #

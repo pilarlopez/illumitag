@@ -76,9 +76,8 @@ samples += [s for s in illumitag.runs[4][7].samples if s.used]
 jerome = Cluster(samples, 'jerome')
 
 # Monica's cluster #
-samples =  [s for s in illumitag.runs[5][3].samples if s.used]
-samples += [s for s in illumitag.runs[5][4].samples if s.used]
-samples += [s for s in illumitag.runs[5][5][0:11] if s.used]
+samples = illumitag.runs[5][3][:] + illumitag.runs[5][4][:]
+samples = [s for s in samples if s.group_name == 'L' or s.group_name == 'D']
 monica = Cluster(samples, 'monica')
 
 # Valerie's cluster #
