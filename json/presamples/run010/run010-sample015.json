@@ -4,11 +4,11 @@
             "name": "Alexander Eiler",
             "email": "alexander.eiler@ebc.uu.se"
         },
-        "researcher_1": {
+        "post_doc": {
             "name": "Sari Peura",
             "email": "sari.peura@ebc.uu.se"
         },
-        "researcher_2": {
+        "phd_student": {
             "name": "Lucas Sinclair",
             "email": "lucas.sinclair@me.com"
         }
@@ -23,9 +23,9 @@
     "reverse_reads": "AE_POOL1_2014_15_TTCTGCCT-CTCTCTAT_L001_R2_001.fastq.gz",
 
     "project":       "kivu",
-    "project_name":  "kivu",
+    "project_name":  "Lake Kivu",
     "sample":        "is25fb12",
-    "sample_name":   "is25fb12",
+    "sample_name":   "Kivu Is25Fb12",
     "group":         "kivu-is",
 
     "forward_mid":   "CTCTCTAT",
@@ -50,14 +50,21 @@
     "forward_read_length":  300,
     "reverse_read_length":  300,
 
-    "date":         "0000-00-00",
-    "latitude":     ["XX°XX'XX''", "N"],
-    "longitude":    ["XX°XX'XX''", "E"],
-    "location":     "Country: XXX lake",
-    "organism":     "aquatic metagenome",
+    "organism":      "aquatic metagenome",
+    "env_biome":     null,
+    "env_feature":   null,
+    "env_material":  null,
+
+    "date":         null,
+    "latitude":     [null, "N"],
+    "longitude":    [null, "E"],
+    "country":      "Rwanda ",
+    "location":     "Lake Kivu",
+    "depth":        [null, "m"],
 
     "bioproject":   "PRJNAXXXXXX",
     "biosample":    "SAMNXXXXXXXX",
 
+    "design_description": null,
     "dna_after_purification": [3.514, "ng/µl"]
 }

@@ -7,8 +7,12 @@ to our JSON files.
 """
 
 # Modules #
-import pandas, codecs
+import os, pandas, codecs, inspect
 from collections import OrderedDict
+
+# Constants #
+file_name = inspect.getframeinfo(inspect.currentframe()).filename
+this_dir = os.path.dirname(os.path.abspath(file_name)) + '/'
 
 ###############################################################################
 template = u"""{
@@ -64,28 +68,26 @@ template = u"""{
     "reverse_read_length":  300,
 
     "organism":      "aquatic metagenome",
-    "env_biome":     "%(env_biome)s",
-    "env_feature":   "%(env_feature)s",
-    "env_material":  "%(env_material)s",
+    "env_biome":     %(env_biome)s,
+    "env_feature":   %(env_feature)s,
+    "env_material":  %(env_material)s,
 
-    "date":         "%(date)s",
-    "latitude":     ["XX°XX'XX''", "N"],
-    "longitude":    ["XX°XX'XX''", "E"],
-    "location":     "%(country)s: %(location)s",
+    "date":         %(date)s,
+    "latitude":     [%(latitude)s, "N"],
+    "longitude":    [%(longitude)s, "E"],
+    "country":      %(country)s,
+    "location":     %(location)s,
     "depth":        [%(depth)s, "m"],
 
     "bioproject":   "PRJNAXXXXXX",
     "biosample":    "SAMNXXXXXXXX",
 
-    "design_description": "%(design)s",
+    "design_description": %(design)s,
     "dna_after_purification": [%(dna)s, "ng/µl"]"""
 
 ###############################################################################
-# Load data #
-df = pandas.io.parsers.read_csv('new_data.tsv', sep='\t', encoding='windows-1252', dtype=str)
-
 # Correspondence #
-corr = {
+base_corr = {
     u'Serial no.':           'sample_num',
     u'Extraction sample ID': 'sample',
     u'Barcode no.':          'barcode_num',
@@ -98,20 +100,29 @@ corr = {
     u'project':              'project',
     u'Project Name':         'project_name',
     u'Sample Name':          'sample_name',
-    u'date':                 'date',
-    u'country':              'country',
-    u'location':             'location',
-    u'depth':                'depth',
-    u'design':               'design',
-    u'env_biome':            'env_biome',
-    u'env_feature':          'env_feature',
-    u'env_material':         'env_material',
 }
+
+more_corr = {
+    u'date':            str,
+    u'country':         str,
+    u'location':        str,
+    u'depth':           int,
+    u'latitude':        int,
+    u'longitude':       int,
+    u'design':          str,
+    u'env_biome':       str,
+    u'env_feature':     str,
+    u'env_material':    str,
+}
+
+###############################################################################
+# Load data #
+df = pandas.io.parsers.read_csv(this_dir + 'new_data.tsv', sep='\t', encoding='mac_roman', dtype=str)
 
 # Iterate #
 for i, row in df.iterrows():
     # Base JSON #
-    data = dict((corr[i], row[i]) for i in row.index if i in corr)
+    data = dict((base_corr[x], row[x]) for x in row.index if x in base_corr)
     revcompl = lambda x: ''.join([{'A':'T','C':'G','G':'C','T':'A'}[B] for B in x][::-1])
     data['reverse_mid']  = revcompl(data['reverse_mid'])
     data['forward_num']  = data['forward_num'][1:]
@@ -126,10 +137,20 @@ for i, row in df.iterrows():
     data['rev_filename'] = filename.format("2")
     data['sample_id']    = "Sample_AE_POOL1_2014_%s" % data['barcode_num']
     data['dna']          = '%s' % float('%.4g' % float(data['dna']))
-    # Extras #
-    extra_data = OrderedDict((i, row[i]) for i in row.index if i not in corr and row[i])
-    extra = ',\n'.join('    {0:<20}"{1}",'.format('"%s":'%k, v) for k,v in extra_data.items())
-    if extra: extra += ',\n\n'
+    # More values #
+    for x in more_corr:
+        if row[x] != row[x]:      data[x] = "null"
+        elif more_corr[x] == int: data[x] = row[x]
+        else:                     data[x] = '"' + row[x] + '"'
+    # Custom extras #
+    known_keys = base_corr.keys() + more_corr.keys()
+    extra_data = OrderedDict((x, row[x]) for x in row.index if x not in known_keys and row[x]==row[x])
+    for k,v in extra_data.items():
+        if v!=v: extra_data[k] = "null"
+        else: extra_data[k] = '"' + extra_data[k] + '"'
+    # Extra text #
+    extra = ',\n'.join('    {0:<20}{1}'.format('"%s":'%k, v) for k,v in extra_data.items())
+    if extra: extra ='\n\n' + extra
     # Write #
     text = template % data + extra + "\n}"
     path = "/home/lucass/repos/illumitag/json/presamples/run010/run010-sample%03d.json" % int(data['sample_num'])

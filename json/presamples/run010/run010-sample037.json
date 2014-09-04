@@ -4,11 +4,11 @@
             "name": "Alexander Eiler",
             "email": "alexander.eiler@ebc.uu.se"
         },
-        "researcher_1": {
+        "post_doc": {
             "name": "Sari Peura",
             "email": "sari.peura@ebc.uu.se"
         },
-        "researcher_2": {
+        "phd_student": {
             "name": "Lucas Sinclair",
             "email": "lucas.sinclair@me.com"
         }
@@ -23,9 +23,9 @@
     "reverse_reads": "AE_POOL1_2014_1_TCGCCTTA-TAGATCGC_L001_R2_001.fastq.gz",
 
     "project":       "ice",
-    "project_name":  "ice",
+    "project_name":  "Jämtland lakes under ice",
     "sample":        "bt4am",
-    "sample_name":   "bt4am",
+    "sample_name":   "Ice BT4Am",
     "group":         "ice-bt",
 
     "forward_mid":   "TAGATCGC",
@@ -50,14 +50,24 @@
     "forward_read_length":  300,
     "reverse_read_length":  300,
 
-    "date":         "0000-00-00",
-    "latitude":     ["XX°XX'XX''", "N"],
-    "longitude":    ["XX°XX'XX''", "E"],
-    "location":     "Country: XXX lake",
-    "organism":     "aquatic metagenome",
+    "organism":      "aquatic metagenome",
+    "env_biome":     null,
+    "env_feature":   null,
+    "env_material":  null,
+
+    "date":         "2014-03-18",
+    "latitude":     [63.582139, "N"],
+    "longitude":    [12.270827, "E"],
+    "country":      "Sweden",
+    "location":     null,
+    "depth":        [1.30, "m"],
 
     "bioproject":   "PRJNAXXXXXX",
     "biosample":    "SAMNXXXXXXXX",
 
+    "design_description": null,
     "dna_after_purification": [9.774, "ng/µl"]
+
+    "Conductivity":     "20.57",
+    "Temperature":      "1.8"
 }
