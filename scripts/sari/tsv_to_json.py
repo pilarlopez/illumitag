@@ -150,7 +150,7 @@ for i, row in df.iterrows():
         else: extra_data[k] = '"' + extra_data[k] + '"'
     # Extra text #
     extra = ',\n'.join('    {0:<20}{1}'.format('"%s":'%k, v) for k,v in extra_data.items())
-    if extra: extra ='\n\n' + extra
+    if extra: extra =',\n\n' + extra
     # Write #
     text = template % data + extra + "\n}"
     path = "/home/lucass/repos/illumitag/json/presamples/run010/run010-sample%03d.json" % int(data['sample_num'])

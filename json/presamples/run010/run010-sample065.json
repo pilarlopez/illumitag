@@ -66,7 +66,7 @@
     "biosample":    "SAMNXXXXXXXX",
 
     "design_description": null,
-    "dna_after_purification": [1.662, "ng/µl"]
+    "dna_after_purification": [1.662, "ng/µl"],
 
     "Conductivity":     "59.95",
     "Temperature":      "4.1"

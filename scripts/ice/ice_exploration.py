@@ -26,7 +26,7 @@ def make_sandwich(lake):
 
 lake_names = ('bt', 'rl', 'lb', 'kt', 'sb')
 for name in lake_names:
-    # Make a cluster #
+    # Make a cluster #
     samples = [s for s in illumitag.runs[10] if s.group == 'ice-%s' % name]
     lake = illumitag.clustering.Cluster(samples, 'ice-%s' % name)
     exec("%s = lake" % lake)
