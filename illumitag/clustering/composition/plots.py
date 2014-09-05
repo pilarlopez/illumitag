@@ -28,7 +28,6 @@ class TaxaBarstack(Graph):
         # Data #
         self.frame = self.parent.taxa_table.apply(lambda x: 100*x/x.sum(), axis=1)
         # Plot #
-        fig = pyplot.figure()
         axes = self.frame.plot(kind='bar', stacked=True, color=cool_colors)
         fig = pyplot.gcf()
         # Other #

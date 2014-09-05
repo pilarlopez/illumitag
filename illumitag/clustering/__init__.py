@@ -33,7 +33,10 @@ class Cluster(object):
     def __repr__(self): return '<%s object "%s" with %i samples>' % (self.__class__.__name__, self.name, len(self.samples))
     def __iter__(self): return iter(self.samples)
     def __len__(self): return len(self.samples)
-    def __getitem__(self, key): return self.samples[key]
+    def __getitem__(self, key):
+        if isinstance(key, basestring): return [c for c in self.children if c.short_name == key.lower()][0]
+        elif isinstance(key, int) and hasattr(self.first, 'num'): return [c for c in self.children if c.num == key][0]
+        else: return self.children[key]
 
     @property
     def first(self): return self.children[0]

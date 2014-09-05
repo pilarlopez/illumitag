@@ -83,6 +83,8 @@ class Presample(BarcodeGroup):
         self.fwd_mid = self.info['forward_mid']
         self.rev_mid = self.info['reverse_mid']
         self.used = True
+        # Pool dummy #
+        self.pool, self.parent = self, self
         # Second init #
         self.loaded = False
 
@@ -98,8 +100,6 @@ class Presample(BarcodeGroup):
                                  "dummy":1, "num":self.num, "fwd":"", "rev":""}]
         self.samples = Samples(self)
         self.samples.load()
-        # Pool dummy #
-        self.pool, self.parent = self, self
         self.loaded = True
         # Files #
         if not os.access('/proj/%s' % self.account, os.R_OK): return
