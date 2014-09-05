@@ -26,7 +26,7 @@ right  = 0.98
 # Colors #
 cool_colors = ["#9b59b6", "#3498db", "#95a5a6", "#e74c3c", "#34495e", "#2ecc71",
                "#FCD124", "#5F0061", "#FBBEBA", "#AAC2F6", "#606925", "#469A55",
-               "#ABD8B2"]
+               "#ABD8B2", "#B4B1ED", "#613162", "#76C3E5", "#F05575", "#48CBD1"]
 
 ###############################################################################
 def top5_otus(sample):
@@ -43,10 +43,6 @@ def make_sandwich(lake):
     # Get sub matrix and order it #
     abund = norm_table[otus].loc[names]
     abund = abund.reindex_axis(abund.sum().sort(inplace=False, ascending=False).index, axis=1)
-    # Name to depths and OTUs to assignments #
-    #name_to_depth = lambda name: lake[name].info['depth'][0]
-    #otu_to_ass = lambda otu: assignments[otu]
-    #abund = abund.rename(index=name_to_depth, columns=otu_to_ass)
     # Make graph #
     fig, axes = pyplot.subplots()
     axes.stackplot(depths, abund.T, colors=cool_colors)
@@ -56,7 +52,8 @@ def make_sandwich(lake):
     fig.subplots_adjust(hspace=0.0, bottom=bottom, top=top, left=left, right=right)
     axes.set_xlim(min(depths), max(depths))
     # Add legend #
-    handles = [Patch(color=cool_colors[i], label=' '.join(assignments[otus[i]])) for i in range(len(otus))]
+    label = lambda i: ', '.join(assignments[otus[i]]) + " (" + otus[i] + ')'
+    handles = [Patch(color=cool_colors[i], label=label(i)) for i in range(len(otus))]
     axes.legend(handles=handles, loc='upper center', bbox_to_anchor=(0.5, -0.20), fancybox=True, shadow=True, ncol=1)
     # Text
     axes.set_title('Relative abundance of the top OTUs for lake "%s"' % lake.name)
@@ -67,8 +64,9 @@ def make_sandwich(lake):
     seaborn.set_style("whitegrid")
     seaborn.set_style("ticks")
     seaborn.despine(offset=10, trim=True);
-    #1/0
+    # Save #
     fig.savefig(lake.name + ".pdf")
+    pyplot.close(fig)
 
 ###############################################################################
 lake_names = ('bt', 'rl', 'lb', 'kt', 'sb')
@@ -76,3 +74,4 @@ for name in lake_names:
     samples = [s for s in illumitag.runs[10] if s.group == 'ice-%s' % name]
     lake = illumitag.clustering.Cluster(samples, 'ice-%s' % name)
     exec("%s = lake" % name)
+    make_sandwich(lake)
