@@ -83,14 +83,14 @@ class CrestTaxonomy(Taxonomy):
 
     def assign(self):
         # Run #
-        sh.blastn('-task', 'megablast', '-num_threads', nr_threads, '-query', self.fasta, '-db', self.database_path, '-max_target_seqs', '100', '-outfmt', '7' ,'-out', self.p.db_hits)
+        sh.blastn('-task', 'megablast', '-num_threads', nr_threads, '-query', self.fasta, '-db', self.database_path, '-max_target_seqs', '100', '-outfmt', '5' ,'-out', self.p.db_hits)
         if os.path.getsize(self.p.db_hits) == 0: raise Exception("Hits file empty. The MEGABLAST process was probably killed.")
         # CREST #
         self.p.crest_dir.remove()
         sh.classify('--includeunknown', '--rdp', '-o', self.base_dir + 'crest/', '-d', self.database, self.p.db_hits)
-        shutil.move(self.p.db_hits[:-4] + '_Composition.tsv', self.p.crest_composition)
-        shutil.move(self.p.db_hits[:-4] + '_Tree.txt', self.p.crest_tree)
-        shutil.move(self.p.db_hits[:-4] + '_Assignments.tsv', self.p.crest_assignments)
+        shutil.move(self.p.db_hits.prefix_path + '_Composition.tsv', self.p.crest_composition)
+        shutil.move(self.p.db_hits.prefix_path + '_Tree.txt', self.p.crest_tree)
+        shutil.move(self.p.db_hits.prefix_path + '_Assignments.tsv', self.p.crest_assignments)
         # Clean up #
         if os.path.exists("error.log") and os.path.getsize("error.log") == 0: os.remove("error.log")
         # Return #

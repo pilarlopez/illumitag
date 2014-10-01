@@ -2,9 +2,9 @@
 import sys, os
 
 # Internal modules #
-from illumitag.helper.barcodes import BarcodedPairedFASTQ
+from illumitag.helper.barcodes import BarcodedFASTQ
 from illumitag.helper.chimeras import UchimeRef, UchimeDenovo
-from fasta import FASTQ, FASTA
+from fasta import FASTA
 from plumbing.autopaths import AutoPaths
 from plumbing.color import Color
 from plumbing.common import moving_average
@@ -52,8 +52,8 @@ class PrimerGroup(object):
         self.n_filtered = self.parent.cls(self.p.n_filtered, samples=self.samples)
         # Quality filtered #
         if self.parent == 'assembled':
-            self.qual_filtered = BarcodedPairedFASTQ(self.p.qual_filtered, samples=self.samples)
-            self.len_filtered = BarcodedPairedFASTQ(self.p.len_filtered_fastq, samples=self.samples)
+            self.qual_filtered = BarcodedFASTQ(self.p.qual_filtered, samples=self.samples)
+            self.len_filtered = BarcodedFASTQ(self.p.len_filtered_fastq, samples=self.samples)
             self.trimmed_barcodes = FASTA(self.p.trimmed_barcodes)
         # Further #
         self.load()

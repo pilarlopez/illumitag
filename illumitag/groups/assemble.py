@@ -6,7 +6,7 @@ import re
 from collections import Counter
 
 # Internal modules #
-from illumitag.helper.barcodes import BarcodedPairedFASTQ, BarcodedFASTA
+from illumitag.helper.barcodes import BarcodedFASTQ, BarcodedFASTA
 from illumitag.groups.primers import GoodPrimers, WrongPrimers, OnlyFwdPrimers, OnlyRevPrimers, NoPrimers
 from plumbing.common import tail, flatter, reverse_compl_with_name
 from fasta import FASTQ, FASTA
@@ -102,11 +102,11 @@ class Assembled(AssembleGroup, FASTQ):
     def __eq__(self, other): return other == 'assembled'
 
     def load(self):
-        self.cls = BarcodedPairedFASTQ
+        self.cls = BarcodedFASTQ
         self.base_dir = self.outcome.p.assembled_dir
         self.p = AutoPaths(self.base_dir, self.all_paths)
         self.path = self.p.orig_fastq
-        self.flipped_reads = BarcodedPairedFASTQ(self.p.flipped, self.samples, self.primers)
+        self.flipped_reads = BarcodedFASTQ(self.p.flipped, self.samples, self.primers)
         # Graphs #
         self.length_dist_graph = LengthDistribution(self)
 

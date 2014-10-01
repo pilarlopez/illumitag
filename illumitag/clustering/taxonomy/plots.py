@@ -65,7 +65,6 @@ class PresencePerSample(Graph):
         axes.xaxis.grid(False)
         # Save it #
         self.save_plot(fig, axes)
-        self.frame.to_csv(self.csv_path)
         pyplot.close(fig)
 
 ################################################################################
@@ -87,7 +86,6 @@ class PresencePerOTU(Graph):
         axes.xaxis.grid(False)
         # Save it #
         self.save_plot(fig, axes)
-        self.frame.to_csv(self.csv_path)
         pyplot.close(fig)
 
 ################################################################################

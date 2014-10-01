@@ -82,7 +82,7 @@ class Seqenv(object):
         command = "bash -x " + seqenv_script + ' ' + ' '.join(map(str, params))
         # Launch the whole thing with sh #
         self.script = header + tee % command
-        sh.bash(TmpFile.from_string(self.script), _out=self.p.out, _err=self.p.err)
+        sh.bash(TmpFile.from_string(self.script), _out=self.p.out.path, _err=self.p.err.path)
         # Move things into place #
         if cleanup:
             for f in self.files_to_keep: shutil.move(f, "../")

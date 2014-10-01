@@ -40,5 +40,4 @@ class TaxaBarstack(Graph):
         axes.legend(loc='upper center', bbox_to_anchor=(0.5, self.legend_anchor), fancybox=True, shadow=True, ncol=5)
         # Save it #
         self.save_plot(fig, axes)
-        self.frame.to_csv(self.csv_path)
         pyplot.close(fig)
