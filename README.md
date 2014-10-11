@@ -21,7 +21,7 @@ Here you will download a copy of the code from github and place it in your home 
     $ cd ~
     $ mkdir repos
     $ cd repos
-    $ git clone git@github.com:limno/illumitag.git
+    $ git clone https://github.com/limno/illumitag.git
 
 ### Step 2: Modify your search paths
 Here you will edit your ``.bashrc`` or ``.bash_profile`` to add a reference to the code you just downloaded.
@@ -49,12 +49,12 @@ These lines go into your ``.bash_profile``:
 
 Relaunch your shell and type these commands to get the right version of python now:
 
-    pyenv install 2.7.6
+    pyenv install 2.7.8
     pyenv rehash
-    pyenv global 2.7.6
+    pyenv global 2.7.8
 
 ### Step 4: Install all required python packages
-GEFES uses many third party python libraries. You can get them by running these commands:
+Illumitag uses many third party python libraries. You can get them by running these commands:
 
     $ pip install sh
     $ pip install decorator
