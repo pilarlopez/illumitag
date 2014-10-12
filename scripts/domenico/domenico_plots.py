@@ -19,18 +19,20 @@ __all__ = ['MainRiver', 'Tributaries', 'TaxaHeatmap', 'TaxaHeatmapMainRiver', 'T
 
 ################################################################################
 class TaxaBarstack(Graph):
-    """Distribution of named species by sample"""
-    short_name = 'taxa_barstack'
+    """Proportions of named taxa by sample"""
+    short_name = 'river_and_trib'
+    tributary = False
+    formats = ('pdf', 'svg')
 
     def plot(self):
         # Data #
         self.frame = self.parent.taxa_table.apply(lambda x: 100*x/x.sum(), axis=1)
         # Take only the ones we use #
         self.samples = [s for s in self.parent.samples if s.short_name in self.parent.taxa_table.index]
-        # Drop tributaries or main river #
-        self.samples = [s for s in self.samples if s.info['Tributary']==self.tributary]
+        # Maybe drop tributaries or main river #
+        if self.tributary: self.samples = [s for s in self.samples if s.info['Tributary']==self.tributary]
         # Sort #
-        key = lambda s: (s.info['Filter_fraction'], s.short_name)
+        key = lambda s: (s.info['Tributary'], s.info['Filter_fraction'], s.short_name)
         self.samples = sorted(self.samples, key=key)
         self.frame = self.frame.reindex(index=[s.short_name for s in self.samples])
         # Colors #
@@ -52,8 +54,6 @@ class TaxaBarstack(Graph):
         axes.legend(loc='upper center', bbox_to_anchor=(0.5, -0.10), fancybox=True, shadow=True, ncol=5)
         # Save it #
         self.save_plot(fig, axes, width=24.0, height=14.0, bottom=0.20, top=0.97, left=0.04, right=0.98)
-        fig.savefig(self.svg_path)
-        self.frame.to_csv(self.csv_path)
         pyplot.close(fig)
 
 ################################################################################
@@ -255,12 +255,12 @@ class CumulativePresenceScaledSplit(Graph):
 
 ################################################################################
 # Make a cluster of samples #
-cluster = illumitag.clustering.favorites.danube
-silva = cluster.otu_uparse.taxonomy_silva
-river = MainRiver(silva.comp_phyla)
-tributaries = Tributaries(silva.comp_phyla)
-silva.comp_phyla.graphs += [river]
-silva.comp_phyla.graphs += [tributaries]
+cluster = illumitag.clustering.favorites.danube.load()
+silva   = cluster.otu_uparse.taxonomy_silva
+river          = MainRiver(silva.comp_phyla)
+tributaries    = Tributaries(silva.comp_phyla)
+river_and_trib = TaxaBarstack(silva.comp_phyla)
+silva.comp_phyla.graphs += [river, tributaries, river_and_trib]
 
 freshwater = cluster.otu_uparse.taxonomy_fw
 heatmap = TaxaHeatmap(freshwater.comp_tips)
