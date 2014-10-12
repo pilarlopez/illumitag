@@ -1,7 +1,7 @@
 # Built-in modules #
 
 # Internal modules #
-from plumbing.common import flatten
+from plumbing.common import flatter
 
 # Third party modules #
 
@@ -58,5 +58,5 @@ names = {
 
 }
 
-species_names = flatten([v['species'] for v in names.values()])
-clade_names = flatten([v['clades'] for v in names.values()])
+species_names = flatter([v['species'] for v in names.values()])
+clade_names = flatter([v['clades'] for v in names.values()])
