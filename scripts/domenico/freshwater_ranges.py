@@ -8,13 +8,12 @@ A script to get some numbers.
 from __future__ import division
 
 # Modules #
-import illumitag, numpy
+import illumitag
 
 ###############################################################################
 cluster = illumitag.clustering.favorites.danube.load()
 comp = cluster.otu_uparse.taxonomy_fw.comp_tips
 norm = comp.frame.apply(lambda x: x/x.sum(), axis=1) # Every sample sums to one
-norm = norm.replace(numpy.inf, 0.0) # Remove zero divisions
 tribes = ['LD12', 'acI-B1', 'acI-A7', 'acI-C2']
 summed = norm[tribes].sum(axis=1)
 
