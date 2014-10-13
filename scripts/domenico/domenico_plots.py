@@ -32,7 +32,7 @@ class TaxaBarstack(Graph):
         # Maybe drop tributaries or main river #
         if self.tributary: self.samples = [s for s in self.samples if s.info['Tributary']==self.tributary]
         # Sort #
-        key = lambda s: (s.info['Tributary'], s.info['Filter_fraction'], s.short_name)
+        key = lambda s: (-int(s.info['Tributary']), s.info['Filter_fraction'], s.short_name)
         self.samples = sorted(self.samples, key=key)
         self.frame = self.frame.reindex(index=[s.short_name for s in self.samples])
         # Colors #

@@ -19,12 +19,11 @@ summed = norm[tribes].sum(axis=1)
 
 print "Global: max %.5g, min %.5g" % (max(summed), min(summed))
 
-free_living = [s.short_name for s in cluster.samples if s.info['Filter_fraction'] == '0.2']
-attached =    [s.short_name for s in cluster.samples if s.info['Filter_fraction'] == '3.0']
-print "Free living: max %.5g, min %.5g" % (max(summed[free_living]), min(summed[free_living]))
-print "Attached: max %.5g, min %.5g"    % (max(summed[attached]),    min(summed[attached]))
-
-main_river =  [s.short_name for s in cluster.samples if s.info['Tributary'] == '2']
-tributaries = [s.short_name for s in cluster.samples if s.info['Tributary'] == '1']
-print "Main river: max %.5g, min %.5g"  % (max(summed[main_river]),  min(summed[main_river]))
-print "Tributaries: max %.5g, min %.5g" % (max(summed[tributaries]), min(summed[tributaries]))
+main_free = [s.short_name for s in cluster.samples if s.info['Filter_fraction'] == '0.2' and s.info['Tributary'] == '2']
+main_atta = [s.short_name for s in cluster.samples if s.info['Filter_fraction'] == '3.0' and s.info['Tributary'] == '2']
+trib_free = [s.short_name for s in cluster.samples if s.info['Filter_fraction'] == '0.2' and s.info['Tributary'] == '1']
+trib_atta = [s.short_name for s in cluster.samples if s.info['Filter_fraction'] == '3.0' and s.info['Tributary'] == '1']
+print "Danube free living: max %.5g, min %.5g"         % (max(summed[main_free]), min(summed[main_free]))
+print "Danube attached: max %.5g, min %.5g"            % (max(summed[main_atta]), min(summed[main_atta]))
+print "Tributaries attached: max %.5g, min %.5g"       % (max(summed[trib_free]), min(summed[trib_free]))
+print "Tributaries free living: max %.5g, min %.5g"    % (max(summed[trib_atta]), min(summed[trib_atta]))
