@@ -1,22 +1,38 @@
-## Illumitag
+## illumitag
 
-The moniker "Illumitag" stands environmental sequence tags performed on the Illumina technology.
+The moniker "illumitag" stands for "environmental sequence *tags*" performed on the "Illumina" technology.
 
-This project is a pipeline for 16S rRNA Illumina paired-end amplicon sequencing used in the Limnology department at the Evolution Biology Center of Uppsala University. Publication submitted.
+This project is a python pipeline handling the analysis -- from start to finish -- of 16S rRNA Illumina paired-end amplicon sequencing data.
 
-Unfortunately, in the meantime, no other detailed documentation has been written yet but the code is clean and commented. In addition these three descriptive files might help you figure out what is going on:
+It was developed by Lucas Sinclair <lucas.sinclair@me.com> while working in the Limnology department at the Evolution Biology Center of Uppsala University. The code has an MIT license and everyone is welcome to use, modify or extend the pipeline.
 
-* documentation/experiment_outline.pdf
-* documentation/objects_diagram.pdf
-* documentation/pipeline_outline.pdf
+## Introduction
+
+The publication following the development of this pipeline has been accepted with minor revisions and should come out soon. The article will provide information about the pipeline, why it was developed, what it can do and what is produced. In the meantime you can find a couple of documents in the github repository explaining some of the aspects of the project (see the `documentationn` directory), as well as a provisional installation procedure (below). If you do download the software and use it on your computer, I'd be interested to receive your feedback and criticism.
+
+Unfortunately, other than that there is no manual at the moment describing all the aspects of the pipeline. The code, however, is comprehensive, commented and well-written. At this point it is wise to describe in more detail what the `illumitag` project is and is not.
+
+The main focus when developing `illumitag` was to test the functioning of the new protocol we developed in our lab when switching from 454 to Illumina sequencers and to check the coherence and validity of the results obtained. Thus, the pipeline built fits our current needs and is designed to be easily used by the bioinformaticians in our department to quickly analyze the 16S experiments that lots of our researchers are generating.
+
+Hence, the `illumitag` project is *not* a biologist-oriented tool that supports all the possible use cases one could have with 16S rRNA sequence reads out of the box. For instance, it does not have a graphical interface to operate, nor any bash/sh/csh commands. Indeed, as each sequencing experiment will have different goals and scientific questions associated to it, there cannot be a standard set of procedures to apply to the data. To illustrate this, one could asks ourselves what should the following command do ?
+
+    $ illumitag --forward reads_fwd.fasta --reverse reads_rev.fasta
+
+Hard to say. To solve the problem, the scientist would have to specify an endless list of options and the design of tool supporting so many different cases would be greatly complicated.
+
+    $ illumitag --forward reads_fwd.fasta --reverse reads_rev.fasta --barcode_single TRUE --barcode_only_in_reverse_reads TRUE --discard_missmatch_barcode 2 --remove_sequences_from "Plastid, Mitochondrion, Thaumarchaeota" --seperate_phyla_in_graph_when_larger_than 3000 --version_of_silva_to_use SSURef111 etc...
+
+Instead, the `illumitag` project *is* a flexible and modular collections of packages written in proper, clean and commented object-oriented python which enables the user to survey, modify and extend the code-base easily -- provided he has a sufficient knowledge in programming. It is a basis upon which the scientist can set up the processing and analysis that he sees fit for his own data sparing him from having to develop lots of the infrastructure needed himself.
+
+Many objects common to any analysis such as a "FASTQ file pair", a "Sample", a "Collection of Samples", a "Cluster of sequences", a "Collection of OTUs" are provided. In addition you will find routines for sending these objects through well-known algorithms such as UCLUST, UPARSE, PandaSEQ, CREST classifier, Vegan NMDS, etc. Lots of other functionality is also present such as a multitude of visualization in `matplotlib` and other things such as the ability to automatically distribute the computation on a network of computers. But here again, every cluster varies between each university and it would make no sense to provide all possible options in the list of command line arguments.
 
 ## Installing
-No automated installation has been developed for the illumitag package.
+No automated installation has been developed for the `illumitag` package yet.
 But following this document and typing these commands on your bash prompt should get you started.
 If you cannot get a functional installation set up, contact the authors.
 
 ### Step 1: Cloning the repository
-Here you will download a copy of the code from github and place it in your home directory.
+Here you will download a copy of the code from github and place it somewhere in your home directory.
 
     $ cd ~
     $ mkdir repos
@@ -24,13 +40,13 @@ Here you will download a copy of the code from github and place it in your home 
     $ git clone https://github.com/limno/illumitag.git
 
 ### Step 2: Modify your search paths
-Here you will edit your ``.bashrc`` or ``.bash_profile`` to add a reference to the code you just downloaded.
+Here you will edit your ``~/.bashrc`` or ``~/.bash_profile`` to add a reference to the code you just downloaded.
 
     $ vim ~/.bash_profile
     export PYTHONPATH="$HOME/repos/illumitag/":$PYTHONPATH
 
 ### Step 3: Install your own version of python
-Your system probably comes with a version of python installed. But the variations from system to system are too great to rely on any available python. We prefer to just install our own in the home directory.
+Your system probably comes with a version of python installed. But the variations from system to system are too great to rely on any available python. We strongly suggest to just install our own version in your home directory.
 
 For this we will be using this excellent project: https://github.com/yyuu/pyenv
 
@@ -54,7 +70,7 @@ Relaunch your shell and type these commands to get the right version of python n
     pyenv global 2.7.8
 
 ### Step 4: Install all required python packages
-Illumitag uses many third party python libraries. You can get them by running these commands:
+`illumitag` uses many third party python libraries. You can get them by running these commands:
 
     $ pip install sh
     $ pip install decorator
@@ -83,6 +99,7 @@ Don't forget to rehash the binary links at the end:
     $ pyenv rehash
 
 ### Step 5: Check you have all the required executables
+`illumitag` will search for several different binaries as it processes your data. Please check all of these are available in your `$PATH`:
 
     $ which pandaseq27
     $ which usearch7
@@ -92,10 +109,12 @@ Don't forget to rehash the binary links at the end:
     $ which classify
 
 ### Step 6: Check you have all the required R dependencies
+`illumitag` will use some R packages that need to be installed. If you do not have them already, please install them:
 
     $ R install 'vegan'
 
 ### Step 7: Make a working directory with the raw data linked
+By default, `illumitag` will search for the sequence data in a directory called `ILLUMITAG` placed in your home directory. This can be modified of course for your own setup. Each specific collection of sequence data should have an associated `json` file placed in the `json` directory of the repository telling `illumitag` exactly what the name of the files are.
 
     $ cd ~
     $ mkdir ILLUMITAG
