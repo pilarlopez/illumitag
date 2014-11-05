@@ -38,7 +38,7 @@ No automated installation has been developed for the `illumitag` package yet.
 But following this document and typing these commands on your bash prompt should get you started.
 If you cannot get a functional installation set up, contact the authors.
 
-### Step 1: Cloning the repository
+#### Step 1: Cloning the repository
 Here you will download a copy of the code from github and place it somewhere in your home directory.
 
     $ cd ~
@@ -46,13 +46,13 @@ Here you will download a copy of the code from github and place it somewhere in 
     $ cd repos
     $ git clone https://github.com/limno/illumitag.git
 
-### Step 2: Modify your search paths
+#### Step 2: Modify your search paths
 Here you will edit your ``~/.bashrc`` or ``~/.bash_profile`` to add a reference to the code you just downloaded.
 
     $ vim ~/.bash_profile
     export PYTHONPATH="$HOME/repos/illumitag/":$PYTHONPATH
 
-### Step 3: Install your own version of python
+#### Step 3: Install your own version of python
 Your system probably comes with a version of python installed. But the variations from system to system are too great to rely on any available python. We strongly suggest to just install our own version in your home directory.
 
 For this we will be using this excellent project: https://github.com/yyuu/pyenv
@@ -76,7 +76,7 @@ Relaunch your shell and type these commands to get the right version of python n
     pyenv rehash
     pyenv global 2.7.8
 
-### Step 4: Install all required python packages
+#### Step 4: Install all required python packages
 `illumitag` uses many third party python libraries. You can get them by running these commands:
 
     $ pip install sh
@@ -105,7 +105,7 @@ Don't forget to rehash the binary links at the end:
 
     $ pyenv rehash
 
-### Step 5: Check you have all the required executables
+#### Step 5: Check you have all the required executables
 `illumitag` will search for several different binaries as it processes your data. Please check all of these are available in your `$PATH`:
 
     $ which pandaseq27
@@ -115,12 +115,12 @@ Don't forget to rehash the binary links at the end:
     $ which blastn
     $ which classify
 
-### Step 6: Check you have all the required R dependencies
+#### Step 6: Check you have all the required R dependencies
 `illumitag` will use some R packages that need to be installed. If you do not have them already, please install them:
 
     $ R install 'vegan'
 
-### Step 7: Make a working directory with the raw data linked
+#### Step 7: Make a working directory with the raw data linked
 By default, `illumitag` will search for the sequence data in a directory called `ILLUMITAG` placed in your home directory. This can be modified of course for your own setup. Each specific collection of sequence data should have an associated `json` file placed in the `json` directory of the repository telling `illumitag` exactly what the name of the files are.
 
     $ cd ~
@@ -128,7 +128,7 @@ By default, `illumitag` will search for the sequence data in a directory called 
     $ cd ILLUMITAG
     $ ln -s /proj/ $HOME/proj
 
-### Step 8: Start typing python commands to analyze your data
+#### Step 8: Start typing python commands to analyze your data
 
     $ cd ~/ILLUMITAG/
     $ ipython -i -c "import illumitag"
