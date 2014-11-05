@@ -74,20 +74,19 @@ class TaxaHeatmap(Graph):
     short_name = 'taxa_heatmap'
     targets = ['LD12', 'acI-B1', 'acI-A7', 'acI-C2', 'Pnec', 'Luna1-A2', 'Algor', 'Iluma-A1', 'acI-A4', 'acSTL-A1', 'Iluma-C1']
     tributary = None
+    formats = ('pdf', 'svg')
 
     def plot(self):
         # Data #
         self.orig_frame = self.parent.taxa_table
         self.norm_frame = self.orig_frame.apply(lambda x: x/x.sum(), axis=1) # Try different normalization ?
         # Take only the right tributary kind #
-        if self.tributary:
-            self.samples = [s for s in self.parent.samples if s.info['Tributary'] == self.tributary]
-        else:
-            self.samples = [s for s in self.parent.samples]
+        if self.tributary: self.samples = [s for s in self.parent.samples if s.info['Tributary'] == self.tributary]
+        else: self.samples = [s for s in self.parent.samples]
         # Take only the ones we use #
         self.samples = [s for s in self.samples if s.short_name in self.orig_frame.index]
         # Sorting by fraction #
-        self.samples = sorted(self.samples, key = lambda s: (s.info['Tributary'], s.info['Filter_fraction'], s.short_name))
+        self.samples = sorted(self.samples, key = lambda s: (-int(s.info['Tributary']), s.info['Filter_fraction'], s.short_name))
         # Filter the frame #
         sample_names = [s.short_name for s in self.samples]
         self.sort_frame = self.norm_frame.reindex(index=sample_names)
@@ -100,7 +99,7 @@ class TaxaHeatmap(Graph):
         fig.set_figheight(14.0)
         gs = gridspec.GridSpec(2, 2, height_ratios=[1,4], width_ratios=[10,1])
         axes = fig.add_subplot(gs[2])
-        heatmap = axes.pcolor(self.targ_frame, cmap=pyplot.cm.Blues, alpha=0.8, edgecolors='#ACABFE')
+        heatmap = axes.pcolor(self.targ_frame, cmap=pyplot.cm.hsv, alpha=0.8, edgecolors='#ACABFE')
         # Other #
         axes.grid(False)
         axes.invert_yaxis()
@@ -148,9 +147,7 @@ class TaxaHeatmap(Graph):
         fig.colorbar(heatmap, pad=0.1, fraction=1.0, shrink=1.0, format=matplotlib.ticker.FuncFormatter(percentage))
         axes.set_axis_off()
         # Save it #
-        fig.savefig(self.path)
-        fig.savefig(self.svg_path)
-        self.targ_frame.to_csv(self.csv_path)
+        for ext in self.formats: fig.savefig(self.replace_extension(ext))
         pyplot.close(fig)
 
 ################################################################################

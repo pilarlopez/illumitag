@@ -17,7 +17,7 @@ import illumitag, pandas
 
 ###############################################################################
 # Get the cluster #
-cluster = illumitag.clustering.favorites.anna
+cluster = illumitag.clustering.favorites.anna.load()
 
 # Run UPARSE with different threshold #
 cluster.otu_uparse.run(threshold=1.0)
@@ -31,11 +31,13 @@ cluster.otu_uparse.taxonomy_silva.stats.nmds.run()
 cluster.otu_uparse.taxonomy_silva.make_filtered_centers()
 
 # Run seqenv #
-cluster.otu_uparse.seqenv.run(threshold=1.0)
+cluster.otu_uparse.seqenv.threshold = 1.0
+cluster.otu_uparse.seqenv.N = 5000
+cluster.otu_uparse.seqenv.run()
 
 # Run seqenv via SLURM #
-cluster.run(steps=[{'otu_uparse.seqenv.run': dict(threads=False, threshold=1.0, N=3000)}])
-cluster.run_slurm(steps=[{'otu_uparse.seqenv.run': dict(threads=False, threshold=1.0, N=3000)}], time="1-00:00:00")
+cluster.run(steps=[{'otu_uparse.seqenv.run': {}}])
+cluster.run_slurm(steps=[{'otu_uparse.seqenv.run': {}}], time="04:00:00")
 
 # Check some matrix multiplications #
 otu_vs_envo = cluster.otu_uparse.seqenv.base_dir + "centers_N1000_blast_F_ENVO_OTUs_labels.csv"

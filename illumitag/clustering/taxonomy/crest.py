@@ -6,7 +6,7 @@ from fasta import FASTA
 from plumbing.autopaths import AutoPaths
 from plumbing.slurm import nr_threads
 from plumbing.cache import property_cached
-from plumbing.csv_tables import CSVTable
+from plumbing.csv_tables import TSVTable
 from illumitag.clustering.statistics import StatsOnTaxonomy
 from illumitag.clustering.taxonomy import Taxonomy, SimpleTaxonomy
 from illumitag.clustering.taxonomy import plots
@@ -69,8 +69,8 @@ class CrestTaxonomy(Taxonomy):
         # Graphs #
         self.graphs = [getattr(plots, cls_name)(self) for cls_name in plots.__all__[:-1]]
         # OTU table #
-        self.otu_csv = CSVTable(self.p.otu_csv, d='\t')
-        self.otu_csv_norm = CSVTable(self.p.otu_csv_norm, d='\t')
+        self.otu_csv = TSVTable(self.p.otu_csv)
+        self.otu_csv_norm = TSVTable(self.p.otu_csv_norm)
         # Filtered centers file #
         self.centers = FASTA(self.p.centers)
         # Composition tables #

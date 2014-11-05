@@ -28,7 +28,8 @@ class Taxonomy(object):
         for graph in self.graphs: graph.plot()
 
     def make_otu_table(self):
-        """Ask the counts from the OTU class and do some modifications."""
+        """Ask the counts from the OTU class and do some modifications.
+        OTUs are columns and sample names are rows."""
         # Remove unwanted #
         result = self.otu.cluster_counts_table.copy()
         for otu_name in result:
@@ -51,6 +52,7 @@ class Taxonomy(object):
 
     @property_cached
     def otu_table(self):
+        """OTUs are columns and sample names are rows."""
         return pandas.io.parsers.read_csv(self.otu_csv, sep='\t', index_col=0, encoding='utf-8')
 
     @property
@@ -59,7 +61,7 @@ class Taxonomy(object):
         return self.otu_table.apply(lambda x: x/x.sum(), axis=1).replace(numpy.inf, 0.0)
 
     def make_otu_table_norm(self):
-        """Convert to CSV"""
+        """Convert to CSV. OTUs are columns and sample names are rows."""
         self.otu_table_norm.to_csv(self.otu_csv_norm.path, sep='\t', float_format='%.5g')
         prepend_to_file(self.otu_csv_norm, 'X')
 

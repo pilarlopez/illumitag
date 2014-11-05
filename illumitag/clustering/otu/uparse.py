@@ -14,7 +14,7 @@ from fasta import FASTA, SizesFASTA
 from illumitag.clustering.otu import OTUs
 from illumitag.clustering.taxonomy.crest import CrestTaxonomy
 from illumitag.clustering.taxonomy.rdp import RdpTaxonomy
-from illumitag.clustering.source.seqenv import Seqenv
+from illumitag.clustering.source.seqenv_wrapper import Seqenv
 
 # Third party modules #
 import sh, pandas
