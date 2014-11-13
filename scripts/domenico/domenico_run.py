@@ -76,3 +76,5 @@ make_tsv = MakeSpreadsheet(cluster)
 make_tsv.write_bio_tsv()
 make_tsv.write_sra_tsv()
 
+# Count number of OTUs without an ENVO term #
+

@@ -13,6 +13,7 @@ from illumitag.helper.freshwater import species_names, clade_names
 from matplotlib import pyplot, ticker
 import matplotlib.gridspec as gridspec
 import brewer2mpl, numpy, matplotlib, pandas
+from tqdm import tqdm
 
 # Constants #
 __all__ = ['MainRiver', 'Tributaries', 'TaxaHeatmap', 'TaxaHeatmapMainRiver', 'TaxaHeatmapTributaries']
@@ -76,7 +77,7 @@ class TaxaHeatmap(Graph):
     tributary = None
     formats = ('pdf', 'svg')
 
-    def plot(self):
+    def plot(self, colormap="hot"):
         # Data #
         self.orig_frame = self.parent.taxa_table
         self.norm_frame = self.orig_frame.apply(lambda x: x/x.sum(), axis=1) # Try different normalization ?
@@ -99,7 +100,7 @@ class TaxaHeatmap(Graph):
         fig.set_figheight(14.0)
         gs = gridspec.GridSpec(2, 2, height_ratios=[1,4], width_ratios=[10,1])
         axes = fig.add_subplot(gs[2])
-        heatmap = axes.pcolor(self.targ_frame, cmap=pyplot.cm.hsv, alpha=0.8, edgecolors='#ACABFE')
+        heatmap = axes.pcolor(self.targ_frame, cmap=pyplot.get_cmap(colormap), alpha=0.8, edgecolors='#ACABFE')
         # Other #
         axes.grid(False)
         axes.invert_yaxis()
@@ -146,6 +147,8 @@ class TaxaHeatmap(Graph):
         axes = fig.add_subplot(gs[3])
         fig.colorbar(heatmap, pad=0.1, fraction=1.0, shrink=1.0, format=matplotlib.ticker.FuncFormatter(percentage))
         axes.set_axis_off()
+        # Special color map name #
+        self.path = self.base_dir + self.short_name + '_' + colormap + '.pdf'
         # Save it #
         for ext in self.formats: fig.savefig(self.replace_extension(ext))
         pyplot.close(fig)
@@ -274,3 +277,11 @@ silva.graphs += [cum_presence, presence_split]
 #cluster.otu_uparse.taxonomy_silva.comp_phyla.make_plots()
 #cluster.otu_uparse.taxonomy_fw.comp_tips.make_plots()
 #cluster.otu_uparse.taxonomy_silva.make_plots()
+
+################################################################################
+# All colors maps #
+cmaps = pyplot.cm
+cmaps = [m for m in pyplot.cm.datad if not m.endswith("_r")]
+cmaps.sort()
+for cmap in tqdm(cmaps): freshwater.comp_tips.graphs[-1].plot(cmap)
+
